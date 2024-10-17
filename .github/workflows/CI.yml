@@ -1,0 +1,19 @@
+name: CI
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          touch .env
+          echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
+          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
+          echo TEST_COUNTERPARTY_PLAID_TOKEN=${{ secrets.TEST_COUNTERPARTY_PLAID_TOKEN }} >> .env
