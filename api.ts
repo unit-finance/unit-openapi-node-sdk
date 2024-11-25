@@ -45,7 +45,8 @@ export interface Account {
 
 export const AccountTypeEnum = {
     DepositAccount: 'depositAccount',
-    CreditAccount: 'creditAccount'
+    CreditAccount: 'creditAccount',
+    WalletAccount: 'walletAccount'
 } as const;
 
 export type AccountTypeEnum = typeof AccountTypeEnum[keyof typeof AccountTypeEnum];
@@ -70,10 +71,10 @@ export interface AccountEndOfDay {
     'id': string;
     /**
      * 
-     * @type {Attributes}
+     * @type {AccountEndOfDayAttributes}
      * @memberof AccountEndOfDay
      */
-    'attributes': Attributes;
+    'attributes': AccountEndOfDayAttributes;
     /**
      * 
      * @type {AccountEndOfDayRelationships}
@@ -88,6 +89,43 @@ export const AccountEndOfDayTypeEnum = {
 
 export type AccountEndOfDayTypeEnum = typeof AccountEndOfDayTypeEnum[keyof typeof AccountEndOfDayTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface AccountEndOfDayAttributes
+ */
+export interface AccountEndOfDayAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountEndOfDayAttributes
+     */
+    'date': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountEndOfDayAttributes
+     */
+    'balance': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountEndOfDayAttributes
+     */
+    'hold': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountEndOfDayAttributes
+     */
+    'available': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountEndOfDayAttributes
+     */
+    'overdraftLimit'?: number;
+}
 /**
  * 
  * @export
@@ -226,6 +264,19 @@ export interface AccountRelationship {
 /**
  * 
  * @export
+ * @interface AccountRelationship1
+ */
+export interface AccountRelationship1 {
+    /**
+     * 
+     * @type {Array<AccountRelationshipData>}
+     * @memberof AccountRelationship1
+     */
+    'data': Array<AccountRelationshipData>;
+}
+/**
+ * 
+ * @export
  * @interface AccountRelationshipData
  */
 export interface AccountRelationshipData {
@@ -252,6 +303,19 @@ export const AccountRelationshipDataTypeEnum = {
 
 export type AccountRelationshipDataTypeEnum = typeof AccountRelationshipDataTypeEnum[keyof typeof AccountRelationshipDataTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface AccountsRelationship
+ */
+export interface AccountsRelationship {
+    /**
+     * 
+     * @type {AccountRelationship1}
+     * @memberof AccountsRelationship
+     */
+    'accounts'?: AccountRelationship1;
+}
 /**
  * 
  * @export
@@ -568,6 +632,59 @@ export type AchRepaymentStatus = typeof AchRepaymentStatus[keyof typeof AchRepay
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const AchReturnReason = {
+    InsufficientFunds: 'InsufficientFunds',
+    AccountClosed: 'AccountClosed',
+    NoAccount: 'NoAccount',
+    InvalidAccountNumberStructure: 'InvalidAccountNumberStructure',
+    UnauthorizedDebitToConsumer: 'UnauthorizedDebitToConsumer',
+    ReturnedPerOdfiRequest: 'ReturnedPerOdfiRequest',
+    AuthorizationRevokedByCustomer: 'AuthorizationRevokedByCustomer',
+    PaymentStopped: 'PaymentStopped',
+    UncollectedFunds: 'UncollectedFunds',
+    CustomerAdvisesNotAuthorized: 'CustomerAdvisesNotAuthorized',
+    CheckTruncationEntryReturned: 'CheckTruncationEntryReturned',
+    BranchSoldToAnotherDfi: 'BranchSoldToAnotherDfi',
+    RdfiNotQualifiedToParticipate: 'RdfiNotQualifiedToParticipate',
+    RepresentativePayeeDeceasedOrUnableToContinue: 'RepresentativePayeeDeceasedOrUnableToContinue',
+    BeneficiaryOrBankAccountHolderDeceased: 'BeneficiaryOrBankAccountHolderDeceased',
+    AccountFrozen: 'AccountFrozen',
+    FileRecordEditCriteria: 'FileRecordEditCriteria',
+    ImproperEffectiveEntryDate: 'ImproperEffectiveEntryDate',
+    AmountFieldError: 'AmountFieldError',
+    NonTransactionAccount: 'NonTransactionAccount',
+    InvalidCompanyIdentification: 'InvalidCompanyIdentification',
+    InvalidIndividualIdNumber: 'InvalidIndividualIdNumber',
+    CreditEntryRefusedByReceiver: 'CreditEntryRefusedByReceiver',
+    DuplicateEntry: 'DuplicateEntry',
+    AddendaError: 'AddendaError',
+    MandatoryFieldError: 'MandatoryFieldError',
+    TraceNumberError: 'TraceNumberError',
+    RoutingNumberCheckDigitError: 'RoutingNumberCheckDigitError',
+    CorporateCustomerAdvisesNotAuthorized: 'CorporateCustomerAdvisesNotAuthorized',
+    RdfiNotParticipantInCheckTruncationProgram: 'RdfiNotParticipantInCheckTruncationProgram',
+    PermissibleReturnEntry: 'PermissibleReturnEntry',
+    RdfiNonSettlement: 'RdfiNonSettlement',
+    ReturnOfXckEntry: 'ReturnOfXckEntry',
+    LimitedParticipationDfi: 'LimitedParticipationDfi',
+    ReturnOfImproperDebitEntry: 'ReturnOfImproperDebitEntry',
+    ReturnOfImproperCreditEntry: 'ReturnOfImproperCreditEntry',
+    SourceDocumentPresentedForPayment: 'SourceDocumentPresentedForPayment',
+    StopPaymentOnSourceDocument: 'StopPaymentOnSourceDocument',
+    ImproperSourceDocument: 'ImproperSourceDocument',
+    InvalidIndividualOrCompanyName: 'InvalidIndividualOrCompanyName',
+    IncorrectlyCodedOutboundInternationalPayment: 'IncorrectlyCodedOutboundInternationalPayment'
+} as const;
+
+export type AchReturnReason = typeof AchReturnReason[keyof typeof AchReturnReason];
+
+
+/**
+ * 
+ * @export
  * @interface AchStopPayment
  */
 export interface AchStopPayment {
@@ -698,6 +815,19 @@ export interface AchStopPaymentRelationships {
      * @memberof AchStopPaymentRelationships
      */
     'customers'?: CustomersRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface AddAccountOwnersRequest
+ */
+export interface AddAccountOwnersRequest {
+    /**
+     * 
+     * @type {Array<DepositAccountOwner>}
+     * @memberof AddAccountOwnersRequest
+     */
+    'data': Array<DepositAccountOwner>;
 }
 /**
  * 
@@ -2095,43 +2225,6 @@ export interface AtmTransactionRelationship {
      * @memberof AtmTransactionRelationship
      */
     'card': CardRelationship;
-}
-/**
- * 
- * @export
- * @interface Attributes
- */
-export interface Attributes {
-    /**
-     * 
-     * @type {string}
-     * @memberof Attributes
-     */
-    'date': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Attributes
-     */
-    'balance': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Attributes
-     */
-    'hold': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Attributes
-     */
-    'available': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Attributes
-     */
-    'overdraftLimit'?: number;
 }
 /**
  * 
@@ -4601,10 +4694,10 @@ export interface CardReversalTransactionRelationships {
     'card': CardRelationship;
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof CardReversalTransactionRelationships
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -4887,6 +4980,82 @@ export interface CardVerificationData {
      * @memberof CardVerificationData
      */
     'verificationMethod': string;
+}
+/**
+ * 
+ * @export
+ * @interface CashDepositBarcode
+ */
+export interface CashDepositBarcode {
+    /**
+     * 
+     * @type {string}
+     * @memberof CashDepositBarcode
+     */
+    'type': CashDepositBarcodeTypeEnum;
+    /**
+     * 
+     * @type {CashDepositBarcodeAttributes}
+     * @memberof CashDepositBarcode
+     */
+    'attributes': CashDepositBarcodeAttributes;
+    /**
+     * 
+     * @type {CashDepositBarcodeRelationships}
+     * @memberof CashDepositBarcode
+     */
+    'relationships': CashDepositBarcodeRelationships;
+}
+
+export const CashDepositBarcodeTypeEnum = {
+    CashDepositBarcode: 'cashDepositBarcode'
+} as const;
+
+export type CashDepositBarcodeTypeEnum = typeof CashDepositBarcodeTypeEnum[keyof typeof CashDepositBarcodeTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CashDepositBarcodeAttributes
+ */
+export interface CashDepositBarcodeAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof CashDepositBarcodeAttributes
+     */
+    'barcodeNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CashDepositBarcodeAttributes
+     */
+    'expiration'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof CashDepositBarcodeAttributes
+     */
+    'tags'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface CashDepositBarcodeRelationships
+ */
+export interface CashDepositBarcodeRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof CashDepositBarcodeRelationships
+     */
+    'account': AccountRelationship;
+    /**
+     * 
+     * @type {CustomerRelationship}
+     * @memberof CashDepositBarcodeRelationships
+     */
+    'customer': CustomerRelationship;
 }
 /**
  * 
@@ -6003,38 +6172,72 @@ export type CheckStopPaymentStatus = typeof CheckStopPaymentStatus[keyof typeof 
 export interface CloseAccountRequest {
     /**
      * 
-     * @type {CloseAccountRequest}
+     * @type {CloseAccountRequestData}
      * @memberof CloseAccountRequest
      */
-    'data'?: CloseAccountRequest;
+    'data'?: CloseAccountRequestData;
 }
 /**
  * 
  * @export
- * @interface CloseAccountRequestAttributes
+ * @interface CloseAccountRequestData
  */
-export interface CloseAccountRequestAttributes {
+export interface CloseAccountRequestData {
     /**
      * 
      * @type {string}
-     * @memberof CloseAccountRequestAttributes
+     * @memberof CloseAccountRequestData
      */
-    'reason'?: CloseAccountRequestAttributesReasonEnum;
+    'type'?: CloseAccountRequestDataTypeEnum;
     /**
      * 
-     * @type {string}
-     * @memberof CloseAccountRequestAttributes
+     * @type {CloseAccountRequestDataAttributes}
+     * @memberof CloseAccountRequestData
      */
-    'fraudReason'?: CloseAccountRequestAttributesFraudReasonEnum | null;
+    'attributes'?: CloseAccountRequestDataAttributes;
 }
 
-export const CloseAccountRequestAttributesReasonEnum = {
+export const CloseAccountRequestDataTypeEnum = {
+    CreditAccountClose: 'creditAccountClose',
+    DepositAccountClose: 'depositAccountClose',
+    WalletAccountClose: 'walletAccountClose'
+} as const;
+
+export type CloseAccountRequestDataTypeEnum = typeof CloseAccountRequestDataTypeEnum[keyof typeof CloseAccountRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CloseAccountRequestDataAttributes
+ */
+export interface CloseAccountRequestDataAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof CloseAccountRequestDataAttributes
+     */
+    'reason'?: CloseAccountRequestDataAttributesReasonEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloseAccountRequestDataAttributes
+     */
+    'fraudReason'?: CloseAccountRequestDataAttributesFraudReasonEnum | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloseAccountRequestDataAttributes
+     */
+    'bankReason'?: CloseAccountRequestDataAttributesBankReasonEnum | null;
+}
+
+export const CloseAccountRequestDataAttributesReasonEnum = {
     ByCustomer: 'ByCustomer',
     Fraud: 'Fraud'
 } as const;
 
-export type CloseAccountRequestAttributesReasonEnum = typeof CloseAccountRequestAttributesReasonEnum[keyof typeof CloseAccountRequestAttributesReasonEnum];
-export const CloseAccountRequestAttributesFraudReasonEnum = {
+export type CloseAccountRequestDataAttributesReasonEnum = typeof CloseAccountRequestDataAttributesReasonEnum[keyof typeof CloseAccountRequestDataAttributesReasonEnum];
+export const CloseAccountRequestDataAttributesFraudReasonEnum = {
     AchActivity: 'ACHActivity',
     CardActivity: 'CardActivity',
     CheckActivity: 'CheckActivity',
@@ -6045,8 +6248,42 @@ export const CloseAccountRequestAttributesFraudReasonEnum = {
     LinkedToFraudulentCustomer: 'LinkedToFraudulentCustomer'
 } as const;
 
-export type CloseAccountRequestAttributesFraudReasonEnum = typeof CloseAccountRequestAttributesFraudReasonEnum[keyof typeof CloseAccountRequestAttributesFraudReasonEnum];
+export type CloseAccountRequestDataAttributesFraudReasonEnum = typeof CloseAccountRequestDataAttributesFraudReasonEnum[keyof typeof CloseAccountRequestDataAttributesFraudReasonEnum];
+export const CloseAccountRequestDataAttributesBankReasonEnum = {
+    ProhibitedBusiness: 'ProhibitedBusiness',
+    MissingCddEdd: 'MissingCddEdd',
+    NonUsOperation: 'NonUsOperation',
+    SuspectedFraud: 'SuspectedFraud'
+} as const;
 
+export type CloseAccountRequestDataAttributesBankReasonEnum = typeof CloseAccountRequestDataAttributesBankReasonEnum[keyof typeof CloseAccountRequestDataAttributesBankReasonEnum];
+
+/**
+ * 
+ * @export
+ * @interface ConfirmCheckDepositRequest
+ */
+export interface ConfirmCheckDepositRequest {
+    /**
+     * 
+     * @type {ConfirmCheckDepositRequestData}
+     * @memberof ConfirmCheckDepositRequest
+     */
+    'data': ConfirmCheckDepositRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface ConfirmCheckDepositRequestData
+ */
+export interface ConfirmCheckDepositRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmCheckDepositRequestData
+     */
+    'type': string;
+}
 /**
  * 
  * @export
@@ -6108,7 +6345,7 @@ export interface Counterparty {
      * @type {string}
      * @memberof Counterparty
      */
-    'type'?: string;
+    'type'?: CounterpartyTypeEnum;
     /**
      * 
      * @type {string}
@@ -6128,6 +6365,13 @@ export interface Counterparty {
      */
     'relationships'?: CounterpartyRelationships;
 }
+
+export const CounterpartyTypeEnum = {
+    AchCounterparty: 'achCounterparty'
+} as const;
+
+export type CounterpartyTypeEnum = typeof CounterpartyTypeEnum[keyof typeof CounterpartyTypeEnum];
+
 /**
  * 
  * @export
@@ -6393,7 +6637,7 @@ export interface CounterpartyRelationshipData {
      * @type {string}
      * @memberof CounterpartyRelationshipData
      */
-    'type': string;
+    'type': CounterpartyRelationshipDataTypeEnum;
     /**
      * 
      * @type {string}
@@ -6401,6 +6645,13 @@ export interface CounterpartyRelationshipData {
      */
     'id': string;
 }
+
+export const CounterpartyRelationshipDataTypeEnum = {
+    Counterparty: 'counterparty'
+} as const;
+
+export type CounterpartyRelationshipDataTypeEnum = typeof CounterpartyRelationshipDataTypeEnum[keyof typeof CounterpartyRelationshipDataTypeEnum];
+
 /**
  * 
  * @export
@@ -6413,6 +6664,101 @@ export interface CounterpartyRelationships {
      * @memberof CounterpartyRelationships
      */
     'customer': CustomerRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface CreateACHReceivedPaymentTransactionRelationships
+ */
+export interface CreateACHReceivedPaymentTransactionRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof CreateACHReceivedPaymentTransactionRelationships
+     */
+    'account': AccountRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface CreateACHReceivedPaymentTransactionRequest
+ */
+export interface CreateACHReceivedPaymentTransactionRequest {
+    /**
+     * 
+     * @type {CreateACHReceivedPaymentTransactionRequestData}
+     * @memberof CreateACHReceivedPaymentTransactionRequest
+     */
+    'data': CreateACHReceivedPaymentTransactionRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface CreateACHReceivedPaymentTransactionRequestData
+ */
+export interface CreateACHReceivedPaymentTransactionRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateACHReceivedPaymentTransactionRequestData
+     */
+    'type': CreateACHReceivedPaymentTransactionRequestDataTypeEnum;
+    /**
+     * 
+     * @type {CreateACHReceivedPaymentTransactionRequestDataAttributes}
+     * @memberof CreateACHReceivedPaymentTransactionRequestData
+     */
+    'attributes': CreateACHReceivedPaymentTransactionRequestDataAttributes;
+    /**
+     * 
+     * @type {CreateACHReceivedPaymentTransactionRelationships}
+     * @memberof CreateACHReceivedPaymentTransactionRequestData
+     */
+    'relationships': CreateACHReceivedPaymentTransactionRelationships;
+}
+
+export const CreateACHReceivedPaymentTransactionRequestDataTypeEnum = {
+    AchReceivedPayment: 'achReceivedPayment'
+} as const;
+
+export type CreateACHReceivedPaymentTransactionRequestDataTypeEnum = typeof CreateACHReceivedPaymentTransactionRequestDataTypeEnum[keyof typeof CreateACHReceivedPaymentTransactionRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CreateACHReceivedPaymentTransactionRequestDataAttributes
+ */
+export interface CreateACHReceivedPaymentTransactionRequestDataAttributes {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateACHReceivedPaymentTransactionRequestDataAttributes
+     */
+    'amount': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateACHReceivedPaymentTransactionRequestDataAttributes
+     */
+    'completionDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateACHReceivedPaymentTransactionRequestDataAttributes
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateACHReceivedPaymentTransactionRequestDataAttributes
+     */
+    'companyName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateACHReceivedPaymentTransactionRequestDataAttributes
+     */
+    'secCode'?: string;
 }
 /**
  * 
@@ -6431,7 +6777,7 @@ export interface CreateAccountRequest {
  * @type CreateAccountRequestData
  * @export
  */
-export type CreateAccountRequestData = CreateCreditAccount | CreateDepositAccount;
+export type CreateAccountRequestData = CreateCreditAccount | CreateDepositAccount | CreateWalletAccount;
 
 /**
  * 
@@ -6444,7 +6790,7 @@ export interface CreateAchCounterparty {
      * @type {string}
      * @memberof CreateAchCounterparty
      */
-    'type': string;
+    'type': CreateAchCounterpartyTypeEnum;
     /**
      * 
      * @type {CreateAchCounterpartyAttributes}
@@ -6458,6 +6804,13 @@ export interface CreateAchCounterparty {
      */
     'relationships': CreateCounterpartyRelationships;
 }
+
+export const CreateAchCounterpartyTypeEnum = {
+    AchCounterparty: 'achCounterparty'
+} as const;
+
+export type CreateAchCounterpartyTypeEnum = typeof CreateAchCounterpartyTypeEnum[keyof typeof CreateAchCounterpartyTypeEnum];
+
 /**
  * 
  * @export
@@ -7185,7 +7538,7 @@ export interface CreateApiTokenRequestDataAttributes {
      * @type {Array<CreateApiTokenRequestDataAttributesResourcesInner>}
      * @memberof CreateApiTokenRequestDataAttributes
      */
-    'resources'?: Array<CreateApiTokenRequestDataAttributesResourcesInner>;
+    'resources'?: Array<CreateApiTokenRequestDataAttributesResourcesInner> | null;
 }
 /**
  * 
@@ -7354,6 +7707,118 @@ export interface CreateApplicationRequest {
  * @export
  */
 export type CreateApplicationRequestData = CreateBusinessApplication | CreateIndividualApplication | CreateSoleProprietorApplication;
+
+/**
+ * 
+ * @export
+ * @interface CreateAtmDepositSimulationRelationships
+ */
+export interface CreateAtmDepositSimulationRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof CreateAtmDepositSimulationRelationships
+     */
+    'account': AccountRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface CreateAtmDepositSimulationRequest
+ */
+export interface CreateAtmDepositSimulationRequest {
+    /**
+     * 
+     * @type {CreateAtmDepositSimulationRequestData}
+     * @memberof CreateAtmDepositSimulationRequest
+     */
+    'data': CreateAtmDepositSimulationRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface CreateAtmDepositSimulationRequestData
+ */
+export interface CreateAtmDepositSimulationRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAtmDepositSimulationRequestData
+     */
+    'type': CreateAtmDepositSimulationRequestDataTypeEnum;
+    /**
+     * 
+     * @type {CreateAtmDepositSimulationRequestDataAttributes}
+     * @memberof CreateAtmDepositSimulationRequestData
+     */
+    'attributes': CreateAtmDepositSimulationRequestDataAttributes;
+    /**
+     * 
+     * @type {CreateAtmDepositSimulationRelationships}
+     * @memberof CreateAtmDepositSimulationRequestData
+     */
+    'relationships': CreateAtmDepositSimulationRelationships;
+}
+
+export const CreateAtmDepositSimulationRequestDataTypeEnum = {
+    AtmTransaction: 'atmTransaction'
+} as const;
+
+export type CreateAtmDepositSimulationRequestDataTypeEnum = typeof CreateAtmDepositSimulationRequestDataTypeEnum[keyof typeof CreateAtmDepositSimulationRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CreateAtmDepositSimulationRequestDataAttributes
+ */
+export interface CreateAtmDepositSimulationRequestDataAttributes {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'amount': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'atmName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'atmLocation'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'last4Digits': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'cardNetwork'?: CreateAtmDepositSimulationRequestDataAttributesCardNetworkEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateAtmDepositSimulationRequestDataAttributes
+     */
+    'surcharge'?: number;
+}
+
+export const CreateAtmDepositSimulationRequestDataAttributesCardNetworkEnum = {
+    Visa: 'Visa',
+    Interlink: 'Interlink',
+    Accel: 'Accel',
+    Allpoint: 'Allpoint',
+    Other: 'Other'
+} as const;
+
+export type CreateAtmDepositSimulationRequestDataAttributesCardNetworkEnum = typeof CreateAtmDepositSimulationRequestDataAttributesCardNetworkEnum[keyof typeof CreateAtmDepositSimulationRequestDataAttributesCardNetworkEnum];
 
 /**
  * 
@@ -7806,6 +8271,115 @@ export interface CreateBusinessApplicationAttributes {
 /**
  * 
  * @export
+ * @interface CreateBusinessCardAttributes
+ */
+export interface CreateBusinessCardAttributes {
+    /**
+     * 
+     * @type {Address}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'shippingAddress'?: Address;
+    /**
+     * 
+     * @type {Address}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'address': Address;
+    /**
+     * 
+     * @type {FullName}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'fullName': FullName;
+    /**
+     * 
+     * @type {Phone}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'phone': Phone;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'nationality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'ssn'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'passport'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'design'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'additionalEmbossedText'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'tags'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {CardLevelLimits}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'limits'?: CardLevelLimits;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'idempotencyKey'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'activeForOnlineUse'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'printOnlyBusinessName'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBusinessCardAttributes
+     */
+    'expiryDate'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateBusinessCreditCardRequest
  */
 export interface CreateBusinessCreditCardRequest {
@@ -7817,10 +8391,10 @@ export interface CreateBusinessCreditCardRequest {
     'type': CreateBusinessCreditCardRequestTypeEnum;
     /**
      * 
-     * @type {CreateBusinessDebitCardRequestAttributes}
+     * @type {CreateBusinessCardAttributes}
      * @memberof CreateBusinessCreditCardRequest
      */
-    'attributes': CreateBusinessDebitCardRequestAttributes;
+    'attributes': CreateBusinessCardAttributes;
     /**
      * 
      * @type {CreateCardRelationships}
@@ -7849,10 +8423,10 @@ export interface CreateBusinessDebitCardRequest {
     'type': CreateBusinessDebitCardRequestTypeEnum;
     /**
      * 
-     * @type {CreateBusinessDebitCardRequestAttributes}
+     * @type {CreateBusinessCardAttributes}
      * @memberof CreateBusinessDebitCardRequest
      */
-    'attributes': CreateBusinessDebitCardRequestAttributes;
+    'attributes': CreateBusinessCardAttributes;
     /**
      * 
      * @type {CreateCardRelationships}
@@ -7867,115 +8441,6 @@ export const CreateBusinessDebitCardRequestTypeEnum = {
 
 export type CreateBusinessDebitCardRequestTypeEnum = typeof CreateBusinessDebitCardRequestTypeEnum[keyof typeof CreateBusinessDebitCardRequestTypeEnum];
 
-/**
- * 
- * @export
- * @interface CreateBusinessDebitCardRequestAttributes
- */
-export interface CreateBusinessDebitCardRequestAttributes {
-    /**
-     * 
-     * @type {Address}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'shippingAddress'?: Address;
-    /**
-     * 
-     * @type {Address}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'address': Address;
-    /**
-     * 
-     * @type {FullName}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'fullName': FullName;
-    /**
-     * 
-     * @type {Phone}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'phone': Phone;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'dateOfBirth': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'nationality'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'ssn'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'passport'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'design'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'additionalEmbossedText'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'tags'?: { [key: string]: string; };
-    /**
-     * 
-     * @type {CardLevelLimits}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'limits'?: CardLevelLimits;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'idempotencyKey'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'activeForOnlineUse'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'printOnlyBusinessName'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateBusinessDebitCardRequestAttributes
-     */
-    'expiryDate'?: string;
-}
 /**
  * 
  * @export
@@ -8337,6 +8802,12 @@ export interface CreateCheckDepositRequestDataAttributes {
     'amount': number;
     /**
      * 
+     * @type {number}
+     * @memberof CreateCheckDepositRequestDataAttributes
+     */
+    'clearingDaysOverride'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof CreateCheckDepositRequestDataAttributes
      */
@@ -8652,10 +9123,10 @@ export interface CreateCreditAccountAttributes {
     'creditLimit': number;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: string; }}
      * @memberof CreateCreditAccountAttributes
      */
-    'tags'?: object | null;
+    'tags'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -8933,10 +9404,10 @@ export interface CreateDepositAccountAttributes {
     'depositProduct': string;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: string; }}
      * @memberof CreateDepositAccountAttributes
      */
-    'tags'?: object | null;
+    'tags'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -8984,60 +9455,182 @@ export interface CreateFeeRelationships {
 export interface CreateFeeRequest {
     /**
      * 
-     * @type {string}
+     * @type {CreateFeeRequestData}
      * @memberof CreateFeeRequest
      */
-    'type': CreateFeeRequestTypeEnum;
+    'data': CreateFeeRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface CreateFeeRequestData
+ */
+export interface CreateFeeRequestData {
     /**
      * 
-     * @type {CreateFeeRequestAttributes}
-     * @memberof CreateFeeRequest
+     * @type {string}
+     * @memberof CreateFeeRequestData
      */
-    'attributes': CreateFeeRequestAttributes;
+    'type': CreateFeeRequestDataTypeEnum;
+    /**
+     * 
+     * @type {CreateFeeRequestDataAttributes}
+     * @memberof CreateFeeRequestData
+     */
+    'attributes': CreateFeeRequestDataAttributes;
     /**
      * 
      * @type {CreateFeeRelationships}
-     * @memberof CreateFeeRequest
+     * @memberof CreateFeeRequestData
      */
     'relationships': CreateFeeRelationships;
 }
 
-export const CreateFeeRequestTypeEnum = {
+export const CreateFeeRequestDataTypeEnum = {
     Fee: 'fee'
 } as const;
 
-export type CreateFeeRequestTypeEnum = typeof CreateFeeRequestTypeEnum[keyof typeof CreateFeeRequestTypeEnum];
+export type CreateFeeRequestDataTypeEnum = typeof CreateFeeRequestDataTypeEnum[keyof typeof CreateFeeRequestDataTypeEnum];
 
 /**
  * 
  * @export
- * @interface CreateFeeRequestAttributes
+ * @interface CreateFeeRequestDataAttributes
  */
-export interface CreateFeeRequestAttributes {
+export interface CreateFeeRequestDataAttributes {
     /**
      * 
      * @type {number}
-     * @memberof CreateFeeRequestAttributes
+     * @memberof CreateFeeRequestDataAttributes
      */
     'amount': number;
     /**
      * 
      * @type {string}
-     * @memberof CreateFeeRequestAttributes
+     * @memberof CreateFeeRequestDataAttributes
      */
     'description': string;
     /**
      * 
      * @type {{ [key: string]: string; }}
-     * @memberof CreateFeeRequestAttributes
+     * @memberof CreateFeeRequestDataAttributes
      */
     'tags'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
-     * @memberof CreateFeeRequestAttributes
+     * @memberof CreateFeeRequestDataAttributes
      */
     'idempotencyKey'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateIncomingAchPaymentRequest
+ */
+export interface CreateIncomingAchPaymentRequest {
+    /**
+     * 
+     * @type {CreateIncomingAchPaymentRequestData}
+     * @memberof CreateIncomingAchPaymentRequest
+     */
+    'data': CreateIncomingAchPaymentRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface CreateIncomingAchPaymentRequestData
+ */
+export interface CreateIncomingAchPaymentRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestData
+     */
+    'type': CreateIncomingAchPaymentRequestDataTypeEnum;
+    /**
+     * 
+     * @type {CreateIncomingAchPaymentRequestDataAttributes}
+     * @memberof CreateIncomingAchPaymentRequestData
+     */
+    'attributes': CreateIncomingAchPaymentRequestDataAttributes;
+    /**
+     * 
+     * @type {CreateIncomingAchPaymentTransactionRelationships}
+     * @memberof CreateIncomingAchPaymentRequestData
+     */
+    'relationships': CreateIncomingAchPaymentTransactionRelationships;
+}
+
+export const CreateIncomingAchPaymentRequestDataTypeEnum = {
+    AchReceivedPayment: 'achReceivedPayment'
+} as const;
+
+export type CreateIncomingAchPaymentRequestDataTypeEnum = typeof CreateIncomingAchPaymentRequestDataTypeEnum[keyof typeof CreateIncomingAchPaymentRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CreateIncomingAchPaymentRequestDataAttributes
+ */
+export interface CreateIncomingAchPaymentRequestDataAttributes {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'amount': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'settlementDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'companyName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'receivingEntityName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'secCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateIncomingAchPaymentRequestDataAttributes
+     */
+    'direction'?: CreateIncomingAchPaymentRequestDataAttributesDirectionEnum;
+}
+
+export const CreateIncomingAchPaymentRequestDataAttributesDirectionEnum = {
+    Debit: 'Debit',
+    Credit: 'Credit'
+} as const;
+
+export type CreateIncomingAchPaymentRequestDataAttributesDirectionEnum = typeof CreateIncomingAchPaymentRequestDataAttributesDirectionEnum[keyof typeof CreateIncomingAchPaymentRequestDataAttributesDirectionEnum];
+
+/**
+ * 
+ * @export
+ * @interface CreateIncomingAchPaymentTransactionRelationships
+ */
+export interface CreateIncomingAchPaymentTransactionRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof CreateIncomingAchPaymentTransactionRelationships
+     */
+    'account': AccountRelationship;
 }
 /**
  * 
@@ -9566,7 +10159,7 @@ export interface CreatePlaidCounterparty {
      * @type {string}
      * @memberof CreatePlaidCounterparty
      */
-    'type': string;
+    'type': CreatePlaidCounterpartyTypeEnum;
     /**
      * 
      * @type {CreatePlaidCounterpartyAttributes}
@@ -9580,6 +10173,13 @@ export interface CreatePlaidCounterparty {
      */
     'relationships': CreateCounterpartyRelationships;
 }
+
+export const CreatePlaidCounterpartyTypeEnum = {
+    AchCounterparty: 'achCounterparty'
+} as const;
+
+export type CreatePlaidCounterpartyTypeEnum = typeof CreatePlaidCounterpartyTypeEnum[keyof typeof CreatePlaidCounterpartyTypeEnum];
+
 /**
  * 
  * @export
@@ -10204,10 +10804,10 @@ export interface CreateRecurringCreditBookPayment {
     'attributes': CreateRecurringCreditBookPaymentAttributes;
     /**
      * 
-     * @type {CreatePaymentRelationshipsWithCounterparty}
+     * @type {CreatePaymentRelationshipsWithCounterpartyAccount}
      * @memberof CreateRecurringCreditBookPayment
      */
-    'relationships': CreatePaymentRelationshipsWithCounterparty;
+    'relationships': CreatePaymentRelationshipsWithCounterpartyAccount;
 }
 
 export const CreateRecurringCreditBookPaymentTypeEnum = {
@@ -10369,7 +10969,7 @@ export interface CreateRecurringPaymentRequest {
  * @type CreateRecurringPaymentRequestData
  * @export
  */
-export type CreateRecurringPaymentRequestData = CreateRecurringCreditAchPayment | CreateRecurringCreditBookPayment | CreateRecurringDebitAchPayment;
+export type CreateRecurringPaymentRequestData = { type: '$recurringCreditAchPayment' } & CreateRecurringCreditAchPayment | { type: 'recurringCreditBookPayment' } & CreateRecurringCreditBookPayment | { type: 'recurringDebitAchPayment' } & CreateRecurringDebitAchPayment;
 
 /**
  * 
@@ -10729,97 +11329,167 @@ export type CreateStopPaymentRequestData = CreateAchStopPayment | CreateCheckSto
 /**
  * 
  * @export
- * @interface CreateWebhook
+ * @interface CreateWalletAccount
  */
-export interface CreateWebhook {
+export interface CreateWalletAccount {
     /**
      * 
-     * @type {CreateWebhookData}
-     * @memberof CreateWebhook
+     * @type {string}
+     * @memberof CreateWalletAccount
      */
-    'data'?: CreateWebhookData;
+    'type'?: CreateWalletAccountTypeEnum;
+    /**
+     * 
+     * @type {CreateWalletAccountAttributes}
+     * @memberof CreateWalletAccount
+     */
+    'attributes'?: CreateWalletAccountAttributes;
+    /**
+     * 
+     * @type {CreateWalletAccountRelationships}
+     * @memberof CreateWalletAccount
+     */
+    'relationships'?: CreateWalletAccountRelationships;
+}
+
+export const CreateWalletAccountTypeEnum = {
+    WalletAccount: 'walletAccount'
+} as const;
+
+export type CreateWalletAccountTypeEnum = typeof CreateWalletAccountTypeEnum[keyof typeof CreateWalletAccountTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface CreateWalletAccountAttributes
+ */
+export interface CreateWalletAccountAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWalletAccountAttributes
+     */
+    'walletTerms': string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof CreateWalletAccountAttributes
+     */
+    'tags'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateWalletAccountAttributes
+     */
+    'idempotencyKey'?: string;
 }
 /**
  * 
  * @export
- * @interface CreateWebhookData
+ * @interface CreateWalletAccountRelationships
  */
-export interface CreateWebhookData {
+export interface CreateWalletAccountRelationships {
+    /**
+     * 
+     * @type {CustomerRelationship}
+     * @memberof CreateWalletAccountRelationships
+     */
+    'customer': CustomerRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface CreateWebhookRequest
+ */
+export interface CreateWebhookRequest {
+    /**
+     * 
+     * @type {CreateWebhookRequestData}
+     * @memberof CreateWebhookRequest
+     */
+    'data'?: CreateWebhookRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface CreateWebhookRequestData
+ */
+export interface CreateWebhookRequestData {
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookData
+     * @memberof CreateWebhookRequestData
      */
     'type'?: string;
     /**
      * 
-     * @type {CreateWebhookDataAttributes}
-     * @memberof CreateWebhookData
+     * @type {CreateWebhookRequestDataAttributes}
+     * @memberof CreateWebhookRequestData
      */
-    'attributes'?: CreateWebhookDataAttributes;
+    'attributes'?: CreateWebhookRequestDataAttributes;
 }
 /**
  * 
  * @export
- * @interface CreateWebhookDataAttributes
+ * @interface CreateWebhookRequestDataAttributes
  */
-export interface CreateWebhookDataAttributes {
+export interface CreateWebhookRequestDataAttributes {
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
     'label': string;
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
     'url': string;
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
     'token': string;
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
-    'contentType': CreateWebhookDataAttributesContentTypeEnum;
+    'contentType': CreateWebhookRequestDataAttributesContentTypeEnum;
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
     'deliveryMode': string;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
     'includeResources'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof CreateWebhookDataAttributes
+     * @memberof CreateWebhookRequestDataAttributes
      */
-    'subscriptionType'?: CreateWebhookDataAttributesSubscriptionTypeEnum;
+    'subscriptionType'?: CreateWebhookRequestDataAttributesSubscriptionTypeEnum;
 }
 
-export const CreateWebhookDataAttributesContentTypeEnum = {
+export const CreateWebhookRequestDataAttributesContentTypeEnum = {
     Json: 'Json',
     JsonApi: 'JsonAPI'
 } as const;
 
-export type CreateWebhookDataAttributesContentTypeEnum = typeof CreateWebhookDataAttributesContentTypeEnum[keyof typeof CreateWebhookDataAttributesContentTypeEnum];
-export const CreateWebhookDataAttributesSubscriptionTypeEnum = {
+export type CreateWebhookRequestDataAttributesContentTypeEnum = typeof CreateWebhookRequestDataAttributesContentTypeEnum[keyof typeof CreateWebhookRequestDataAttributesContentTypeEnum];
+export const CreateWebhookRequestDataAttributesSubscriptionTypeEnum = {
     All: 'All',
     OnlyAuthorizationRequest: 'OnlyAuthorizationRequest'
 } as const;
 
-export type CreateWebhookDataAttributesSubscriptionTypeEnum = typeof CreateWebhookDataAttributesSubscriptionTypeEnum[keyof typeof CreateWebhookDataAttributesSubscriptionTypeEnum];
+export type CreateWebhookRequestDataAttributesSubscriptionTypeEnum = typeof CreateWebhookRequestDataAttributesSubscriptionTypeEnum[keyof typeof CreateWebhookRequestDataAttributesSubscriptionTypeEnum];
 
 /**
  * 
@@ -11119,6 +11789,34 @@ export const CreditAccountRelationshipDataTypeEnum = {
 
 export type CreditAccountRelationshipDataTypeEnum = typeof CreditAccountRelationshipDataTypeEnum[keyof typeof CreditAccountRelationshipDataTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface CreditLimits
+ */
+export interface CreditLimits extends Limits {
+    /**
+     * 
+     * @type {CreditLimitsAllOfAttributes}
+     * @memberof CreditLimits
+     */
+    'attributes': CreditLimitsAllOfAttributes;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CreditLimitsAllOfAttributes
+ */
+export interface CreditLimitsAllOfAttributes {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCard}
+     * @memberof CreditLimitsAllOfAttributes
+     */
+    'card': DepositLimitsAllOfAttributesCard;
+}
 /**
  * 
  * @export
@@ -11743,6 +12441,335 @@ export interface DepositAccountAllOfRelationships {
 /**
  * 
  * @export
+ * @interface DepositAccountOwner
+ */
+export interface DepositAccountOwner {
+    /**
+     * 
+     * @type {string}
+     * @memberof DepositAccountOwner
+     */
+    'type'?: DepositAccountOwnerTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof DepositAccountOwner
+     */
+    'id'?: string;
+}
+
+export const DepositAccountOwnerTypeEnum = {
+    Customer: 'customer'
+} as const;
+
+export type DepositAccountOwnerTypeEnum = typeof DepositAccountOwnerTypeEnum[keyof typeof DepositAccountOwnerTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface DepositLimits
+ */
+export interface DepositLimits extends Limits {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributes}
+     * @memberof DepositLimits
+     */
+    'attributes': DepositLimitsAllOfAttributes;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributes
+ */
+export interface DepositLimitsAllOfAttributes {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesAch}
+     * @memberof DepositLimitsAllOfAttributes
+     */
+    'ach': DepositLimitsAllOfAttributesAch;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCard}
+     * @memberof DepositLimitsAllOfAttributes
+     */
+    'card': DepositLimitsAllOfAttributesCard;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCheckDeposit}
+     * @memberof DepositLimitsAllOfAttributes
+     */
+    'checkDeposit': DepositLimitsAllOfAttributesCheckDeposit;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesAch
+ */
+export interface DepositLimitsAllOfAttributesAch {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesAchLimits}
+     * @memberof DepositLimitsAllOfAttributesAch
+     */
+    'limits': DepositLimitsAllOfAttributesAchLimits;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesAchTotalsDaily}
+     * @memberof DepositLimitsAllOfAttributesAch
+     */
+    'totalsDaily': DepositLimitsAllOfAttributesAchTotalsDaily;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesAchTotalsDaily}
+     * @memberof DepositLimitsAllOfAttributesAch
+     */
+    'totalsMonthly': DepositLimitsAllOfAttributesAchTotalsDaily;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesAchLimits
+ */
+export interface DepositLimitsAllOfAttributesAchLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'dailyDebit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'dailyCredit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'monthlyDebit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'monthlyDebitSoft'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'dailyDebitSoft'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchLimits
+     */
+    'monthlyCredit': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesAchTotalsDaily
+ */
+export interface DepositLimitsAllOfAttributesAchTotalsDaily {
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchTotalsDaily
+     */
+    'debits': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesAchTotalsDaily
+     */
+    'credits': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesCard
+ */
+export interface DepositLimitsAllOfAttributesCard {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCardLimits}
+     * @memberof DepositLimitsAllOfAttributesCard
+     */
+    'limits': DepositLimitsAllOfAttributesCardLimits;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCardTotalsDaily}
+     * @memberof DepositLimitsAllOfAttributesCard
+     */
+    'totalsDaily': DepositLimitsAllOfAttributesCardTotalsDaily;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesCardLimits
+ */
+export interface DepositLimitsAllOfAttributesCardLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardLimits
+     */
+    'dailyWithdrawal': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardLimits
+     */
+    'dailyDeposit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardLimits
+     */
+    'dailyPurchase': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardLimits
+     */
+    'dailyCardTransaction': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesCardTotalsDaily
+ */
+export interface DepositLimitsAllOfAttributesCardTotalsDaily {
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardTotalsDaily
+     */
+    'withdrawals': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardTotalsDaily
+     */
+    'deposits': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardTotalsDaily
+     */
+    'purchases': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCardTotalsDaily
+     */
+    'cardTransactions': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesCheckDeposit
+ */
+export interface DepositLimitsAllOfAttributesCheckDeposit {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCheckDepositLimits}
+     * @memberof DepositLimitsAllOfAttributesCheckDeposit
+     */
+    'limits': DepositLimitsAllOfAttributesCheckDepositLimits;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDeposit
+     */
+    'totalsDaily': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDeposit
+     */
+    'totalsMonthly': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositLimitsAllOfAttributesCheckDepositLimits
+ */
+export interface DepositLimitsAllOfAttributesCheckDepositLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDepositLimits
+     */
+    'daily': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDepositLimits
+     */
+    'monthly': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDepositLimits
+     */
+    'dailySoft': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DepositLimitsAllOfAttributesCheckDepositLimits
+     */
+    'monthlySoft': number;
+}
+/**
+ * 
+ * @export
+ * @interface DepositProduct
+ */
+export interface DepositProduct {
+    /**
+     * 
+     * @type {string}
+     * @memberof DepositProduct
+     */
+    'type': DepositProductTypeEnum;
+    /**
+     * 
+     * @type {DepositProductAttributes}
+     * @memberof DepositProduct
+     */
+    'attributes': DepositProductAttributes;
+}
+
+export const DepositProductTypeEnum = {
+    AccountDepositProduct: 'accountDepositProduct'
+} as const;
+
+export type DepositProductTypeEnum = typeof DepositProductTypeEnum[keyof typeof DepositProductTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface DepositProductAttributes
+ */
+export interface DepositProductAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof DepositProductAttributes
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
  * @interface DeviceFingerprint
  */
 export interface DeviceFingerprint {
@@ -12179,10 +13206,10 @@ export interface DisputeTransactionRelationships {
 export interface DisputedTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof DisputedTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -12372,6 +13399,76 @@ export interface FeeRelationships {
 /**
  * 
  * @export
+ * @interface FeeReversal
+ */
+export interface FeeReversal {
+    /**
+     * 
+     * @type {string}
+     * @memberof FeeReversal
+     */
+    'type'?: FeeReversalTypeEnum;
+    /**
+     * 
+     * @type {FeeReversalAttributes}
+     * @memberof FeeReversal
+     */
+    'attributes'?: FeeReversalAttributes;
+    /**
+     * 
+     * @type {FeeReversalRelationships}
+     * @memberof FeeReversal
+     */
+    'relationships'?: FeeReversalRelationships;
+}
+
+export const FeeReversalTypeEnum = {
+    FeeReversal: 'feeReversal'
+} as const;
+
+export type FeeReversalTypeEnum = typeof FeeReversalTypeEnum[keyof typeof FeeReversalTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FeeReversalAttributes
+ */
+export interface FeeReversalAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof FeeReversalAttributes
+     */
+    'description': string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof FeeReversalAttributes
+     */
+    'tags'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface FeeReversalRelationships
+ */
+export interface FeeReversalRelationships {
+    /**
+     * 
+     * @type {TransactionRelationship}
+     * @memberof FeeReversalRelationships
+     */
+    'transaction': TransactionRelationship;
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof FeeReversalRelationships
+     */
+    'account': AccountRelationship;
+}
+/**
+ * 
+ * @export
  * @interface FeeReversalTransaction
  */
 export interface FeeReversalTransaction extends Transaction {
@@ -12416,10 +13513,10 @@ export interface FeeReversalTransactionRelationships {
     'customers'?: CustomersRelationship;
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof FeeReversalTransactionRelationships
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -12519,10 +13616,10 @@ export interface FeeTransactionRelationships {
     'customers'?: CustomersRelationship;
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof FeeTransactionRelationships
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -12532,37 +13629,65 @@ export interface FeeTransactionRelationships {
 export interface FreezeAccountRequest {
     /**
      * 
-     * @type {FreezeAccountRequest}
+     * @type {FreezeAccountRequestData}
      * @memberof FreezeAccountRequest
      */
-    'data'?: FreezeAccountRequest;
+    'data'?: FreezeAccountRequestData;
 }
 /**
  * 
  * @export
- * @interface FreezeAccountRequestAttributes
+ * @interface FreezeAccountRequestData
  */
-export interface FreezeAccountRequestAttributes {
+export interface FreezeAccountRequestData {
     /**
      * 
      * @type {string}
-     * @memberof FreezeAccountRequestAttributes
+     * @memberof FreezeAccountRequestData
      */
-    'reason'?: FreezeAccountRequestAttributesReasonEnum;
+    'type'?: FreezeAccountRequestDataTypeEnum;
+    /**
+     * 
+     * @type {FreezeAccountRequestDataAttributes}
+     * @memberof FreezeAccountRequestData
+     */
+    'attributes'?: FreezeAccountRequestDataAttributes;
+}
+
+export const FreezeAccountRequestDataTypeEnum = {
+    CreditAccountFreeze: 'creditAccountFreeze',
+    AccountFreeze: 'accountFreeze',
+    WalletAccountFreeze: 'walletAccountFreeze'
+} as const;
+
+export type FreezeAccountRequestDataTypeEnum = typeof FreezeAccountRequestDataTypeEnum[keyof typeof FreezeAccountRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface FreezeAccountRequestDataAttributes
+ */
+export interface FreezeAccountRequestDataAttributes {
     /**
      * 
      * @type {string}
-     * @memberof FreezeAccountRequestAttributes
+     * @memberof FreezeAccountRequestDataAttributes
+     */
+    'reason'?: FreezeAccountRequestDataAttributesReasonEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof FreezeAccountRequestDataAttributes
      */
     'reasonText'?: string | null;
 }
 
-export const FreezeAccountRequestAttributesReasonEnum = {
+export const FreezeAccountRequestDataAttributesReasonEnum = {
     Fraud: 'Fraud',
     Other: 'Other'
 } as const;
 
-export type FreezeAccountRequestAttributesReasonEnum = typeof FreezeAccountRequestAttributesReasonEnum[keyof typeof FreezeAccountRequestAttributesReasonEnum];
+export type FreezeAccountRequestDataAttributesReasonEnum = typeof FreezeAccountRequestDataAttributesReasonEnum[keyof typeof FreezeAccountRequestDataAttributesReasonEnum];
 
 /**
  * 
@@ -12614,6 +13739,114 @@ export interface FundingAccountRelationshipData {
      * @memberof FundingAccountRelationshipData
      */
     'id': string;
+}
+/**
+ * 
+ * @export
+ * @interface GenerateBarcodeRequest
+ */
+export interface GenerateBarcodeRequest {
+    /**
+     * 
+     * @type {GenerateBarcodeRequestData}
+     * @memberof GenerateBarcodeRequest
+     */
+    'data': GenerateBarcodeRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface GenerateBarcodeRequestData
+ */
+export interface GenerateBarcodeRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenerateBarcodeRequestData
+     */
+    'type': GenerateBarcodeRequestDataTypeEnum;
+    /**
+     * 
+     * @type {GenerateBarcodeRequestDataAttributes}
+     * @memberof GenerateBarcodeRequestData
+     */
+    'attributes': GenerateBarcodeRequestDataAttributes;
+    /**
+     * 
+     * @type {GenerateBarcodeRequestRelationships}
+     * @memberof GenerateBarcodeRequestData
+     */
+    'relationships': GenerateBarcodeRequestRelationships;
+}
+
+export const GenerateBarcodeRequestDataTypeEnum = {
+    CashDepositBarcode: 'cashDepositBarcode'
+} as const;
+
+export type GenerateBarcodeRequestDataTypeEnum = typeof GenerateBarcodeRequestDataTypeEnum[keyof typeof GenerateBarcodeRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface GenerateBarcodeRequestDataAttributes
+ */
+export interface GenerateBarcodeRequestDataAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenerateBarcodeRequestDataAttributes
+     */
+    'storeId': string;
+}
+/**
+ * 
+ * @export
+ * @interface GenerateBarcodeRequestRelationships
+ */
+export interface GenerateBarcodeRequestRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof GenerateBarcodeRequestRelationships
+     */
+    'account': AccountRelationship;
+    /**
+     * 
+     * @type {CustomerRelationship}
+     * @memberof GenerateBarcodeRequestRelationships
+     */
+    'customer': CustomerRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface GetAccountBalanceHistoryFilterParameter
+ */
+export interface GetAccountBalanceHistoryFilterParameter {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccountBalanceHistoryFilterParameter
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccountBalanceHistoryFilterParameter
+     */
+    'accountId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccountBalanceHistoryFilterParameter
+     */
+    'since'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccountBalanceHistoryFilterParameter
+     */
+    'until'?: string;
 }
 /**
  * 
@@ -12953,6 +14186,39 @@ export type GetCardsListFilterParameterStatusEnum = typeof GetCardsListFilterPar
 /**
  * 
  * @export
+ * @interface GetCashDepositStoreLocationsListFilterParameter
+ */
+export interface GetCashDepositStoreLocationsListFilterParameter {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCashDepositStoreLocationsListFilterParameter
+     */
+    'postalCode'?: string;
+    /**
+     * 
+     * @type {Coordinates}
+     * @memberof GetCashDepositStoreLocationsListFilterParameter
+     */
+    'coordinates'?: Coordinates;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetCashDepositStoreLocationsListFilterParameter
+     */
+    'serviceType': GetCashDepositStoreLocationsListFilterParameterServiceTypeEnum;
+}
+
+export const GetCashDepositStoreLocationsListFilterParameterServiceTypeEnum = {
+    Swipe: 'Swipe',
+    Barcode: 'Barcode'
+} as const;
+
+export type GetCashDepositStoreLocationsListFilterParameterServiceTypeEnum = typeof GetCashDepositStoreLocationsListFilterParameterServiceTypeEnum[keyof typeof GetCashDepositStoreLocationsListFilterParameterServiceTypeEnum];
+
+/**
+ * 
+ * @export
  * @interface GetCheckDepositsListFilterParameter
  */
 export interface GetCheckDepositsListFilterParameter {
@@ -13204,67 +14470,6 @@ export interface GetEventsListFilterParameter {
 /**
  * 
  * @export
- * @interface GetListRewardsFilterParameter
- */
-export interface GetListRewardsFilterParameter {
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'transactionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'rewardedTransactionId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'receivingAccountId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'customerId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'cardId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'since'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'until'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'status'?: string;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof GetListRewardsFilterParameter
-     */
-    'tags'?: { [key: string]: string; };
-}
-/**
- * 
- * @export
  * @interface GetPaymentsListFilterParameter
  */
 export interface GetPaymentsListFilterParameter {
@@ -13378,6 +14583,85 @@ export const GetPaymentsListFilterParameterFeatureEnum = {
 } as const;
 
 export type GetPaymentsListFilterParameterFeatureEnum = typeof GetPaymentsListFilterParameterFeatureEnum[keyof typeof GetPaymentsListFilterParameterFeatureEnum];
+
+/**
+ * 
+ * @export
+ * @interface GetReceivedPaymentsListFilterParameter
+ */
+export interface GetReceivedPaymentsListFilterParameter {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'accountId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'status'?: Array<GetReceivedPaymentsListFilterParameterStatusEnum>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'since'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'until'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'fromAmount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'toAmount'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'includeCompleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'canBeReprocessed'?: boolean;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof GetReceivedPaymentsListFilterParameter
+     */
+    'tags'?: { [key: string]: string; };
+}
+
+export const GetReceivedPaymentsListFilterParameterStatusEnum = {
+    Pending: 'Pending',
+    Advanced: 'Advanced',
+    PendingReview: 'PendingReview',
+    MarkedForReturn: 'MarkedForReturn',
+    Returned: 'Returned',
+    Completed: 'Completed'
+} as const;
+
+export type GetReceivedPaymentsListFilterParameterStatusEnum = typeof GetReceivedPaymentsListFilterParameterStatusEnum[keyof typeof GetReceivedPaymentsListFilterParameterStatusEnum];
 
 /**
  * 
@@ -13545,6 +14829,67 @@ export type GetRepaymentsListFilterParameterTypeEnum = typeof GetRepaymentsListF
 /**
  * 
  * @export
+ * @interface GetRewardsListFilterParameter
+ */
+export interface GetRewardsListFilterParameter {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'transactionId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'rewardedTransactionId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'receivingAccountId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'cardId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'since'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'until'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof GetRewardsListFilterParameter
+     */
+    'tags'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
  * @interface GetStatementsListFilterParameter
  */
 export interface GetStatementsListFilterParameter {
@@ -13636,6 +14981,37 @@ export const GetStopPaymentsListFilterParameterStatusEnum = {
 
 export type GetStopPaymentsListFilterParameterStatusEnum = typeof GetStopPaymentsListFilterParameterStatusEnum[keyof typeof GetStopPaymentsListFilterParameterStatusEnum];
 
+/**
+ * 
+ * @export
+ * @interface GetTaxFormsListFilterParameter
+ */
+export interface GetTaxFormsListFilterParameter {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTaxFormsListFilterParameter
+     */
+    'customerId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetTaxFormsListFilterParameter
+     */
+    'accountId'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GetTaxFormsListFilterParameter
+     */
+    'taxYear'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GetTaxFormsListFilterParameter
+     */
+    'taxFormTypes'?: Array<string>;
+}
 /**
  * 
  * @export
@@ -14741,114 +16117,17 @@ export interface Limits {
      * @type {string}
      * @memberof Limits
      */
-    'type'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Limits
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {LimitsAttributes}
-     * @memberof Limits
-     */
-    'attributes'?: LimitsAttributes;
+    'type'?: LimitsTypeEnum;
 }
-/**
- * 
- * @export
- * @interface LimitsAttributes
- */
-export interface LimitsAttributes {
-    /**
-     * 
-     * @type {LimitsAttributesCard}
-     * @memberof LimitsAttributes
-     */
-    'card'?: LimitsAttributesCard;
-}
-/**
- * 
- * @export
- * @interface LimitsAttributesCard
- */
-export interface LimitsAttributesCard {
-    /**
-     * 
-     * @type {LimitsAttributesCardLimits}
-     * @memberof LimitsAttributesCard
-     */
-    'limits'?: LimitsAttributesCardLimits;
-    /**
-     * 
-     * @type {LimitsAttributesCardTotalsDaily}
-     * @memberof LimitsAttributesCard
-     */
-    'totalsDaily'?: LimitsAttributesCardTotalsDaily;
-}
-/**
- * 
- * @export
- * @interface LimitsAttributesCardLimits
- */
-export interface LimitsAttributesCardLimits {
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardLimits
-     */
-    'dailyWithdrawal'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardLimits
-     */
-    'dailyDeposit'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardLimits
-     */
-    'dailyPurchase'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardLimits
-     */
-    'dailyCardTransaction'?: number;
-}
-/**
- * 
- * @export
- * @interface LimitsAttributesCardTotalsDaily
- */
-export interface LimitsAttributesCardTotalsDaily {
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardTotalsDaily
-     */
-    'withdrawal'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardTotalsDaily
-     */
-    'deposit'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardTotalsDaily
-     */
-    'purchase'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LimitsAttributesCardTotalsDaily
-     */
-    'cardTransaction'?: number;
-}
+
+export const LimitsTypeEnum = {
+    Limits: 'limits',
+    CreditLimits: 'creditLimits',
+    WalletLimits: 'walletLimits'
+} as const;
+
+export type LimitsTypeEnum = typeof LimitsTypeEnum[keyof typeof LimitsTypeEnum];
+
 /**
  * Parameters for paginated list requests
  * @export
@@ -14961,7 +16240,7 @@ export const MonthlyScheduleDayOfWeekEnum = {
 
 export type MonthlyScheduleDayOfWeekEnum = typeof MonthlyScheduleDayOfWeekEnum[keyof typeof MonthlyScheduleDayOfWeekEnum];
 export const MonthlyScheduleIntervalEnum = {
-    Montly: 'Montly'
+    Monthly: 'Monthly'
 } as const;
 
 export type MonthlyScheduleIntervalEnum = typeof MonthlyScheduleIntervalEnum[keyof typeof MonthlyScheduleIntervalEnum];
@@ -15498,10 +16777,10 @@ export interface PaymentAdvanceTransaction extends Transaction {
 export interface PaymentAdvanceTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof PaymentAdvanceTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -16153,10 +17432,29 @@ export interface PushToCardReversalTransactionRelationships {
 export interface ReceivePaymentTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof ReceivePaymentTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
+}
+/**
+ * 
+ * @export
+ * @interface ReceivePaymentTransactionRelationshipData
+ */
+export interface ReceivePaymentTransactionRelationshipData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReceivePaymentTransactionRelationshipData
+     */
+    'type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReceivePaymentTransactionRelationshipData
+     */
+    'id': string;
 }
 /**
  * 
@@ -16308,7 +17606,7 @@ export interface ReceivedPayment {
      * @type {string}
      * @memberof ReceivedPayment
      */
-    'type'?: string;
+    'type'?: ReceivedPaymentTypeEnum;
     /**
      * 
      * @type {string}
@@ -16328,6 +17626,13 @@ export interface ReceivedPayment {
      */
     'relationships'?: ReceivedPaymentRelationships;
 }
+
+export const ReceivedPaymentTypeEnum = {
+    AchReceivedPayment: 'achReceivedPayment'
+} as const;
+
+export type ReceivedPaymentTypeEnum = typeof ReceivedPaymentTypeEnum[keyof typeof ReceivedPaymentTypeEnum];
+
 /**
  * 
  * @export
@@ -16441,8 +17746,10 @@ export interface ReceivedPaymentAttributes {
 export const ReceivedPaymentAttributesStatusEnum = {
     Pending: 'Pending',
     Advanced: 'Advanced',
-    Completed: 'Completed',
-    Returned: 'Returned'
+    PendingReview: 'PendingReview',
+    MarkedForReturn: 'MarkedForReturn',
+    Returned: 'Returned',
+    Completed: 'Completed'
 } as const;
 
 export type ReceivedPaymentAttributesStatusEnum = typeof ReceivedPaymentAttributesStatusEnum[keyof typeof ReceivedPaymentAttributesStatusEnum];
@@ -17752,10 +19059,10 @@ export type RecurringRepaymentStatus = typeof RecurringRepaymentStatus[keyof typ
 export interface RelatedTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof RelatedTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -17907,6 +19214,19 @@ export interface ReleaseTransactionRelationships {
 /**
  * 
  * @export
+ * @interface RemoveAccountOwnersRequest
+ */
+export interface RemoveAccountOwnersRequest {
+    /**
+     * 
+     * @type {Array<DepositAccountOwner>}
+     * @memberof RemoveAccountOwnersRequest
+     */
+    'data': Array<DepositAccountOwner>;
+}
+/**
+ * 
+ * @export
  * @interface RemoveAuthorizedUsersRequest
  */
 export interface RemoveAuthorizedUsersRequest {
@@ -18016,10 +19336,10 @@ export interface RepaidPaymentAdvanceTransactionRelationships {
 export interface RepayPaymentAdvanceTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof RepayPaymentAdvanceTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * 
@@ -18053,6 +19373,75 @@ export type RepaymentTypeEnum = typeof RepaymentTypeEnum[keyof typeof RepaymentT
 /**
  * 
  * @export
+ * @interface RepaymentInformation
+ */
+export interface RepaymentInformation {
+    /**
+     * 
+     * @type {string}
+     * @memberof RepaymentInformation
+     */
+    'type': RepaymentInformationTypeEnum;
+    /**
+     * 
+     * @type {RepaymentInformationAttributes}
+     * @memberof RepaymentInformation
+     */
+    'attributes': RepaymentInformationAttributes;
+}
+
+export const RepaymentInformationTypeEnum = {
+    CreditAccountRepaymentInformation: 'creditAccountRepaymentInformation'
+} as const;
+
+export type RepaymentInformationTypeEnum = typeof RepaymentInformationTypeEnum[keyof typeof RepaymentInformationTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface RepaymentInformationAttributes
+ */
+export interface RepaymentInformationAttributes {
+    /**
+     * 
+     * @type {number}
+     * @memberof RepaymentInformationAttributes
+     */
+    'remainingAmountDue': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RepaymentInformationAttributes
+     */
+    'remainingAmountOverdue': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RepaymentInformationAttributes
+     */
+    'initiatedRepayments': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepaymentInformationAttributes
+     */
+    'statementPeriodStart': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepaymentInformationAttributes
+     */
+    'statementPeriodEnd': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepaymentInformationAttributes
+     */
+    'nextRepaymentDueDate': string;
+}
+/**
+ * 
+ * @export
  * @interface RepaymentRelationship
  */
 export interface RepaymentRelationship {
@@ -18081,6 +19470,58 @@ export interface RepaymentRelationshipData {
      * @memberof RepaymentRelationshipData
      */
     'type': string;
+}
+/**
+ * 
+ * @export
+ * @interface ReplaceCardRequest
+ */
+export interface ReplaceCardRequest {
+    /**
+     * 
+     * @type {ReplaceCardRequestData}
+     * @memberof ReplaceCardRequest
+     */
+    'data': ReplaceCardRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface ReplaceCardRequestData
+ */
+export interface ReplaceCardRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReplaceCardRequestData
+     */
+    'type': ReplaceCardRequestDataTypeEnum;
+    /**
+     * 
+     * @type {ReplaceCardRequestDataAttributes}
+     * @memberof ReplaceCardRequestData
+     */
+    'attributes': ReplaceCardRequestDataAttributes;
+}
+
+export const ReplaceCardRequestDataTypeEnum = {
+    ReplaceCard: 'replaceCard'
+} as const;
+
+export type ReplaceCardRequestDataTypeEnum = typeof ReplaceCardRequestDataTypeEnum[keyof typeof ReplaceCardRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface ReplaceCardRequestDataAttributes
+ */
+export interface ReplaceCardRequestDataAttributes {
+    /**
+     * 
+     * @type {Address}
+     * @memberof ReplaceCardRequestDataAttributes
+     */
+    'shippingAddress': Address;
 }
 /**
  * 
@@ -18324,6 +19765,79 @@ export const ReturnReason = {
 } as const;
 
 export type ReturnReason = typeof ReturnReason[keyof typeof ReturnReason];
+
+
+/**
+ * 
+ * @export
+ * @interface ReturnReceivedACHTransactionRelationships
+ */
+export interface ReturnReceivedACHTransactionRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof ReturnReceivedACHTransactionRelationships
+     */
+    'account': AccountRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface ReturnReceivedACHTransactionRequest
+ */
+export interface ReturnReceivedACHTransactionRequest {
+    /**
+     * 
+     * @type {ReturnReceivedACHTransactionRequestData}
+     * @memberof ReturnReceivedACHTransactionRequest
+     */
+    'data': ReturnReceivedACHTransactionRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface ReturnReceivedACHTransactionRequestData
+ */
+export interface ReturnReceivedACHTransactionRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReturnReceivedACHTransactionRequestData
+     */
+    'type': ReturnReceivedACHTransactionRequestDataTypeEnum;
+    /**
+     * 
+     * @type {ReturnReceivedACHTransactionRequestDataAttributes}
+     * @memberof ReturnReceivedACHTransactionRequestData
+     */
+    'attributes': ReturnReceivedACHTransactionRequestDataAttributes;
+    /**
+     * 
+     * @type {ReturnReceivedACHTransactionRelationships}
+     * @memberof ReturnReceivedACHTransactionRequestData
+     */
+    'relationships': ReturnReceivedACHTransactionRelationships;
+}
+
+export const ReturnReceivedACHTransactionRequestDataTypeEnum = {
+    AtmTransaction: 'atmTransaction'
+} as const;
+
+export type ReturnReceivedACHTransactionRequestDataTypeEnum = typeof ReturnReceivedACHTransactionRequestDataTypeEnum[keyof typeof ReturnReceivedACHTransactionRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface ReturnReceivedACHTransactionRequestDataAttributes
+ */
+export interface ReturnReceivedACHTransactionRequestDataAttributes {
+    /**
+     * 
+     * @type {AchReturnReason}
+     * @memberof ReturnReceivedACHTransactionRequestDataAttributes
+     */
+    'reason': AchReturnReason;
+}
 
 
 /**
@@ -18813,10 +20327,99 @@ export interface ReturnedRelationship {
 export interface ReturnedTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof ReturnedTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
+}
+/**
+ * 
+ * @export
+ * @interface ReverseFeeRequest
+ */
+export interface ReverseFeeRequest {
+    /**
+     * 
+     * @type {ReverseFeeRequestData}
+     * @memberof ReverseFeeRequest
+     */
+    'data': ReverseFeeRequestData;
+}
+/**
+ * 
+ * @export
+ * @interface ReverseFeeRequestData
+ */
+export interface ReverseFeeRequestData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReverseFeeRequestData
+     */
+    'type': ReverseFeeRequestDataTypeEnum;
+    /**
+     * 
+     * @type {ReverseFeeRequestDataAttributes}
+     * @memberof ReverseFeeRequestData
+     */
+    'attributes': ReverseFeeRequestDataAttributes;
+    /**
+     * 
+     * @type {ReverseFeeRequestRelationships}
+     * @memberof ReverseFeeRequestData
+     */
+    'relationships': ReverseFeeRequestRelationships;
+}
+
+export const ReverseFeeRequestDataTypeEnum = {
+    FeeReversal: 'feeReversal'
+} as const;
+
+export type ReverseFeeRequestDataTypeEnum = typeof ReverseFeeRequestDataTypeEnum[keyof typeof ReverseFeeRequestDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface ReverseFeeRequestDataAttributes
+ */
+export interface ReverseFeeRequestDataAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReverseFeeRequestDataAttributes
+     */
+    'description': string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof ReverseFeeRequestDataAttributes
+     */
+    'tags'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof ReverseFeeRequestDataAttributes
+     */
+    'idempotencyKey'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReverseFeeRequestRelationships
+ */
+export interface ReverseFeeRequestRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof ReverseFeeRequestRelationships
+     */
+    'account': AccountRelationship;
+    /**
+     * 
+     * @type {TransactionRelationship}
+     * @memberof ReverseFeeRequestRelationships
+     */
+    'transaction': TransactionRelationship;
 }
 /**
  * 
@@ -19105,10 +20708,10 @@ export interface RewardTransactionRelationships {
 export interface RewardedTransactionRelationship {
     /**
      * 
-     * @type {TransactionRelationshipData}
+     * @type {ReceivePaymentTransactionRelationshipData}
      * @memberof RewardedTransactionRelationship
      */
-    'data': TransactionRelationshipData;
+    'data': ReceivePaymentTransactionRelationshipData;
 }
 /**
  * @type Schedule
@@ -19119,66 +20722,41 @@ export type Schedule = { interval: 'Monthly' } & MonthlySchedule | { interval: '
 /**
  * 
  * @export
- * @interface SchemasLimits
+ * @interface SchemasUpdateAchReceivedPayment
  */
-export interface SchemasLimits {
-    /**
-     * 
-     * @type {SchemasLimitsData}
-     * @memberof SchemasLimits
-     */
-    'data': SchemasLimitsData;
-}
-/**
- * 
- * @export
- * @interface SchemasLimitsData
- */
-export interface SchemasLimitsData {
+export interface SchemasUpdateAchReceivedPayment {
     /**
      * 
      * @type {string}
-     * @memberof SchemasLimitsData
+     * @memberof SchemasUpdateAchReceivedPayment
      */
-    'type': SchemasLimitsDataTypeEnum;
+    'type': SchemasUpdateAchReceivedPaymentTypeEnum;
     /**
      * 
-     * @type {SchemasLimitsDataAttributes}
-     * @memberof SchemasLimitsData
+     * @type {SchemasUpdateAchReceivedPaymentAttributes}
+     * @memberof SchemasUpdateAchReceivedPayment
      */
-    'attributes': SchemasLimitsDataAttributes;
+    'attributes': SchemasUpdateAchReceivedPaymentAttributes;
 }
 
-export const SchemasLimitsDataTypeEnum = {
-    Limits: 'limits'
+export const SchemasUpdateAchReceivedPaymentTypeEnum = {
+    AchReceivedPayment: 'achReceivedPayment'
 } as const;
 
-export type SchemasLimitsDataTypeEnum = typeof SchemasLimitsDataTypeEnum[keyof typeof SchemasLimitsDataTypeEnum];
+export type SchemasUpdateAchReceivedPaymentTypeEnum = typeof SchemasUpdateAchReceivedPaymentTypeEnum[keyof typeof SchemasUpdateAchReceivedPaymentTypeEnum];
 
 /**
  * 
  * @export
- * @interface SchemasLimitsDataAttributes
+ * @interface SchemasUpdateAchReceivedPaymentAttributes
  */
-export interface SchemasLimitsDataAttributes {
+export interface SchemasUpdateAchReceivedPaymentAttributes {
     /**
      * 
-     * @type {CardLevelLimits}
-     * @memberof SchemasLimitsDataAttributes
+     * @type {{ [key: string]: string; }}
+     * @memberof SchemasUpdateAchReceivedPaymentAttributes
      */
-    'limits'?: CardLevelLimits;
-    /**
-     * 
-     * @type {CardTotals}
-     * @memberof SchemasLimitsDataAttributes
-     */
-    'dailyTotals': CardTotals;
-    /**
-     * 
-     * @type {CardTotals}
-     * @memberof SchemasLimitsDataAttributes
-     */
-    'monthlyTotals': CardTotals;
+    'tags'?: { [key: string]: string; };
 }
 /**
  * 
@@ -19263,7 +20841,7 @@ export interface Statement {
      * @type {string}
      * @memberof Statement
      */
-    'type': string;
+    'type': StatementTypeEnum;
     /**
      * 
      * @type {string}
@@ -19283,6 +20861,14 @@ export interface Statement {
      */
     'relationships': StatementRelationships;
 }
+
+export const StatementTypeEnum = {
+    Statement: 'statement',
+    AccountStatementDto: 'accountStatementDTO'
+} as const;
+
+export type StatementTypeEnum = typeof StatementTypeEnum[keyof typeof StatementTypeEnum];
+
 /**
  * 
  * @export
@@ -19417,6 +21003,157 @@ export interface StopPaymentResponse {
 /**
  * 
  * @export
+ * @interface StoreLocation
+ */
+export interface StoreLocation {
+    /**
+     * 
+     * @type {string}
+     * @memberof StoreLocation
+     */
+    'type': StoreLocationTypeEnum;
+    /**
+     * 
+     * @type {StoreLocationAttributes}
+     * @memberof StoreLocation
+     */
+    'attributes': StoreLocationAttributes;
+}
+
+export const StoreLocationTypeEnum = {
+    StoreLocation: 'storeLocation'
+} as const;
+
+export type StoreLocationTypeEnum = typeof StoreLocationTypeEnum[keyof typeof StoreLocationTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface StoreLocationAttributes
+ */
+export interface StoreLocationAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof StoreLocationAttributes
+     */
+    'storeId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoreLocationAttributes
+     */
+    'retailerName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoreLocationAttributes
+     */
+    'phone': string;
+    /**
+     * 
+     * @type {Address}
+     * @memberof StoreLocationAttributes
+     */
+    'address': Address;
+    /**
+     * 
+     * @type {Coordinates}
+     * @memberof StoreLocationAttributes
+     */
+    'coordinates': Coordinates;
+    /**
+     * 
+     * @type {number}
+     * @memberof StoreLocationAttributes
+     */
+    'distance': number;
+}
+/**
+ * 
+ * @export
+ * @interface TaxForm
+ */
+export interface TaxForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxForm
+     */
+    'type': TaxFormTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxForm
+     */
+    'id': string;
+    /**
+     * 
+     * @type {TaxFormAttributes}
+     * @memberof TaxForm
+     */
+    'attributes': TaxFormAttributes;
+    /**
+     * 
+     * @type {TaxFormRelationships}
+     * @memberof TaxForm
+     */
+    'relationships'?: TaxFormRelationships;
+}
+
+export const TaxFormTypeEnum = {
+    TaxForm: 'taxForm'
+} as const;
+
+export type TaxFormTypeEnum = typeof TaxFormTypeEnum[keyof typeof TaxFormTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface TaxFormAttributes
+ */
+export interface TaxFormAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxFormAttributes
+     */
+    'formType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaxFormAttributes
+     */
+    'taxYear': string;
+}
+/**
+ * 
+ * @export
+ * @interface TaxFormRelationships
+ */
+export interface TaxFormRelationships {
+    /**
+     * 
+     * @type {AccountRelationship}
+     * @memberof TaxFormRelationships
+     */
+    'account'?: AccountRelationship;
+    /**
+     * 
+     * @type {AccountRelationship1}
+     * @memberof TaxFormRelationships
+     */
+    'accounts'?: AccountRelationship1;
+    /**
+     * 
+     * @type {CustomerRelationship}
+     * @memberof TaxFormRelationships
+     */
+    'customer': CustomerRelationship;
+}
+/**
+ * 
+ * @export
  * @interface Transaction
  */
 export interface Transaction {
@@ -19497,13 +21234,33 @@ export interface TransactionRelationshipData {
      * @type {string}
      * @memberof TransactionRelationshipData
      */
-    'type': string;
+    'type': TransactionRelationshipDataTypeEnum;
     /**
      * 
      * @type {string}
      * @memberof TransactionRelationshipData
      */
     'id': string;
+}
+
+export const TransactionRelationshipDataTypeEnum = {
+    Transaction: 'transaction'
+} as const;
+
+export type TransactionRelationshipDataTypeEnum = typeof TransactionRelationshipDataTypeEnum[keyof typeof TransactionRelationshipDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface UnitAccountBalanceHistoryResponse
+ */
+export interface UnitAccountBalanceHistoryResponse {
+    /**
+     * 
+     * @type {Array<AccountEndOfDay>}
+     * @memberof UnitAccountBalanceHistoryResponse
+     */
+    'data'?: Array<AccountEndOfDay>;
 }
 /**
  * 
@@ -19763,10 +21520,61 @@ export interface UnitCancelApplicationResponse {
 export interface UnitCardLimitsResponse {
     /**
      * 
-     * @type {SchemasLimits}
+     * @type {UnitCardLimitsResponseData}
      * @memberof UnitCardLimitsResponse
      */
-    'data'?: SchemasLimits;
+    'data': UnitCardLimitsResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface UnitCardLimitsResponseData
+ */
+export interface UnitCardLimitsResponseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof UnitCardLimitsResponseData
+     */
+    'type': UnitCardLimitsResponseDataTypeEnum;
+    /**
+     * 
+     * @type {UnitCardLimitsResponseDataAttributes}
+     * @memberof UnitCardLimitsResponseData
+     */
+    'attributes': UnitCardLimitsResponseDataAttributes;
+}
+
+export const UnitCardLimitsResponseDataTypeEnum = {
+    Limits: 'limits'
+} as const;
+
+export type UnitCardLimitsResponseDataTypeEnum = typeof UnitCardLimitsResponseDataTypeEnum[keyof typeof UnitCardLimitsResponseDataTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface UnitCardLimitsResponseDataAttributes
+ */
+export interface UnitCardLimitsResponseDataAttributes {
+    /**
+     * 
+     * @type {CardLevelLimits}
+     * @memberof UnitCardLimitsResponseDataAttributes
+     */
+    'limits'?: CardLevelLimits;
+    /**
+     * 
+     * @type {CardTotals}
+     * @memberof UnitCardLimitsResponseDataAttributes
+     */
+    'dailyTotals': CardTotals;
+    /**
+     * 
+     * @type {CardTotals}
+     * @memberof UnitCardLimitsResponseDataAttributes
+     */
+    'monthlyTotals': CardTotals;
 }
 /**
  * 
@@ -19780,44 +21588,57 @@ export interface UnitCardResponse {
      * @memberof UnitCardResponse
      */
     'data'?: Card;
+}
+/**
+ * 
+ * @export
+ * @interface UnitCardResponseWithIncluded
+ */
+export interface UnitCardResponseWithIncluded {
+    /**
+     * 
+     * @type {Card}
+     * @memberof UnitCardResponseWithIncluded
+     */
+    'data'?: Card;
     /**
      * 
      * @type {Array<Array<IncludedResourceInner>>}
-     * @memberof UnitCardResponse
+     * @memberof UnitCardResponseWithIncluded
      */
     'included'?: Array<Array<IncludedResourceInner>>;
 }
 /**
  * 
  * @export
- * @interface UnitCardResponseCardsList
+ * @interface UnitCardsListReponse
  */
-export interface UnitCardResponseCardsList {
+export interface UnitCardsListReponse {
     /**
      * 
      * @type {Array<Card>}
-     * @memberof UnitCardResponseCardsList
+     * @memberof UnitCardsListReponse
      */
     'data'?: Array<Card>;
     /**
      * 
      * @type {Array<Array<IncludedResourceInner>>}
-     * @memberof UnitCardResponseCardsList
+     * @memberof UnitCardsListReponse
      */
     'included'?: Array<Array<IncludedResourceInner>>;
 }
 /**
  * 
  * @export
- * @interface UnitCardsListResponse
+ * @interface UnitCashDepositBarcodeResponse
  */
-export interface UnitCardsListResponse {
+export interface UnitCashDepositBarcodeResponse {
     /**
      * 
-     * @type {Card}
-     * @memberof UnitCardsListResponse
+     * @type {CashDepositBarcode}
+     * @memberof UnitCashDepositBarcodeResponse
      */
-    'data'?: Card;
+    'data'?: CashDepositBarcode;
 }
 /**
  * 
@@ -19848,41 +21669,28 @@ export interface UnitCheckPaymentResponse {
 /**
  * 
  * @export
- * @interface UnitCloseCardResponse
- */
-export interface UnitCloseCardResponse {
-    /**
-     * 
-     * @type {Card}
-     * @memberof UnitCloseCardResponse
-     */
-    'data'?: Card;
-}
-/**
- * 
- * @export
- * @interface UnitConfirmCheckDepositResponse
- */
-export interface UnitConfirmCheckDepositResponse {
-    /**
-     * 
-     * @type {CheckDeposit}
-     * @memberof UnitConfirmCheckDepositResponse
-     */
-    'data'?: CheckDeposit;
-}
-/**
- * 
- * @export
  * @interface UnitCounterpartiesListResponse
  */
 export interface UnitCounterpartiesListResponse {
     /**
      * 
-     * @type {Counterparty}
+     * @type {Array<Counterparty>}
      * @memberof UnitCounterpartiesListResponse
      */
-    'data'?: Counterparty;
+    'data'?: Array<Counterparty>;
+}
+/**
+ * 
+ * @export
+ * @interface UnitCounterpartyBalanceResponse
+ */
+export interface UnitCounterpartyBalanceResponse {
+    /**
+     * 
+     * @type {CounterpartyBalance}
+     * @memberof UnitCounterpartyBalanceResponse
+     */
+    'data'?: CounterpartyBalance;
 }
 /**
  * 
@@ -19896,19 +21704,6 @@ export interface UnitCounterpartyResponse {
      * @memberof UnitCounterpartyResponse
      */
     'data'?: Counterparty;
-}
-/**
- * 
- * @export
- * @interface UnitCounterpartyResponse1
- */
-export interface UnitCounterpartyResponse1 {
-    /**
-     * 
-     * @type {CounterpartyBalance}
-     * @memberof UnitCounterpartyResponse1
-     */
-    'data'?: CounterpartyBalance;
 }
 /**
  * 
@@ -19986,6 +21781,32 @@ export interface UnitCustomersListResponse {
      * @memberof UnitCustomersListResponse
      */
     'meta'?: PaginationMeta;
+}
+/**
+ * 
+ * @export
+ * @interface UnitDepositAccountResponse
+ */
+export interface UnitDepositAccountResponse {
+    /**
+     * 
+     * @type {DepositAccount}
+     * @memberof UnitDepositAccountResponse
+     */
+    'data'?: DepositAccount;
+}
+/**
+ * 
+ * @export
+ * @interface UnitDepositProductsResponse
+ */
+export interface UnitDepositProductsResponse {
+    /**
+     * 
+     * @type {Array<DepositProduct>}
+     * @memberof UnitDepositProductsResponse
+     */
+    'data'?: Array<DepositProduct>;
 }
 /**
  * 
@@ -20117,15 +21938,15 @@ export interface UnitFeeResponse {
 /**
  * 
  * @export
- * @interface UnitFreezeCardResponse
+ * @interface UnitFeeReversalResponse
  */
-export interface UnitFreezeCardResponse {
+export interface UnitFeeReversalResponse {
     /**
      * 
-     * @type {Card}
-     * @memberof UnitFreezeCardResponse
+     * @type {FeeReversal}
+     * @memberof UnitFeeReversalResponse
      */
-    'data'?: Card;
+    'data'?: FeeReversal;
 }
 /**
  * 
@@ -20139,19 +21960,6 @@ export interface UnitFrontCheckDepositResponse {
      * @memberof UnitFrontCheckDepositResponse
      */
     'data'?: string;
-}
-/**
- * 
- * @export
- * @interface UnitGetAccountEndOfDayListResponse
- */
-export interface UnitGetAccountEndOfDayListResponse {
-    /**
-     * 
-     * @type {AccountEndOfDay}
-     * @memberof UnitGetAccountEndOfDayListResponse
-     */
-    'data'?: AccountEndOfDay;
 }
 /**
  * 
@@ -20227,28 +22035,15 @@ export interface UnitListAuthorizationsResponse {
 /**
  * 
  * @export
- * @interface UnitListCheckDepositsResponse
+ * @interface UnitListCheckDepositResponse
  */
-export interface UnitListCheckDepositsResponse {
+export interface UnitListCheckDepositResponse {
     /**
      * 
      * @type {Array<CheckDeposit>}
-     * @memberof UnitListCheckDepositsResponse
+     * @memberof UnitListCheckDepositResponse
      */
     'data'?: Array<CheckDeposit>;
-}
-/**
- * 
- * @export
- * @interface UnitListCheckDepositsResponse1
- */
-export interface UnitListCheckDepositsResponse1 {
-    /**
-     * 
-     * @type {CheckDeposit}
-     * @memberof UnitListCheckDepositsResponse1
-     */
-    'data'?: CheckDeposit;
 }
 /**
  * 
@@ -20354,44 +22149,57 @@ export interface UnitPaymentsListResponse {
 export interface UnitPinStatusResponse {
     /**
      * 
-     * @type {string}
+     * @type {UnitPinStatusResponseData}
      * @memberof UnitPinStatusResponse
      */
-    'type'?: UnitPinStatusResponseTypeEnum;
+    'data'?: UnitPinStatusResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface UnitPinStatusResponseData
+ */
+export interface UnitPinStatusResponseData {
     /**
      * 
-     * @type {UnitPinStatusResponseAttributes}
-     * @memberof UnitPinStatusResponse
+     * @type {string}
+     * @memberof UnitPinStatusResponseData
      */
-    'attributes'?: UnitPinStatusResponseAttributes;
+    'type'?: UnitPinStatusResponseDataTypeEnum;
+    /**
+     * 
+     * @type {UnitPinStatusResponseDataAttributes}
+     * @memberof UnitPinStatusResponseData
+     */
+    'attributes'?: UnitPinStatusResponseDataAttributes;
 }
 
-export const UnitPinStatusResponseTypeEnum = {
+export const UnitPinStatusResponseDataTypeEnum = {
     PinStatus: 'pinStatus'
 } as const;
 
-export type UnitPinStatusResponseTypeEnum = typeof UnitPinStatusResponseTypeEnum[keyof typeof UnitPinStatusResponseTypeEnum];
+export type UnitPinStatusResponseDataTypeEnum = typeof UnitPinStatusResponseDataTypeEnum[keyof typeof UnitPinStatusResponseDataTypeEnum];
 
 /**
  * 
  * @export
- * @interface UnitPinStatusResponseAttributes
+ * @interface UnitPinStatusResponseDataAttributes
  */
-export interface UnitPinStatusResponseAttributes {
+export interface UnitPinStatusResponseDataAttributes {
     /**
      * 
      * @type {string}
-     * @memberof UnitPinStatusResponseAttributes
+     * @memberof UnitPinStatusResponseDataAttributes
      */
-    'status'?: UnitPinStatusResponseAttributesStatusEnum;
+    'status'?: UnitPinStatusResponseDataAttributesStatusEnum;
 }
 
-export const UnitPinStatusResponseAttributesStatusEnum = {
+export const UnitPinStatusResponseDataAttributesStatusEnum = {
     Set: 'Set',
     NotSet: 'NotSet'
 } as const;
 
-export type UnitPinStatusResponseAttributesStatusEnum = typeof UnitPinStatusResponseAttributesStatusEnum[keyof typeof UnitPinStatusResponseAttributesStatusEnum];
+export type UnitPinStatusResponseDataAttributesStatusEnum = typeof UnitPinStatusResponseDataAttributesStatusEnum[keyof typeof UnitPinStatusResponseDataAttributesStatusEnum];
 
 /**
  * 
@@ -20522,79 +22330,10 @@ export interface UnitRecurringRepaymentsListResponse {
 export interface UnitRepaymentInformationResponse {
     /**
      * 
-     * @type {UnitRepaymentInformationResponseData}
+     * @type {RepaymentInformation}
      * @memberof UnitRepaymentInformationResponse
      */
-    'data'?: UnitRepaymentInformationResponseData;
-}
-/**
- * 
- * @export
- * @interface UnitRepaymentInformationResponseData
- */
-export interface UnitRepaymentInformationResponseData {
-    /**
-     * 
-     * @type {string}
-     * @memberof UnitRepaymentInformationResponseData
-     */
-    'type': UnitRepaymentInformationResponseDataTypeEnum;
-    /**
-     * 
-     * @type {UnitRepaymentInformationResponseDataAttributes}
-     * @memberof UnitRepaymentInformationResponseData
-     */
-    'attributes': UnitRepaymentInformationResponseDataAttributes;
-}
-
-export const UnitRepaymentInformationResponseDataTypeEnum = {
-    CreditAccountRepaymentInformation: 'creditAccountRepaymentInformation'
-} as const;
-
-export type UnitRepaymentInformationResponseDataTypeEnum = typeof UnitRepaymentInformationResponseDataTypeEnum[keyof typeof UnitRepaymentInformationResponseDataTypeEnum];
-
-/**
- * 
- * @export
- * @interface UnitRepaymentInformationResponseDataAttributes
- */
-export interface UnitRepaymentInformationResponseDataAttributes {
-    /**
-     * 
-     * @type {number}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'remainingAmountDue': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'remainingAmountOverdue': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'initiatedRepayments': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'statementPeriodStart': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'statementPeriodEnd': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UnitRepaymentInformationResponseDataAttributes
-     */
-    'nextRepaymentDueDate': string;
+    'data'?: RepaymentInformation;
 }
 /**
  * 
@@ -20631,28 +22370,15 @@ export interface UnitRepaymentsListResponse {
 /**
  * 
  * @export
- * @interface UnitReportLostCardResponse
+ * @interface UnitReturnedReceivedAchTransactionResponse
  */
-export interface UnitReportLostCardResponse {
+export interface UnitReturnedReceivedAchTransactionResponse {
     /**
      * 
-     * @type {Card}
-     * @memberof UnitReportLostCardResponse
+     * @type {ReturnedReceivedAchTransaction}
+     * @memberof UnitReturnedReceivedAchTransactionResponse
      */
-    'data'?: Card;
-}
-/**
- * 
- * @export
- * @interface UnitReportStolenCardResponse
- */
-export interface UnitReportStolenCardResponse {
-    /**
-     * 
-     * @type {Card}
-     * @memberof UnitReportStolenCardResponse
-     */
-    'data'?: Card;
+    'data'?: ReturnedReceivedAchTransaction;
 }
 /**
  * 
@@ -20692,6 +22418,51 @@ export interface UnitStatementsResponse {
      * @memberof UnitStatementsResponse
      */
     'data'?: Array<Statement>;
+}
+/**
+ * 
+ * @export
+ * @interface UnitStoreLocationsListResponse
+ */
+export interface UnitStoreLocationsListResponse {
+    /**
+     * 
+     * @type {Array<StoreLocation>}
+     * @memberof UnitStoreLocationsListResponse
+     */
+    'data'?: Array<StoreLocation>;
+    /**
+     * 
+     * @type {PaginationMeta}
+     * @memberof UnitStoreLocationsListResponse
+     */
+    'meta'?: PaginationMeta;
+}
+/**
+ * 
+ * @export
+ * @interface UnitTaxFormResponse
+ */
+export interface UnitTaxFormResponse {
+    /**
+     * 
+     * @type {TaxForm}
+     * @memberof UnitTaxFormResponse
+     */
+    'data'?: TaxForm;
+}
+/**
+ * 
+ * @export
+ * @interface UnitTaxFormsListResponse
+ */
+export interface UnitTaxFormsListResponse {
+    /**
+     * 
+     * @type {Array<TaxForm>}
+     * @memberof UnitTaxFormsListResponse
+     */
+    'data'?: Array<TaxForm>;
 }
 /**
  * 
@@ -20753,41 +22524,15 @@ export interface UnitTransactionsListResponse {
 /**
  * 
  * @export
- * @interface UnitUnfreezeCardResponse
+ * @interface UnitWebhookResponse
  */
-export interface UnitUnfreezeCardResponse {
+export interface UnitWebhookResponse {
     /**
      * 
-     * @type {Card}
-     * @memberof UnitUnfreezeCardResponse
+     * @type {Webhook}
+     * @memberof UnitWebhookResponse
      */
-    'data'?: Card;
-}
-/**
- * 
- * @export
- * @interface UnitUpdateCardResponse
- */
-export interface UnitUpdateCardResponse {
-    /**
-     * 
-     * @type {Card}
-     * @memberof UnitUpdateCardResponse
-     */
-    'data'?: Card;
-}
-/**
- * 
- * @export
- * @interface UnitUpdateCheckDepositResponse
- */
-export interface UnitUpdateCheckDepositResponse {
-    /**
-     * 
-     * @type {CheckDeposit}
-     * @memberof UnitUpdateCheckDepositResponse
-     */
-    'data'?: CheckDeposit;
+    'data'?: Webhook;
 }
 /**
  * 
@@ -20859,6 +22604,12 @@ export interface UpdateAchPaymentAttributes {
      * @memberof UpdateAchPaymentAttributes
      */
     'tags'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateAchPaymentAttributes
+     */
+    'clearingDaysOverride'?: number;
 }
 /**
  * 
@@ -20874,10 +22625,10 @@ export interface UpdateAchReceivedPayment {
     'type': UpdateAchReceivedPaymentTypeEnum;
     /**
      * 
-     * @type {UpdateAchPaymentAttributes}
+     * @type {UpdateAchReceivedPaymentAttributes}
      * @memberof UpdateAchReceivedPayment
      */
-    'attributes': UpdateAchPaymentAttributes;
+    'attributes': UpdateAchReceivedPaymentAttributes;
 }
 
 export const UpdateAchReceivedPaymentTypeEnum = {
@@ -20886,6 +22637,19 @@ export const UpdateAchReceivedPaymentTypeEnum = {
 
 export type UpdateAchReceivedPaymentTypeEnum = typeof UpdateAchReceivedPaymentTypeEnum[keyof typeof UpdateAchReceivedPaymentTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface UpdateAchReceivedPaymentAttributes
+ */
+export interface UpdateAchReceivedPaymentAttributes {
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof UpdateAchReceivedPaymentAttributes
+     */
+    'tags'?: { [key: string]: string; };
+}
 /**
  * 
  * @export
@@ -20938,10 +22702,10 @@ export interface UpdateBookPayment {
     'type': UpdateBookPaymentTypeEnum;
     /**
      * 
-     * @type {UpdateAchPaymentAttributes}
+     * @type {UpdateBookPaymentAttributes}
      * @memberof UpdateBookPayment
      */
-    'attributes': UpdateAchPaymentAttributes;
+    'attributes': UpdateBookPaymentAttributes;
 }
 
 export const UpdateBookPaymentTypeEnum = {
@@ -20950,6 +22714,19 @@ export const UpdateBookPaymentTypeEnum = {
 
 export type UpdateBookPaymentTypeEnum = typeof UpdateBookPaymentTypeEnum[keyof typeof UpdateBookPaymentTypeEnum];
 
+/**
+ * 
+ * @export
+ * @interface UpdateBookPaymentAttributes
+ */
+export interface UpdateBookPaymentAttributes {
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof UpdateBookPaymentAttributes
+     */
+    'tags'?: { [key: string]: string; };
+}
 /**
  * 
  * @export
@@ -21644,7 +23421,7 @@ export interface UpdateCheckDepositAttributes {
      * @type {number}
      * @memberof UpdateCheckDepositAttributes
      */
-    'amount'?: number;
+    'clearingDaysOverride'?: number;
     /**
      * 
      * @type {{ [key: string]: string; }}
@@ -21676,7 +23453,7 @@ export interface UpdateCounterparty {
      * @type {string}
      * @memberof UpdateCounterparty
      */
-    'type': string;
+    'type': UpdateCounterpartyTypeEnum;
     /**
      * 
      * @type {UpdateCounterpartyAttributes}
@@ -21684,6 +23461,13 @@ export interface UpdateCounterparty {
      */
     'attributes': UpdateCounterpartyAttributes;
 }
+
+export const UpdateCounterpartyTypeEnum = {
+    Counterparty: 'counterparty'
+} as const;
+
+export type UpdateCounterpartyTypeEnum = typeof UpdateCounterpartyTypeEnum[keyof typeof UpdateCounterpartyTypeEnum];
+
 /**
  * 
  * @export
@@ -22123,7 +23907,7 @@ export interface UpdatePaymentRequest {
  * @type UpdatePaymentRequestData
  * @export
  */
-export type UpdatePaymentRequestData = UpdateAchPayment | UpdateBookPayment;
+export type UpdatePaymentRequestData = UpdateAchPayment | UpdateAchReceivedPayment | UpdateBookPayment;
 
 /**
  * 
@@ -22142,7 +23926,7 @@ export interface UpdateReceivedPaymentRequest {
  * @type UpdateReceivedPaymentRequestData
  * @export
  */
-export type UpdateReceivedPaymentRequestData = UpdateAchReceivedPayment;
+export type UpdateReceivedPaymentRequestData = SchemasUpdateAchReceivedPayment;
 
 /**
  * 
@@ -22341,6 +24125,21 @@ export interface UpdateWebhookRequestDataAttributes {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const UploadApplicationDocumentContentType = {
+    ApplicationPdf: 'application/pdf',
+    ImagePng: 'image/png',
+    ImageJpeg: 'image/jpeg'
+} as const;
+
+export type UploadApplicationDocumentContentType = typeof UploadApplicationDocumentContentType[keyof typeof UploadApplicationDocumentContentType];
+
+
+/**
+ * 
+ * @export
  * @interface VerifyDocument
  */
 export interface VerifyDocument {
@@ -22371,6 +24170,354 @@ export const VirtualCardStatus = {
 export type VirtualCardStatus = typeof VirtualCardStatus[keyof typeof VirtualCardStatus];
 
 
+/**
+ * 
+ * @export
+ * @interface WalletAccount
+ */
+export interface WalletAccount extends Account {
+    /**
+     * 
+     * @type {WalletAccountAllOfAttributes}
+     * @memberof WalletAccount
+     */
+    'attributes': WalletAccountAllOfAttributes;
+    /**
+     * 
+     * @type {WalletAccountAllOfRelationships}
+     * @memberof WalletAccount
+     */
+    'relationships': WalletAccountAllOfRelationships;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface WalletAccountAllOfAttributes
+ */
+export interface WalletAccountAllOfAttributes {
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'status': WalletAccountAllOfAttributesStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'walletTerms'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'routingNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'accountNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'currency': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'balance': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'hold': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'available': number;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'tags': { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'closeReason'?: WalletAccountAllOfAttributesCloseReasonEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'fraudReason'?: WalletAccountAllOfAttributesFraudReasonEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof WalletAccountAllOfAttributes
+     */
+    'freezeReason'?: string;
+}
+
+export const WalletAccountAllOfAttributesStatusEnum = {
+    Open: 'Open',
+    Closed: 'Closed',
+    Frozen: 'Frozen'
+} as const;
+
+export type WalletAccountAllOfAttributesStatusEnum = typeof WalletAccountAllOfAttributesStatusEnum[keyof typeof WalletAccountAllOfAttributesStatusEnum];
+export const WalletAccountAllOfAttributesCloseReasonEnum = {
+    ByCustomer: 'ByCustomer',
+    Fraud: 'Fraud',
+    Overdue: 'Overdue',
+    NegativeBalance: 'NegativeBalance',
+    ByBank: 'ByBank',
+    BreachOfTermsAndConditions: 'BreachOfTermsAndConditions',
+    NoAccountActivity: 'NoAccountActivity',
+    ProgramChange: 'ProgramChange'
+} as const;
+
+export type WalletAccountAllOfAttributesCloseReasonEnum = typeof WalletAccountAllOfAttributesCloseReasonEnum[keyof typeof WalletAccountAllOfAttributesCloseReasonEnum];
+export const WalletAccountAllOfAttributesFraudReasonEnum = {
+    AchActivity: 'ACHActivity',
+    CardActivity: 'CardActivity',
+    CheckActivity: 'CheckActivity',
+    ApplicationHistory: 'ApplicationHistory',
+    AccountActivity: 'AccountActivity',
+    ClientIdentified: 'ClientIdentified',
+    IdentityTheft: 'IdentityTheft',
+    LinkedToFraudulentCustomer: 'LinkedToFraudulentCustomer'
+} as const;
+
+export type WalletAccountAllOfAttributesFraudReasonEnum = typeof WalletAccountAllOfAttributesFraudReasonEnum[keyof typeof WalletAccountAllOfAttributesFraudReasonEnum];
+
+/**
+ * 
+ * @export
+ * @interface WalletAccountAllOfRelationships
+ */
+export interface WalletAccountAllOfRelationships {
+    /**
+     * 
+     * @type {CustomerRelationship}
+     * @memberof WalletAccountAllOfRelationships
+     */
+    'customer': CustomerRelationship;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimits
+ */
+export interface WalletLimits extends Limits {
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributes}
+     * @memberof WalletLimits
+     */
+    'attributes': WalletLimitsAllOfAttributes;
+}
+
+
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributes
+ */
+export interface WalletLimitsAllOfAttributes {
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesAch}
+     * @memberof WalletLimitsAllOfAttributes
+     */
+    'ach': DepositLimitsAllOfAttributesAch;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCard}
+     * @memberof WalletLimitsAllOfAttributes
+     */
+    'card': DepositLimitsAllOfAttributesCard;
+    /**
+     * 
+     * @type {DepositLimitsAllOfAttributesCheckDeposit}
+     * @memberof WalletLimitsAllOfAttributes
+     */
+    'checkDeposit': DepositLimitsAllOfAttributesCheckDeposit;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesWire}
+     * @memberof WalletLimitsAllOfAttributes
+     */
+    'wire': WalletLimitsAllOfAttributesWire;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesCheckPayment}
+     * @memberof WalletLimitsAllOfAttributes
+     */
+    'checkPayment': WalletLimitsAllOfAttributesCheckPayment;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesCheckPayment
+ */
+export interface WalletLimitsAllOfAttributesCheckPayment {
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesCheckPaymentLimits}
+     * @memberof WalletLimitsAllOfAttributesCheckPayment
+     */
+    'limits': WalletLimitsAllOfAttributesCheckPaymentLimits;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesCheckPaymentTotalsDaily}
+     * @memberof WalletLimitsAllOfAttributesCheckPayment
+     */
+    'totalsDaily': WalletLimitsAllOfAttributesCheckPaymentTotalsDaily;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesCheckPaymentTotalsDaily}
+     * @memberof WalletLimitsAllOfAttributesCheckPayment
+     */
+    'totalsMontly': WalletLimitsAllOfAttributesCheckPaymentTotalsDaily;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesCheckPaymentLimits
+ */
+export interface WalletLimitsAllOfAttributesCheckPaymentLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesCheckPaymentLimits
+     */
+    'dailySent': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesCheckPaymentLimits
+     */
+    'montlySent'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesCheckPaymentLimits
+     */
+    'dailySentSoft'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesCheckPaymentLimits
+     */
+    'monthlySentSoft'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesCheckPaymentTotalsDaily
+ */
+export interface WalletLimitsAllOfAttributesCheckPaymentTotalsDaily {
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesCheckPaymentTotalsDaily
+     */
+    'sent': number;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesWire
+ */
+export interface WalletLimitsAllOfAttributesWire {
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesWireLimits}
+     * @memberof WalletLimitsAllOfAttributesWire
+     */
+    'limits': WalletLimitsAllOfAttributesWireLimits;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesWireTotalsDaily}
+     * @memberof WalletLimitsAllOfAttributesWire
+     */
+    'totalsDaily': WalletLimitsAllOfAttributesWireTotalsDaily;
+    /**
+     * 
+     * @type {WalletLimitsAllOfAttributesWireTotalsDaily}
+     * @memberof WalletLimitsAllOfAttributesWire
+     */
+    'totalsMontly': WalletLimitsAllOfAttributesWireTotalsDaily;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesWireLimits
+ */
+export interface WalletLimitsAllOfAttributesWireLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesWireLimits
+     */
+    'dailyTransfer': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesWireLimits
+     */
+    'montlyTransfer': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesWireLimits
+     */
+    'dailyTransferSoft'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesWireLimits
+     */
+    'montlyTransferSoft'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface WalletLimitsAllOfAttributesWireTotalsDaily
+ */
+export interface WalletLimitsAllOfAttributesWireTotalsDaily {
+    /**
+     * 
+     * @type {number}
+     * @memberof WalletLimitsAllOfAttributesWireTotalsDaily
+     */
+    'transfers': number;
+}
 /**
  * 
  * @export
@@ -22472,19 +24619,6 @@ export const WebhookAttributesDeliveryModeEnum = {
 
 export type WebhookAttributesDeliveryModeEnum = typeof WebhookAttributesDeliveryModeEnum[keyof typeof WebhookAttributesDeliveryModeEnum];
 
-/**
- * 
- * @export
- * @interface WebhookResponse
- */
-export interface WebhookResponse {
-    /**
-     * 
-     * @type {Webhook}
-     * @memberof WebhookResponse
-     */
-    'data'?: Webhook;
-}
 /**
  * 
  * @export
@@ -22862,23 +24996,23 @@ export interface WireTransactionRelationships {
 }
 
 /**
- * RepaymentInformationApi - axios parameter creator
+ * UnitApi - axios parameter creator
  * @export
  */
-export const RepaymentInformationApiAxiosParamCreator = function (configuration?: Configuration) {
+export const UnitApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Retrieve the repayment information for a specific account via API
-         * @summary Get Repayment Information
-         * @param {string} accountId ID of the account to get repayment information for
+         * Activate Card Simulation via API
+         * @summary Create Atm Deposit Simulation
+         * @param {string} cardId ID of the card to activate
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        execute: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'accountId' is not null or undefined
-            assertParamExists('execute', 'accountId', accountId)
-            const localVarPath = `/accounts/{accountId}/repayment-information`
-                .replace(`{${"accountId"}}`, encodeURIComponent(String(accountId)));
+        activateCardSimulation: async (cardId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cardId' is not null or undefined
+            assertParamExists('activateCardSimulation', 'cardId', cardId)
+            const localVarPath = `/sandbox/cards/{cardId}/activate`
+                .replace(`{${"cardId"}}`, encodeURIComponent(String(cardId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -22886,7 +25020,7 @@ export const RepaymentInformationApiAxiosParamCreator = function (configuration?
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -22905,80 +25039,6 @@ export const RepaymentInformationApiAxiosParamCreator = function (configuration?
                 options: localVarRequestOptions,
             };
         },
-    }
-};
-
-/**
- * RepaymentInformationApi - functional programming interface
- * @export
- */
-export const RepaymentInformationApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = RepaymentInformationApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Retrieve the repayment information for a specific account via API
-         * @summary Get Repayment Information
-         * @param {string} accountId ID of the account to get repayment information for
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async execute(accountId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRepaymentInformationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.execute(accountId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RepaymentInformationApi.execute']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * RepaymentInformationApi - factory interface
- * @export
- */
-export const RepaymentInformationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = RepaymentInformationApiFp(configuration)
-    return {
-        /**
-         * Retrieve the repayment information for a specific account via API
-         * @summary Get Repayment Information
-         * @param {string} accountId ID of the account to get repayment information for
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        execute(accountId: string, options?: any): AxiosPromise<UnitRepaymentInformationResponse> {
-            return localVarFp.execute(accountId, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * RepaymentInformationApi - object-oriented interface
- * @export
- * @class RepaymentInformationApi
- * @extends {BaseAPI}
- */
-export class RepaymentInformationApi extends BaseAPI {
-    /**
-     * Retrieve the repayment information for a specific account via API
-     * @summary Get Repayment Information
-     * @param {string} accountId ID of the account to get repayment information for
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RepaymentInformationApi
-     */
-    public execute(accountId: string, options?: RawAxiosRequestConfig) {
-        return RepaymentInformationApiFp(this.configuration).execute(accountId, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * UnitApi - axios parameter creator
- * @export
- */
-export const UnitApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
         /**
          * Activate Control Agreement for Account via API 
          * @summary Activate Account Control Agreement by Id
@@ -23011,6 +25071,50 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Add Owners to Account via API 
+         * @summary Add Owners to Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {AddAccountOwnersRequest} addAccountOwnersRequest Add Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addAccountOwners: async (accountId: string, addAccountOwnersRequest: AddAccountOwnersRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accountId' is not null or undefined
+            assertParamExists('addAccountOwners', 'accountId', accountId)
+            // verify required parameter 'addAccountOwnersRequest' is not null or undefined
+            assertParamExists('addAccountOwners', 'addAccountOwnersRequest', addAccountOwnersRequest)
+            const localVarPath = `/accounts/{accountId}/relationships/customers`
+                .replace(`{${"accountId"}}`, encodeURIComponent(String(accountId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addAccountOwnersRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -23317,12 +25421,15 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Cancel a Payment via API 
          * @summary Cancel a Payment by Id
          * @param {string} paymentId ID of the payment to cancel
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cancelPayment: async (paymentId: string, body: object | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'paymentId' is not null or undefined
             assertParamExists('cancelPayment', 'paymentId', paymentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('cancelPayment', 'body', body)
             const localVarPath = `/payments/{paymentId}/cancel`
                 .replace(`{${"paymentId"}}`, encodeURIComponent(String(paymentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -23342,9 +25449,12 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -23437,12 +25547,15 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Confirm a Check Deposit from API 
          * @summary Confirm by Id
          * @param {string} checkDepositId ID of the check deposit to confirm
+         * @param {ConfirmCheckDepositRequest} confirmCheckDepositRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmCheckDeposit: async (checkDepositId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        confirmCheckDeposit: async (checkDepositId: string, confirmCheckDepositRequest: ConfirmCheckDepositRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'checkDepositId' is not null or undefined
             assertParamExists('confirmCheckDeposit', 'checkDepositId', checkDepositId)
+            // verify required parameter 'confirmCheckDepositRequest' is not null or undefined
+            assertParamExists('confirmCheckDeposit', 'confirmCheckDepositRequest', confirmCheckDepositRequest)
             const localVarPath = `/check-deposits/{checkDepositId}/confirm`
                 .replace(`{${"checkDepositId"}}`, encodeURIComponent(String(checkDepositId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -23462,9 +25575,52 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(confirmCheckDepositRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Create ACH Received Payment Transaction Simulation via API 
+         * @summary Create ACH Received Payment Transaction Simulation
+         * @param {CreateACHReceivedPaymentTransactionRequest} createACHReceivedPaymentTransactionRequest Create ACH Received Payment Transaction Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createACHReceivedPaymentTransactionSimulation: async (createACHReceivedPaymentTransactionRequest: CreateACHReceivedPaymentTransactionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createACHReceivedPaymentTransactionRequest' is not null or undefined
+            assertParamExists('createACHReceivedPaymentTransactionSimulation', 'createACHReceivedPaymentTransactionRequest', createACHReceivedPaymentTransactionRequest)
+            const localVarPath = `/sandbox/received-payments`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createACHReceivedPaymentTransactionRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -23676,6 +25832,46 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(createApplicationFormRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Create Atm Deposit Simulation via API 
+         * @summary Create Atm Deposit Simulation
+         * @param {CreateAtmDepositSimulationRequest} createAtmDepositSimulationRequest Create Atm Deposit Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createAtmDepositSimulation: async (createAtmDepositSimulationRequest: CreateAtmDepositSimulationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createAtmDepositSimulationRequest' is not null or undefined
+            assertParamExists('createAtmDepositSimulation', 'createAtmDepositSimulationRequest', createAtmDepositSimulationRequest)
+            const localVarPath = `/sandbox/atm-deposits`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createAtmDepositSimulationRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -23971,6 +26167,46 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Create Incoming ACH Payment Simulation via API 
+         * @summary Create Incoming ACH Payment Simulation
+         * @param {CreateIncomingAchPaymentRequest} createIncomingAchPaymentRequest Create Incoming ACH Payment Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createIncomingAchPaymentSimulation: async (createIncomingAchPaymentRequest: CreateIncomingAchPaymentRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createIncomingAchPaymentRequest' is not null or undefined
+            assertParamExists('createIncomingAchPaymentSimulation', 'createIncomingAchPaymentRequest', createIncomingAchPaymentRequest)
+            const localVarPath = `/sandbox/received-ach-payment`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createIncomingAchPaymentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Create a Payment via API 
          * @summary Create a Payment
          * @param {CreatePaymentRequest} createPaymentRequest Create Payment Request
@@ -24213,13 +26449,13 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Create a Webhook via API 
          * @summary Create Webhook
-         * @param {CreateWebhook} createWebhook Create Webhook Request
+         * @param {CreateWebhookRequest} createWebhookRequest Create Webhook Request Body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createWebhook: async (createWebhook: CreateWebhook, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'createWebhook' is not null or undefined
-            assertParamExists('createWebhook', 'createWebhook', createWebhook)
+        createWebhook: async (createWebhookRequest: CreateWebhookRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createWebhookRequest' is not null or undefined
+            assertParamExists('createWebhook', 'createWebhookRequest', createWebhookRequest)
             const localVarPath = `/webhooks`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -24243,7 +26479,7 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createWebhook, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createWebhookRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -24416,12 +26652,15 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Disable Recurring Payment via API 
          * @summary Disable Recurring Payment
          * @param {string} paymentId ID of the payment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableRecurringPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        disableRecurringPayment: async (paymentId: string, body: object | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'paymentId' is not null or undefined
             assertParamExists('disableRecurringPayment', 'paymentId', paymentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('disableRecurringPayment', 'body', body)
             const localVarPath = `/recurring-payments/{paymentId}/disable`
                 .replace(`{${"paymentId"}}`, encodeURIComponent(String(paymentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -24441,9 +26680,12 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -24454,13 +26696,16 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Disable a Recurring Repayment
          * @summary Disable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableRecurringRepayment: async (recurringRepaymentId: string, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        disableRecurringRepayment: async (recurringRepaymentId: string, body: object | null, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'recurringRepaymentId' is not null or undefined
             assertParamExists('disableRecurringRepayment', 'recurringRepaymentId', recurringRepaymentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('disableRecurringRepayment', 'body', body)
             const localVarPath = `/recurring-repayments/{recurringRepaymentId}/disable`
                 .replace(`{${"recurringRepaymentId"}}`, encodeURIComponent(String(recurringRepaymentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -24484,9 +26729,12 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -24657,12 +26905,15 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Enable Recurring Payment via API 
          * @summary Enable Recurring Payment
          * @param {string} paymentId ID of the payment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enableRecurringPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        enableRecurringPayment: async (paymentId: string, body: object | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'paymentId' is not null or undefined
             assertParamExists('enableRecurringPayment', 'paymentId', paymentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('enableRecurringPayment', 'body', body)
             const localVarPath = `/recurring-payments/{paymentId}/enable`
                 .replace(`{${"paymentId"}}`, encodeURIComponent(String(paymentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -24682,9 +26933,12 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -24695,13 +26949,16 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Enable a Recurring Repayment
          * @summary Enable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enableRecurringRepayment: async (recurringRepaymentId: string, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        enableRecurringRepayment: async (recurringRepaymentId: string, body: object | null, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'recurringRepaymentId' is not null or undefined
             assertParamExists('enableRecurringRepayment', 'recurringRepaymentId', recurringRepaymentId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('enableRecurringRepayment', 'body', body)
             const localVarPath = `/recurring-repayments/{recurringRepaymentId}/enable`
                 .replace(`{${"recurringRepaymentId"}}`, encodeURIComponent(String(recurringRepaymentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -24725,9 +26982,12 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -24931,6 +27191,46 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Generate Cash Deposit Barcode via API 
+         * @summary Generate Cash Deposit Barcode
+         * @param {GenerateBarcodeRequest} generateBarcodeRequest Generate Cash Deposit Barcode Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateBarcode: async (generateBarcodeRequest: GenerateBarcodeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'generateBarcodeRequest' is not null or undefined
+            assertParamExists('generateBarcode', 'generateBarcodeRequest', generateBarcodeRequest)
+            const localVarPath = `/cash-deposits/barcodes`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(generateBarcodeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get an Account from API 
          * @summary Get Account by Id
          * @param {string} accountId ID of the account to get
@@ -24974,12 +27274,14 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Get AccountEndOfDay List from API 
-         * @summary Get AccountEndOfDay List
+         * Get Account Balance History List from API 
+         * @summary Get Account Balance History
+         * @param {ListPageParameters} [page] 
+         * @param {GetAccountBalanceHistoryFilterParameter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccountEndOfDay: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAccountBalanceHistory: async (page?: ListPageParameters, filter?: GetAccountBalanceHistoryFilterParameter, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/account-end-of-day`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -24995,6 +27297,14 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
 
 
     
@@ -25606,6 +27916,44 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Get Barcode Image By Barcode Number from API 
+         * @summary Get Barcode Image By Barcode Number
+         * @param {string} barcodeNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBarcodeImage: async (barcodeNumber: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'barcodeNumber' is not null or undefined
+            assertParamExists('getBarcodeImage', 'barcodeNumber', barcodeNumber)
+            const localVarPath = `/cash-deposits/barcodes/{barcodeNumber}/image`
+                .replace(`{${"barcodeNumber"}}`, encodeURIComponent(String(barcodeNumber)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get a Card from API 
          * @summary Get Card by Id
          * @param {string} cardId ID of the card to get
@@ -25765,6 +28113,50 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
 
             if (sort !== undefined) {
                 localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get Cash Deposit Store Locations List By Coordinates from API 
+         * @summary Get Cash Deposit Store Locations List By Coordinates
+         * @param {ListPageParameters} [page] 
+         * @param {GetCashDepositStoreLocationsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCashDepositStoreLocationsList: async (page?: ListPageParameters, filter?: GetCashDepositStoreLocationsListFilterParameter, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/store-locations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
             }
 
 
@@ -26093,11 +28485,10 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * Get a Counterparty from API 
          * @summary Get Counterparty by Id
          * @param {string} counterpartyId ID of the counterparty to get
-         * @param {string} [included] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCounterparty: async (counterpartyId: string, included?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCounterparty: async (counterpartyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'counterpartyId' is not null or undefined
             assertParamExists('getCounterparty', 'counterpartyId', counterpartyId)
             const localVarPath = `/counterparties/{counterpartyId}`
@@ -26116,10 +28507,6 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (included !== undefined) {
-                localVarQueryParameter['included'] = included;
-            }
 
 
     
@@ -26245,6 +28632,44 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             if (sort !== undefined) {
                 localVarQueryParameter['sort'] = sort;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve the list of available deposit products compatible to the account.
+         * @summary Get Deposit Products
+         * @param {string} accountId ID of the account to get deposit products for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDepositProductsList: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accountId' is not null or undefined
+            assertParamExists('getDepositProductsList', 'accountId', accountId)
+            const localVarPath = `/accounts/{accountId}/deposit-products`
+                .replace(`{${"accountId"}}`, encodeURIComponent(String(accountId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -26498,60 +28923,6 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * Get Rewards List from API 
-         * @summary Get Rewards List
-         * @param {ListPageParameters} [page] 
-         * @param {GetListRewardsFilterParameter} [filter] 
-         * @param {string} [sort] 
-         * @param {string} [include] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getListRewards: async (page?: ListPageParameters, filter?: GetListRewardsFilterParameter, sort?: string, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/rewards`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (filter !== undefined) {
-                localVarQueryParameter['filter'] = filter;
-            }
-
-            if (sort !== undefined) {
-                localVarQueryParameter['sort'] = sort;
-            }
-
-            if (include !== undefined) {
-                localVarQueryParameter['include'] = include;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Get a Payment from API 
          * @summary Get Payment by Id
          * @param {string} paymentId ID of the payment to get
@@ -26694,11 +29065,14 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Get Received Payments from API 
          * @summary Get Received Payments List
-         * @param {string} [included] 
+         * @param {ListPageParameters} [page] 
+         * @param {GetReceivedPaymentsListFilterParameter} [filter] 
+         * @param {string} [include] 
+         * @param {string} [sort] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReceivedPaymentsList: async (included?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getReceivedPaymentsList: async (page?: ListPageParameters, filter?: GetReceivedPaymentsListFilterParameter, include?: string, sort?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/received-payments`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -26715,8 +29089,20 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (included !== undefined) {
-                localVarQueryParameter['included'] = included;
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (include !== undefined) {
+                localVarQueryParameter['include'] = include;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
             }
 
 
@@ -26953,6 +29339,44 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Retrieve the repayment information for a specific account via API
+         * @summary Get Repayment Information
+         * @param {string} accountId ID of the account to get repayment information for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRepaymentInformation: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accountId' is not null or undefined
+            assertParamExists('getRepaymentInformation', 'accountId', accountId)
+            const localVarPath = `/accounts/{accountId}/repayment-information`
+                .replace(`{${"accountId"}}`, encodeURIComponent(String(accountId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get List Repayments from API 
          * @summary Get List Repayments
          * @param {ListPageParameters} [page] 
@@ -27022,6 +29446,60 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get Rewards List from API 
+         * @summary Get Rewards List
+         * @param {ListPageParameters} [page] 
+         * @param {GetRewardsListFilterParameter} [filter] 
+         * @param {string} [sort] 
+         * @param {string} [include] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRewardsList: async (page?: ListPageParameters, filter?: GetRewardsListFilterParameter, sort?: string, include?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rewards`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (include !== undefined) {
+                localVarQueryParameter['include'] = include;
+            }
 
 
     
@@ -27287,6 +29765,126 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Get a Tax Form from API 
+         * @summary Get Tax Form by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxForm: async (taxFormId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'taxFormId' is not null or undefined
+            assertParamExists('getTaxForm', 'taxFormId', taxFormId)
+            const localVarPath = `/tax-forms/{taxFormId}`
+                .replace(`{${"taxFormId"}}`, encodeURIComponent(String(taxFormId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get a Tax Form pdf from API 
+         * @summary Get Tax Form pdf by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxFormPdf: async (taxFormId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'taxFormId' is not null or undefined
+            assertParamExists('getTaxFormPdf', 'taxFormId', taxFormId)
+            const localVarPath = `/tax-forms/{taxFormId}/pdf`
+                .replace(`{${"taxFormId"}}`, encodeURIComponent(String(taxFormId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get Tax Forms List from API 
+         * @summary Get Tax Forms List 
+         * @param {ListPageParameters} [page] 
+         * @param {GetTaxFormsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxFormsList: async (page?: ListPageParameters, filter?: GetTaxFormsListFilterParameter, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tax-forms`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get a Transaction from API 
          * @summary Get Transaction by Id
          * @param {string} accountId ID of the account to get transaction from
@@ -27514,6 +30112,50 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Remove Owners from Account via API 
+         * @summary Remove Owners from Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {RemoveAccountOwnersRequest} removeAccountOwnersRequest Remove Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeAccountOwners: async (accountId: string, removeAccountOwnersRequest: RemoveAccountOwnersRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accountId' is not null or undefined
+            assertParamExists('removeAccountOwners', 'accountId', accountId)
+            // verify required parameter 'removeAccountOwnersRequest' is not null or undefined
+            assertParamExists('removeAccountOwners', 'removeAccountOwnersRequest', removeAccountOwnersRequest)
+            const localVarPath = `/accounts/{accountId}/relationships/customers`
+                .replace(`{${"accountId"}}`, encodeURIComponent(String(accountId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(removeAccountOwnersRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Remove Authorized Users via API
          * @summary Remove Authorized Users by Id
          * @param {string} customerId ID of the customer to remove authorized users from
@@ -27589,6 +30231,50 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Replace a Card via API 
+         * @summary Replace a Card
+         * @param {string} cardId ID of the card to replace
+         * @param {ReplaceCardRequest} replaceCardRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        replaceCard: async (cardId: string, replaceCardRequest: ReplaceCardRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'cardId' is not null or undefined
+            assertParamExists('replaceCard', 'cardId', cardId)
+            // verify required parameter 'replaceCardRequest' is not null or undefined
+            assertParamExists('replaceCard', 'replaceCardRequest', replaceCardRequest)
+            const localVarPath = `/cards/{cardId}/replace`
+                .replace(`{${"cardId"}}`, encodeURIComponent(String(cardId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(replaceCardRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -27672,6 +30358,44 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Reprocess a Received Payment via API 
+         * @summary Reprocess Received Payment by Id
+         * @param {string} paymentId ID of the payment to advance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reprocessReceivedPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'paymentId' is not null or undefined
+            assertParamExists('reprocessReceivedPayment', 'paymentId', paymentId)
+            const localVarPath = `/received-payments/{paymentId}/reprocess`
+                .replace(`{${"paymentId"}}`, encodeURIComponent(String(paymentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Return a Check Payment via API 
          * @summary Return Check Payment by Id
          * @param {string} checkPaymentId ID of the check payment to return
@@ -27709,6 +30433,90 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(returnCheckPaymentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Return Received ACH Transaction via API 
+         * @summary Return Received ACH Transaction
+         * @param {string} transactionId ID of the transaction to return
+         * @param {ReturnReceivedACHTransactionRequest} returnReceivedACHTransactionRequest Pass empty object in order for content-type to be aquired correctly
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        returnReceivedACHTransaction: async (transactionId: string, returnReceivedACHTransactionRequest: ReturnReceivedACHTransactionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'transactionId' is not null or undefined
+            assertParamExists('returnReceivedACHTransaction', 'transactionId', transactionId)
+            // verify required parameter 'returnReceivedACHTransactionRequest' is not null or undefined
+            assertParamExists('returnReceivedACHTransaction', 'returnReceivedACHTransactionRequest', returnReceivedACHTransactionRequest)
+            const localVarPath = `/returns/{transactionId}`
+                .replace(`{${"transactionId"}}`, encodeURIComponent(String(transactionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(returnReceivedACHTransactionRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Reverse a Fee via API 
+         * @summary Reverse Fee
+         * @param {ReverseFeeRequest} reverseFeeRequest Reverse Fee Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reverseFee: async (reverseFeeRequest: ReverseFeeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reverseFeeRequest' is not null or undefined
+            assertParamExists('reverseFee', 'reverseFeeRequest', reverseFeeRequest)
+            const localVarPath = `/fees/reverse`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/vnd.api+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reverseFeeRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -28284,18 +31092,21 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * @summary Upload an application document file. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {File} body An application document file. SDK only temporarily supports only ... files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplicationDocumentFile: async (applicationId: string, documentId: string, body: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadApplicationDocumentFile: async (applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('uploadApplicationDocumentFile', 'applicationId', applicationId)
             // verify required parameter 'documentId' is not null or undefined
             assertParamExists('uploadApplicationDocumentFile', 'documentId', documentId)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('uploadApplicationDocumentFile', 'body', body)
-            const localVarPath = `/applications/{applicationId}/documents/{documentId}`
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('uploadApplicationDocumentFile', 'file', file)
+            // verify required parameter 'fileType' is not null or undefined
+            assertParamExists('uploadApplicationDocumentFile', 'fileType', fileType)
+            const localVarPath = `/applications/{applicationId}/documents/{documentId}/multipart`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)))
                 .replace(`{${"documentId"}}`, encodeURIComponent(String(documentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -28308,19 +31119,28 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
     
-            localVarHeaderParameter['Content-Type'] = 'application/pdf';
-
+            if (fileType !== undefined) { 
+                localVarFormParams.append('fileType', fileType as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -28332,18 +31152,21 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
          * @summary Upload an application document file - Back Side. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {object} body Upload an application document file - Back Side. Supports PDF, PNG and JPG files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplicationDocumentFileBackSide: async (applicationId: string, documentId: string, body: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadApplicationDocumentFileBackSide: async (applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('uploadApplicationDocumentFileBackSide', 'applicationId', applicationId)
             // verify required parameter 'documentId' is not null or undefined
             assertParamExists('uploadApplicationDocumentFileBackSide', 'documentId', documentId)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('uploadApplicationDocumentFileBackSide', 'body', body)
-            const localVarPath = `/applications/{applicationId}/documents/{documentId}/back`
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('uploadApplicationDocumentFileBackSide', 'file', file)
+            // verify required parameter 'fileType' is not null or undefined
+            assertParamExists('uploadApplicationDocumentFileBackSide', 'fileType', fileType)
+            const localVarPath = `/applications/{applicationId}/documents/{documentId}/back/multipart`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)))
                 .replace(`{${"documentId"}}`, encodeURIComponent(String(documentId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -28356,19 +31179,28 @@ export const UnitApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
     
-            localVarHeaderParameter['Content-Type'] = 'application/pdf';
-
+            if (fileType !== undefined) { 
+                localVarFormParams.append('fileType', fileType as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -28434,6 +31266,19 @@ export const UnitApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UnitApiAxiosParamCreator(configuration)
     return {
         /**
+         * Activate Card Simulation via API
+         * @summary Create Atm Deposit Simulation
+         * @param {string} cardId ID of the card to activate
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async activateCardSimulation(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activateCardSimulation(cardId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.activateCardSimulation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Activate Control Agreement for Account via API 
          * @summary Activate Account Control Agreement by Id
          * @param {string} accountId ID of the account
@@ -28444,6 +31289,20 @@ export const UnitApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.activateControlAgreementForAccount(accountId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.activateControlAgreementForAccount']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Add Owners to Account via API 
+         * @summary Add Owners to Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {AddAccountOwnersRequest} addAccountOwnersRequest Add Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addAccountOwners(accountId: string, addAccountOwnersRequest: AddAccountOwnersRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDepositAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addAccountOwners(accountId, addAccountOwnersRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.addAccountOwners']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28546,11 +31405,12 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Cancel a Payment via API 
          * @summary Cancel a Payment by Id
          * @param {string} paymentId ID of the payment to cancel
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cancelPayment(paymentId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitPaymentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayment(paymentId, options);
+        async cancelPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayment(paymentId, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.cancelPayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28576,7 +31436,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async closeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCloseCardResponse>> {
+        async closeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.closeCard(cardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.closeCard']?.[localVarOperationServerIndex]?.url;
@@ -28586,13 +31446,27 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Confirm a Check Deposit from API 
          * @summary Confirm by Id
          * @param {string} checkDepositId ID of the check deposit to confirm
+         * @param {ConfirmCheckDepositRequest} confirmCheckDepositRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async confirmCheckDeposit(checkDepositId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitConfirmCheckDepositResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmCheckDeposit(checkDepositId, options);
+        async confirmCheckDeposit(checkDepositId: string, confirmCheckDepositRequest: ConfirmCheckDepositRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCheckDepositResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmCheckDeposit(checkDepositId, confirmCheckDepositRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.confirmCheckDeposit']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Create ACH Received Payment Transaction Simulation via API 
+         * @summary Create ACH Received Payment Transaction Simulation
+         * @param {CreateACHReceivedPaymentTransactionRequest} createACHReceivedPaymentTransactionRequest Create ACH Received Payment Transaction Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest: CreateACHReceivedPaymentTransactionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReceivedPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.createACHReceivedPaymentTransactionSimulation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28663,13 +31537,26 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Create Atm Deposit Simulation via API 
+         * @summary Create Atm Deposit Simulation
+         * @param {CreateAtmDepositSimulationRequest} createAtmDepositSimulationRequest Create Atm Deposit Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createAtmDepositSimulation(createAtmDepositSimulationRequest: CreateAtmDepositSimulationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDepositAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createAtmDepositSimulation(createAtmDepositSimulationRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.createAtmDepositSimulation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Create a Card via API 
          * @summary Create a Card
          * @param {CreateCardRequest} createCardRequest Create Card Request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createCard(createCardRequest: CreateCardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardsListResponse>> {
+        async createCard(createCardRequest: CreateCardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createCard(createCardRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.createCard']?.[localVarOperationServerIndex]?.url;
@@ -28682,7 +31569,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createCheckDeposit(createCheckDepositRequest: CreateCheckDepositRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitListCheckDepositsResponse1>> {
+        async createCheckDeposit(createCheckDepositRequest: CreateCheckDepositRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCheckDepositResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createCheckDeposit(createCheckDepositRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.createCheckDeposit']?.[localVarOperationServerIndex]?.url;
@@ -28753,6 +31640,19 @@ export const UnitApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createFee(createFeeRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.createFee']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Create Incoming ACH Payment Simulation via API 
+         * @summary Create Incoming ACH Payment Simulation
+         * @param {CreateIncomingAchPaymentRequest} createIncomingAchPaymentRequest Create Incoming ACH Payment Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest: CreateIncomingAchPaymentRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReceivedPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.createIncomingAchPaymentSimulation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28836,12 +31736,12 @@ export const UnitApiFp = function(configuration?: Configuration) {
         /**
          * Create a Webhook via API 
          * @summary Create Webhook
-         * @param {CreateWebhook} createWebhook Create Webhook Request
+         * @param {CreateWebhookRequest} createWebhookRequest Create Webhook Request Body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createWebhook(createWebhook: CreateWebhook, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createWebhook(createWebhook, options);
+        async createWebhook(createWebhookRequest: CreateWebhookRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitWebhookResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createWebhook(createWebhookRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.createWebhook']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28904,11 +31804,12 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Disable Recurring Payment via API 
          * @summary Disable Recurring Payment
          * @param {string} paymentId ID of the payment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async disableRecurringPayment(paymentId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringPaymentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.disableRecurringPayment(paymentId, options);
+        async disableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.disableRecurringPayment(paymentId, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.disableRecurringPayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28917,12 +31818,13 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Disable a Recurring Repayment
          * @summary Disable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async disableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringRepaymentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.disableRecurringRepayment(recurringRepaymentId, include, options);
+        async disableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringRepaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.disableRecurringRepayment(recurringRepaymentId, body, include, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.disableRecurringRepayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28947,7 +31849,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async disableWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookResponse>> {
+        async disableWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitWebhookResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.disableWebhook(webhookId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.disableWebhook']?.[localVarOperationServerIndex]?.url;
@@ -28985,11 +31887,12 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Enable Recurring Payment via API 
          * @summary Enable Recurring Payment
          * @param {string} paymentId ID of the payment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async enableRecurringPayment(paymentId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringPaymentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.enableRecurringPayment(paymentId, options);
+        async enableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.enableRecurringPayment(paymentId, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.enableRecurringPayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28998,12 +31901,13 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Enable a Recurring Repayment
          * @summary Enable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async enableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringRepaymentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.enableRecurringRepayment(recurringRepaymentId, include, options);
+        async enableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRecurringRepaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.enableRecurringRepayment(recurringRepaymentId, body, include, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.enableRecurringRepayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -29015,7 +31919,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async enableWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookResponse>> {
+        async enableWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitWebhookResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.enableWebhook(webhookId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.enableWebhook']?.[localVarOperationServerIndex]?.url;
@@ -29068,10 +31972,23 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async freezeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitFreezeCardResponse>> {
+        async freezeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.freezeCard(cardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.freezeCard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Generate Cash Deposit Barcode via API 
+         * @summary Generate Cash Deposit Barcode
+         * @param {GenerateBarcodeRequest} generateBarcodeRequest Generate Cash Deposit Barcode Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generateBarcode(generateBarcodeRequest: GenerateBarcodeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCashDepositBarcodeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generateBarcode(generateBarcodeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.generateBarcode']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29089,15 +32006,17 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get AccountEndOfDay List from API 
-         * @summary Get AccountEndOfDay List
+         * Get Account Balance History List from API 
+         * @summary Get Account Balance History
+         * @param {ListPageParameters} [page] 
+         * @param {GetAccountBalanceHistoryFilterParameter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAccountEndOfDay(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitGetAccountEndOfDayListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAccountEndOfDay(options);
+        async getAccountBalanceHistory(page?: ListPageParameters, filter?: GetAccountBalanceHistoryFilterParameter, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitAccountBalanceHistoryResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAccountBalanceHistory(page, filter, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UnitApi.getAccountEndOfDay']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getAccountBalanceHistory']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29295,6 +32214,19 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Get Barcode Image By Barcode Number from API 
+         * @summary Get Barcode Image By Barcode Number
+         * @param {string} barcodeNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBarcodeImage(barcodeNumber: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBarcodeImage(barcodeNumber, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getBarcodeImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get a Card from API 
          * @summary Get Card by Id
          * @param {string} cardId ID of the card to get
@@ -29302,7 +32234,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCard(cardId: string, included?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
+        async getCard(cardId: string, included?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponseWithIncluded>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCard(cardId, included, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCard']?.[localVarOperationServerIndex]?.url;
@@ -29344,10 +32276,24 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCardsList(page?: ListPageParameters, filter?: GetCardsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponseCardsList>> {
+        async getCardsList(page?: ListPageParameters, filter?: GetCardsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardsListReponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCardsList(page, filter, include, sort, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCardsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get Cash Deposit Store Locations List By Coordinates from API 
+         * @summary Get Cash Deposit Store Locations List By Coordinates
+         * @param {ListPageParameters} [page] 
+         * @param {GetCashDepositStoreLocationsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCashDepositStoreLocationsList(page?: ListPageParameters, filter?: GetCashDepositStoreLocationsListFilterParameter, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitStoreLocationsListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCashDepositStoreLocationsList(page, filter, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getCashDepositStoreLocationsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29373,7 +32319,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCheckDepositsList(page?: ListPageParameters, filter?: GetCheckDepositsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitListCheckDepositsResponse>> {
+        async getCheckDepositsList(page?: ListPageParameters, filter?: GetCheckDepositsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitListCheckDepositResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCheckDepositsList(page, filter, sort, include, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCheckDepositsList']?.[localVarOperationServerIndex]?.url;
@@ -29453,12 +32399,11 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * Get a Counterparty from API 
          * @summary Get Counterparty by Id
          * @param {string} counterpartyId ID of the counterparty to get
-         * @param {string} [included] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCounterparty(counterpartyId: string, included?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCounterpartyResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCounterparty(counterpartyId, included, options);
+        async getCounterparty(counterpartyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCounterpartyResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCounterparty(counterpartyId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCounterparty']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -29470,7 +32415,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCounterpartyBalance(counterpartyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCounterpartyResponse1>> {
+        async getCounterpartyBalance(counterpartyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCounterpartyBalanceResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCounterpartyBalance(counterpartyId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCounterpartyBalance']?.[localVarOperationServerIndex]?.url;
@@ -29502,6 +32447,19 @@ export const UnitApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCustomersList(page, filter, sort, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getCustomersList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Retrieve the list of available deposit products compatible to the account.
+         * @summary Get Deposit Products
+         * @param {string} accountId ID of the account to get deposit products for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDepositProductsList(accountId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDepositProductsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDepositProductsList(accountId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getDepositProductsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29585,22 +32543,6 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get Rewards List from API 
-         * @summary Get Rewards List
-         * @param {ListPageParameters} [page] 
-         * @param {GetListRewardsFilterParameter} [filter] 
-         * @param {string} [sort] 
-         * @param {string} [include] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getListRewards(page?: ListPageParameters, filter?: GetListRewardsFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRewardsListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getListRewards(page, filter, sort, include, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UnitApi.getListRewards']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Get a Payment from API 
          * @summary Get Payment by Id
          * @param {string} paymentId ID of the payment to get
@@ -29647,12 +32589,15 @@ export const UnitApiFp = function(configuration?: Configuration) {
         /**
          * Get Received Payments from API 
          * @summary Get Received Payments List
-         * @param {string} [included] 
+         * @param {ListPageParameters} [page] 
+         * @param {GetReceivedPaymentsListFilterParameter} [filter] 
+         * @param {string} [include] 
+         * @param {string} [sort] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getReceivedPaymentsList(included?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReceivedPaymentListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getReceivedPaymentsList(included, options);
+        async getReceivedPaymentsList(page?: ListPageParameters, filter?: GetReceivedPaymentsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReceivedPaymentListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReceivedPaymentsList(page, filter, include, sort, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getReceivedPaymentsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -29729,6 +32674,19 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Retrieve the repayment information for a specific account via API
+         * @summary Get Repayment Information
+         * @param {string} accountId ID of the account to get repayment information for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRepaymentInformation(accountId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRepaymentInformationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRepaymentInformation(accountId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getRepaymentInformation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get List Repayments from API 
          * @summary Get List Repayments
          * @param {ListPageParameters} [page] 
@@ -29753,6 +32711,22 @@ export const UnitApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getReward(rewardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getReward']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get Rewards List from API 
+         * @summary Get Rewards List
+         * @param {ListPageParameters} [page] 
+         * @param {GetRewardsListFilterParameter} [filter] 
+         * @param {string} [sort] 
+         * @param {string} [include] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRewardsList(page?: ListPageParameters, filter?: GetRewardsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitRewardsListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRewardsList(page, filter, sort, include, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getRewardsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29838,6 +32812,46 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Get a Tax Form from API 
+         * @summary Get Tax Form by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTaxForm(taxFormId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitTaxFormResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaxForm(taxFormId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getTaxForm']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get a Tax Form pdf from API 
+         * @summary Get Tax Form pdf by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTaxFormPdf(taxFormId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaxFormPdf(taxFormId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getTaxFormPdf']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get Tax Forms List from API 
+         * @summary Get Tax Forms List 
+         * @param {ListPageParameters} [page] 
+         * @param {GetTaxFormsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTaxFormsList(page?: ListPageParameters, filter?: GetTaxFormsListFilterParameter, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitTaxFormsListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaxFormsList(page, filter, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.getTaxFormsList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get a Transaction from API 
          * @summary Get Transaction by Id
          * @param {string} accountId ID of the account to get transaction from
@@ -29874,7 +32888,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookResponse>> {
+        async getWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitWebhookResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getWebhook(webhookId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.getWebhook']?.[localVarOperationServerIndex]?.url;
@@ -29910,6 +32924,20 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Remove Owners from Account via API 
+         * @summary Remove Owners from Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {RemoveAccountOwnersRequest} removeAccountOwnersRequest Remove Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async removeAccountOwners(accountId: string, removeAccountOwnersRequest: RemoveAccountOwnersRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDepositAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.removeAccountOwners(accountId, removeAccountOwnersRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.removeAccountOwners']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Remove Authorized Users via API
          * @summary Remove Authorized Users by Id
          * @param {string} customerId ID of the customer to remove authorized users from
@@ -29937,13 +32965,27 @@ export const UnitApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Replace a Card via API 
+         * @summary Replace a Card
+         * @param {string} cardId ID of the card to replace
+         * @param {ReplaceCardRequest} replaceCardRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async replaceCard(cardId: string, replaceCardRequest: ReplaceCardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.replaceCard(cardId, replaceCardRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.replaceCard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Report lost as stolen via API 
          * @summary Report lost as stolen
          * @param {string} cardId ID of the card
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async reportCardAsLost(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReportLostCardResponse>> {
+        async reportCardAsLost(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.reportCardAsLost(cardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.reportCardAsLost']?.[localVarOperationServerIndex]?.url;
@@ -29956,10 +32998,23 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async reportCardAsStolen(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReportStolenCardResponse>> {
+        async reportCardAsStolen(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.reportCardAsStolen(cardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.reportCardAsStolen']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Reprocess a Received Payment via API 
+         * @summary Reprocess Received Payment by Id
+         * @param {string} paymentId ID of the payment to advance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reprocessReceivedPayment(paymentId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReceivedPaymentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reprocessReceivedPayment(paymentId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.reprocessReceivedPayment']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29974,6 +33029,33 @@ export const UnitApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.returnCheckPayment(checkPaymentId, returnCheckPaymentRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.returnCheckPayment']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Return Received ACH Transaction via API 
+         * @summary Return Received ACH Transaction
+         * @param {string} transactionId ID of the transaction to return
+         * @param {ReturnReceivedACHTransactionRequest} returnReceivedACHTransactionRequest Pass empty object in order for content-type to be aquired correctly
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async returnReceivedACHTransaction(transactionId: string, returnReceivedACHTransactionRequest: ReturnReceivedACHTransactionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitReturnedReceivedAchTransactionResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.returnReceivedACHTransaction(transactionId, returnReceivedACHTransactionRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.returnReceivedACHTransaction']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Reverse a Fee via API 
+         * @summary Reverse Fee
+         * @param {ReverseFeeRequest} reverseFeeRequest Reverse Fee Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reverseFee(reverseFeeRequest: ReverseFeeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitFeeReversalResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reverseFee(reverseFeeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UnitApi.reverseFee']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29996,7 +33078,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async unfreezeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitUnfreezeCardResponse>> {
+        async unfreezeCard(cardId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.unfreezeCard(cardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.unfreezeCard']?.[localVarOperationServerIndex]?.url;
@@ -30052,7 +33134,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateCard(cardId: string, updateCardRequest: UpdateCardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitUpdateCardResponse>> {
+        async updateCard(cardId: string, updateCardRequest: UpdateCardRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCardResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateCard(cardId, updateCardRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.updateCard']?.[localVarOperationServerIndex]?.url;
@@ -30066,7 +33148,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateCheckDeposit(checkDepositId: string, updateCheckDepositRequest: UpdateCheckDepositRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitUpdateCheckDepositResponse>> {
+        async updateCheckDeposit(checkDepositId: string, updateCheckDepositRequest: UpdateCheckDepositRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitCheckDepositResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateCheckDeposit(checkDepositId, updateCheckDepositRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.updateCheckDeposit']?.[localVarOperationServerIndex]?.url;
@@ -30151,7 +33233,7 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateWebhook(webhookId: string, updateWebhookRequest: UpdateWebhookRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebhookResponse>> {
+        async updateWebhook(webhookId: string, updateWebhookRequest: UpdateWebhookRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitWebhookResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateWebhook(webhookId, updateWebhookRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.updateWebhook']?.[localVarOperationServerIndex]?.url;
@@ -30162,12 +33244,13 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @summary Upload an application document file. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {File} body An application document file. SDK only temporarily supports only ... files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadApplicationDocumentFile(applicationId: string, documentId: string, body: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDocumentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplicationDocumentFile(applicationId, documentId, body, options);
+        async uploadApplicationDocumentFile(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplicationDocumentFile(applicationId, documentId, file, fileType, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.uploadApplicationDocumentFile']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -30177,12 +33260,13 @@ export const UnitApiFp = function(configuration?: Configuration) {
          * @summary Upload an application document file - Back Side. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {object} body Upload an application document file - Back Side. Supports PDF, PNG and JPG files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, body: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDocumentResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplicationDocumentFileBackSide(applicationId, documentId, body, options);
+        async uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnitDocumentResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplicationDocumentFileBackSide(applicationId, documentId, file, fileType, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UnitApi.uploadApplicationDocumentFileBackSide']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -30213,14 +33297,35 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = UnitApiFp(configuration)
     return {
         /**
+         * Activate Card Simulation via API
+         * @summary Create Atm Deposit Simulation
+         * @param {string} cardId ID of the card to activate
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activateCardSimulation(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.activateCardSimulation(cardId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Activate Control Agreement for Account via API 
          * @summary Activate Account Control Agreement by Id
          * @param {string} accountId ID of the account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateControlAgreementForAccount(accountId: string, options?: any): AxiosPromise<UnitAccountResponse> {
+        activateControlAgreementForAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.activateControlAgreementForAccount(accountId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Add Owners to Account via API 
+         * @summary Add Owners to Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {AddAccountOwnersRequest} addAccountOwnersRequest Add Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addAccountOwners(accountId: string, addAccountOwnersRequest: AddAccountOwnersRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitDepositAccountResponse> {
+            return localVarFp.addAccountOwners(accountId, addAccountOwnersRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Add Authorized Users via API
@@ -30230,7 +33335,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addAuthorizedUsers(customerId: string, addAuthorizedUsersRequest: AddAuthorizedUsersRequest, options?: any): AxiosPromise<UnitCustomerResponse> {
+        addAuthorizedUsers(customerId: string, addAuthorizedUsersRequest: AddAuthorizedUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerResponse> {
             return localVarFp.addAuthorizedUsers(customerId, addAuthorizedUsersRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30240,7 +33345,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        advanceReceivedPayment(paymentId: string, options?: any): AxiosPromise<UnitReceivedPaymentResponse> {
+        advanceReceivedPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponse> {
             return localVarFp.advanceReceivedPayment(paymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30251,7 +33356,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        approveAuthorizationRequest(authorizationId: string, approveAuthorizationRequest: ApproveAuthorizationRequest, options?: any): AxiosPromise<UnitAuthorizationRequestResponse> {
+        approveAuthorizationRequest(authorizationId: string, approveAuthorizationRequest: ApproveAuthorizationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAuthorizationRequestResponse> {
             return localVarFp.approveAuthorizationRequest(authorizationId, approveAuthorizationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30262,7 +33367,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        approveCheckPayment(checkPaymentId: string, approveCheckPaymentRequest: ApproveCheckPaymentRequest, options?: any): AxiosPromise<UnitCheckPaymentResponse> {
+        approveCheckPayment(checkPaymentId: string, approveCheckPaymentRequest: ApproveCheckPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckPaymentResponse> {
             return localVarFp.approveCheckPayment(checkPaymentId, approveCheckPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30273,7 +33378,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        archiveCustomer(customerId: string, archiveCustomerRequest: ArchiveCustomerRequest, options?: any): AxiosPromise<UnitCustomerResponse> {
+        archiveCustomer(customerId: string, archiveCustomerRequest: ArchiveCustomerRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerResponse> {
             return localVarFp.archiveCustomer(customerId, archiveCustomerRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30284,7 +33389,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelApplication(applicationId: string, cancelApplicationRequest: CancelApplicationRequest, options?: any): AxiosPromise<UnitCancelApplicationResponse> {
+        cancelApplication(applicationId: string, cancelApplicationRequest: CancelApplicationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCancelApplicationResponse> {
             return localVarFp.cancelApplication(applicationId, cancelApplicationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30294,18 +33399,19 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelCheckPayment(checkPaymentId: string, options?: any): AxiosPromise<UnitCheckPaymentResponse> {
+        cancelCheckPayment(checkPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckPaymentResponse> {
             return localVarFp.cancelCheckPayment(checkPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Cancel a Payment via API 
          * @summary Cancel a Payment by Id
          * @param {string} paymentId ID of the payment to cancel
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cancelPayment(paymentId: string, options?: any): AxiosPromise<UnitPaymentResponse> {
-            return localVarFp.cancelPayment(paymentId, options).then((request) => request(axios, basePath));
+        cancelPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): AxiosPromise<UnitPaymentResponse> {
+            return localVarFp.cancelPayment(paymentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Close an Account via API 
@@ -30315,7 +33421,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        closeAccount(accountId: string, closeAccountRequest: CloseAccountRequest, options?: any): AxiosPromise<UnitAccountResponse> {
+        closeAccount(accountId: string, closeAccountRequest: CloseAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.closeAccount(accountId, closeAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30325,18 +33431,29 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        closeCard(cardId: string, options?: any): AxiosPromise<UnitCloseCardResponse> {
+        closeCard(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.closeCard(cardId, options).then((request) => request(axios, basePath));
         },
         /**
          * Confirm a Check Deposit from API 
          * @summary Confirm by Id
          * @param {string} checkDepositId ID of the check deposit to confirm
+         * @param {ConfirmCheckDepositRequest} confirmCheckDepositRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        confirmCheckDeposit(checkDepositId: string, options?: any): AxiosPromise<UnitConfirmCheckDepositResponse> {
-            return localVarFp.confirmCheckDeposit(checkDepositId, options).then((request) => request(axios, basePath));
+        confirmCheckDeposit(checkDepositId: string, confirmCheckDepositRequest: ConfirmCheckDepositRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckDepositResponse> {
+            return localVarFp.confirmCheckDeposit(checkDepositId, confirmCheckDepositRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Create ACH Received Payment Transaction Simulation via API 
+         * @summary Create ACH Received Payment Transaction Simulation
+         * @param {CreateACHReceivedPaymentTransactionRequest} createACHReceivedPaymentTransactionRequest Create ACH Received Payment Transaction Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest: CreateACHReceivedPaymentTransactionRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponse> {
+            return localVarFp.createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Create Account via API 
@@ -30345,7 +33462,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createAccount(createAccountRequest: CreateAccountRequest, options?: any): AxiosPromise<UnitAccountResponse> {
+        createAccount(createAccountRequest: CreateAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.createAccount(createAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30356,7 +33473,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApiToken(userId: string, createApiTokenRequest: CreateApiTokenRequest, options?: any): AxiosPromise<UnitApiTokenResponse> {
+        createApiToken(userId: string, createApiTokenRequest: CreateApiTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitApiTokenResponse> {
             return localVarFp.createApiToken(userId, createApiTokenRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30366,7 +33483,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplication(createApplicationRequest: CreateApplicationRequest, options?: any): AxiosPromise<UnitCreateApplicationResponse> {
+        createApplication(createApplicationRequest: CreateApplicationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCreateApplicationResponse> {
             return localVarFp.createApplication(createApplicationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30377,7 +33494,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplicationDocument(applicationId: string, contentType: DefaultContentType, options?: any): AxiosPromise<UnitDocumentResponse> {
+        createApplicationDocument(applicationId: string, contentType: DefaultContentType, options?: RawAxiosRequestConfig): AxiosPromise<UnitDocumentResponse> {
             return localVarFp.createApplicationDocument(applicationId, contentType, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30387,8 +33504,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplicationForm(createApplicationFormRequest: CreateApplicationFormRequest, options?: any): AxiosPromise<UnitApplicationFormResponse> {
+        createApplicationForm(createApplicationFormRequest: CreateApplicationFormRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitApplicationFormResponse> {
             return localVarFp.createApplicationForm(createApplicationFormRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Create Atm Deposit Simulation via API 
+         * @summary Create Atm Deposit Simulation
+         * @param {CreateAtmDepositSimulationRequest} createAtmDepositSimulationRequest Create Atm Deposit Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createAtmDepositSimulation(createAtmDepositSimulationRequest: CreateAtmDepositSimulationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitDepositAccountResponse> {
+            return localVarFp.createAtmDepositSimulation(createAtmDepositSimulationRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Create a Card via API 
@@ -30397,7 +33524,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCard(createCardRequest: CreateCardRequest, options?: any): AxiosPromise<UnitCardsListResponse> {
+        createCard(createCardRequest: CreateCardRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.createCard(createCardRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30407,7 +33534,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCheckDeposit(createCheckDepositRequest: CreateCheckDepositRequest, options?: any): AxiosPromise<UnitListCheckDepositsResponse1> {
+        createCheckDeposit(createCheckDepositRequest: CreateCheckDepositRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckDepositResponse> {
             return localVarFp.createCheckDeposit(createCheckDepositRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30417,7 +33544,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCheckPayment(createCheckPaymentRequest: CreateCheckPaymentRequest, options?: any): AxiosPromise<UnitCheckPaymentResponse> {
+        createCheckPayment(createCheckPaymentRequest: CreateCheckPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckPaymentResponse> {
             return localVarFp.createCheckPayment(createCheckPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30427,7 +33554,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCounterparty(createCounterpartyRequest: CreateCounterpartyRequest, options?: any): AxiosPromise<UnitCounterpartyResponse> {
+        createCounterparty(createCounterpartyRequest: CreateCounterpartyRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCounterpartyResponse> {
             return localVarFp.createCounterparty(createCounterpartyRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30438,7 +33565,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCustomerToken(customerId: string, createCustomerTokenRequest: CreateCustomerTokenRequest, options?: any): AxiosPromise<UnitCustomerTokenResponse> {
+        createCustomerToken(customerId: string, createCustomerTokenRequest: CreateCustomerTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerTokenResponse> {
             return localVarFp.createCustomerToken(customerId, createCustomerTokenRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30449,7 +33576,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCustomerTokenVerification(customerId: string, createCustomerTokenVerificationRequest: CreateCustomerTokenVerificationRequest, options?: any): AxiosPromise<UnitCustomerTokenVerificationResponse> {
+        createCustomerTokenVerification(customerId: string, createCustomerTokenVerificationRequest: CreateCustomerTokenVerificationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerTokenVerificationResponse> {
             return localVarFp.createCustomerTokenVerification(customerId, createCustomerTokenVerificationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30459,8 +33586,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFee(createFeeRequest: CreateFeeRequest, options?: any): AxiosPromise<UnitFeeResponse> {
+        createFee(createFeeRequest: CreateFeeRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitFeeResponse> {
             return localVarFp.createFee(createFeeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Create Incoming ACH Payment Simulation via API 
+         * @summary Create Incoming ACH Payment Simulation
+         * @param {CreateIncomingAchPaymentRequest} createIncomingAchPaymentRequest Create Incoming ACH Payment Simulation Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest: CreateIncomingAchPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponse> {
+            return localVarFp.createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Create a Payment via API 
@@ -30469,7 +33606,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPayment(createPaymentRequest: CreatePaymentRequest, options?: any): AxiosPromise<UnitPaymentResponse> {
+        createPayment(createPaymentRequest: CreatePaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitPaymentResponse> {
             return localVarFp.createPayment(createPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30479,7 +33616,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecurringPayment(createRecurringPaymentRequest: CreateRecurringPaymentRequest, options?: any): AxiosPromise<UnitRecurringPaymentResponse> {
+        createRecurringPayment(createRecurringPaymentRequest: CreateRecurringPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringPaymentResponse> {
             return localVarFp.createRecurringPayment(createRecurringPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30489,7 +33626,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecurringRepayment(createRecurringRepaymentRequest: CreateRecurringRepaymentRequest, options?: any): AxiosPromise<UnitRecurringRepaymentResponse> {
+        createRecurringRepayment(createRecurringRepaymentRequest: CreateRecurringRepaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringRepaymentResponse> {
             return localVarFp.createRecurringRepayment(createRecurringRepaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30499,7 +33636,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRepayment(createRepaymentRequest: CreateRepaymentRequest, options?: any): AxiosPromise<UnitRepaymentResponse> {
+        createRepayment(createRepaymentRequest: CreateRepaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitRepaymentResponse> {
             return localVarFp.createRepayment(createRepaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30509,7 +33646,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReward(createRewardRequest: CreateRewardRequest, options?: any): AxiosPromise<UnitRewardResponse> {
+        createReward(createRewardRequest: CreateRewardRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitRewardResponse> {
             return localVarFp.createReward(createRewardRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30519,18 +33656,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createStopPayment(createStopPaymentRequest: CreateStopPaymentRequest, options?: any): AxiosPromise<StopPaymentResponse> {
+        createStopPayment(createStopPaymentRequest: CreateStopPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<StopPaymentResponse> {
             return localVarFp.createStopPayment(createStopPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Create a Webhook via API 
          * @summary Create Webhook
-         * @param {CreateWebhook} createWebhook Create Webhook Request
+         * @param {CreateWebhookRequest} createWebhookRequest Create Webhook Request Body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createWebhook(createWebhook: CreateWebhook, options?: any): AxiosPromise<WebhookResponse> {
-            return localVarFp.createWebhook(createWebhook, options).then((request) => request(axios, basePath));
+        createWebhook(createWebhookRequest: CreateWebhookRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhookResponse> {
+            return localVarFp.createWebhook(createWebhookRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Deactivate Control Agreement for Account via API
@@ -30539,7 +33676,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deactivateControlAgreementForAccount(accountId: string, options?: any): AxiosPromise<UnitAccountResponse> {
+        deactivateControlAgreementForAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.deactivateControlAgreementForAccount(accountId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30550,7 +33687,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        declineAuthorizationRequest(authorizationId: string, declineAuthorizationRequest: DeclineAuthorizationRequest, options?: any): AxiosPromise<UnitAuthorizationRequestResponse> {
+        declineAuthorizationRequest(authorizationId: string, declineAuthorizationRequest: DeclineAuthorizationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAuthorizationRequestResponse> {
             return localVarFp.declineAuthorizationRequest(authorizationId, declineAuthorizationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30560,7 +33697,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCounterparty(counterpartyId: string, options?: any): AxiosPromise<void> {
+        deleteCounterparty(counterpartyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteCounterparty(counterpartyId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30571,29 +33708,31 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteToken(userId: string, tokenId: string, options?: any): AxiosPromise<UnitApiTokenResponse> {
+        deleteToken(userId: string, tokenId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitApiTokenResponse> {
             return localVarFp.deleteToken(userId, tokenId, options).then((request) => request(axios, basePath));
         },
         /**
          * Disable Recurring Payment via API 
          * @summary Disable Recurring Payment
          * @param {string} paymentId ID of the payment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableRecurringPayment(paymentId: string, options?: any): AxiosPromise<UnitRecurringPaymentResponse> {
-            return localVarFp.disableRecurringPayment(paymentId, options).then((request) => request(axios, basePath));
+        disableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringPaymentResponse> {
+            return localVarFp.disableRecurringPayment(paymentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Disable a Recurring Repayment
          * @summary Disable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to disable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: any): AxiosPromise<UnitRecurringRepaymentResponse> {
-            return localVarFp.disableRecurringRepayment(recurringRepaymentId, include, options).then((request) => request(axios, basePath));
+        disableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringRepaymentResponse> {
+            return localVarFp.disableRecurringRepayment(recurringRepaymentId, body, include, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -30602,7 +33741,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableStopPayment(stopPaymentId: string, options?: any): AxiosPromise<StopPaymentResponse> {
+        disableStopPayment(stopPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<StopPaymentResponse> {
             return localVarFp.disableStopPayment(stopPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30612,7 +33751,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        disableWebhook(webhookId: string, options?: any): AxiosPromise<WebhookResponse> {
+        disableWebhook(webhookId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhookResponse> {
             return localVarFp.disableWebhook(webhookId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30623,7 +33762,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadApplicationBackSideDocument(applicationId: string, documentId: string, options?: any): AxiosPromise<File> {
+        downloadApplicationBackSideDocument(applicationId: string, documentId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.downloadApplicationBackSideDocument(applicationId, documentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30634,29 +33773,31 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        downloadApplicationDocument(applicationId: string, documentId: string, options?: any): AxiosPromise<File> {
+        downloadApplicationDocument(applicationId: string, documentId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.downloadApplicationDocument(applicationId, documentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Enable Recurring Payment via API 
          * @summary Enable Recurring Payment
          * @param {string} paymentId ID of the payment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enableRecurringPayment(paymentId: string, options?: any): AxiosPromise<UnitRecurringPaymentResponse> {
-            return localVarFp.enableRecurringPayment(paymentId, options).then((request) => request(axios, basePath));
+        enableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringPaymentResponse> {
+            return localVarFp.enableRecurringPayment(paymentId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Enable a Recurring Repayment
          * @summary Enable Recurring Repayment by Id
          * @param {string} recurringRepaymentId ID of the recurring repayment to enable
+         * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
          * @param {string} [include] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: any): AxiosPromise<UnitRecurringRepaymentResponse> {
-            return localVarFp.enableRecurringRepayment(recurringRepaymentId, include, options).then((request) => request(axios, basePath));
+        enableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringRepaymentResponse> {
+            return localVarFp.enableRecurringRepayment(recurringRepaymentId, body, include, options).then((request) => request(axios, basePath));
         },
         /**
          * Enable a Webhook via API 
@@ -30665,7 +33806,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enableWebhook(webhookId: string, options?: any): AxiosPromise<WebhookResponse> {
+        enableWebhook(webhookId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhookResponse> {
             return localVarFp.enableWebhook(webhookId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30675,7 +33816,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        enterControlAgreementForAccount(accountId: string, options?: any): AxiosPromise<UnitAccountResponse> {
+        enterControlAgreementForAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.enterControlAgreementForAccount(accountId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30685,7 +33826,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fireEvent(eventId: string, options?: any): AxiosPromise<UnitEventResponse> {
+        fireEvent(eventId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitEventResponse> {
             return localVarFp.fireEvent(eventId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30696,7 +33837,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        freezeAccount(accountId: string, freezeAccountRequest: FreezeAccountRequest, options?: any): AxiosPromise<UnitAccountResponse> {
+        freezeAccount(accountId: string, freezeAccountRequest: FreezeAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.freezeAccount(accountId, freezeAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30706,8 +33847,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        freezeCard(cardId: string, options?: any): AxiosPromise<UnitFreezeCardResponse> {
+        freezeCard(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.freezeCard(cardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Generate Cash Deposit Barcode via API 
+         * @summary Generate Cash Deposit Barcode
+         * @param {GenerateBarcodeRequest} generateBarcodeRequest Generate Cash Deposit Barcode Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateBarcode(generateBarcodeRequest: GenerateBarcodeRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCashDepositBarcodeResponse> {
+            return localVarFp.generateBarcode(generateBarcodeRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Get an Account from API 
@@ -30717,17 +33868,19 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccount(accountId: string, include?: string, options?: any): AxiosPromise<UnitAccountResponseWithIncluded> {
+        getAccount(accountId: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponseWithIncluded> {
             return localVarFp.getAccount(accountId, include, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get AccountEndOfDay List from API 
-         * @summary Get AccountEndOfDay List
+         * Get Account Balance History List from API 
+         * @summary Get Account Balance History
+         * @param {ListPageParameters} [page] 
+         * @param {GetAccountBalanceHistoryFilterParameter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccountEndOfDay(options?: any): AxiosPromise<UnitGetAccountEndOfDayListResponse> {
-            return localVarFp.getAccountEndOfDay(options).then((request) => request(axios, basePath));
+        getAccountBalanceHistory(page?: ListPageParameters, filter?: GetAccountBalanceHistoryFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountBalanceHistoryResponse> {
+            return localVarFp.getAccountBalanceHistory(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * Get Account Limits from API 
@@ -30736,7 +33889,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccountLimits(accountId: string, options?: any): AxiosPromise<UnitGetAccountLimitsResponse> {
+        getAccountLimits(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitGetAccountLimitsResponse> {
             return localVarFp.getAccountLimits(accountId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30748,7 +33901,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAccountsList(page?: ListPageParameters, filter?: GetAccountsListFilterParameter, include?: string, options?: any): AxiosPromise<UnitAccountsListResponse> {
+        getAccountsList(page?: ListPageParameters, filter?: GetAccountsListFilterParameter, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountsListResponse> {
             return localVarFp.getAccountsList(page, filter, include, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30758,7 +33911,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApiTokensList(userId: string, options?: any): AxiosPromise<UnitOrgApiTokensListResponse> {
+        getApiTokensList(userId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitOrgApiTokensListResponse> {
             return localVarFp.getApiTokensList(userId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30769,7 +33922,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplication(applicationId: string, included?: string, options?: any): AxiosPromise<UnitApplicationResponseWithIncluded> {
+        getApplication(applicationId: string, included?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitApplicationResponseWithIncluded> {
             return localVarFp.getApplication(applicationId, included, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30779,7 +33932,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplicationDocuments(applicationId: string, options?: any): AxiosPromise<UnitListDocumentsResponse> {
+        getApplicationDocuments(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitListDocumentsResponse> {
             return localVarFp.getApplicationDocuments(applicationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30790,7 +33943,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplicationForm(applicationFormId: string, included?: string, options?: any): AxiosPromise<UnitApplicationFormResponseWithIncluded> {
+        getApplicationForm(applicationFormId: string, included?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitApplicationFormResponseWithIncluded> {
             return localVarFp.getApplicationForm(applicationFormId, included, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30802,7 +33955,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplicationFormsList(page?: ListPageParameters, filter?: GetApplicationFormsListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitApplicationFormsListResponse> {
+        getApplicationFormsList(page?: ListPageParameters, filter?: GetApplicationFormsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitApplicationFormsListResponse> {
             return localVarFp.getApplicationFormsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30814,7 +33967,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplicationsList(page?: ListPageParameters, filter?: GetApplicationsListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitListApplicationsResponse> {
+        getApplicationsList(page?: ListPageParameters, filter?: GetApplicationsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitListApplicationsResponse> {
             return localVarFp.getApplicationsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30824,7 +33977,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAtmLocationsList(filter?: GetAtmLocationsListFilterParameter, options?: any): AxiosPromise<Array<AtmLocation>> {
+        getAtmLocationsList(filter?: GetAtmLocationsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<Array<AtmLocation>> {
             return localVarFp.getAtmLocationsList(filter, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30835,7 +33988,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorization(authorizationId: string, includeNoneAuthorized?: boolean, options?: any): AxiosPromise<UnitAuthorizationResponse> {
+        getAuthorization(authorizationId: string, includeNoneAuthorized?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<UnitAuthorizationResponse> {
             return localVarFp.getAuthorization(authorizationId, includeNoneAuthorized, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30845,7 +33998,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationRequest(authorizationId: string, options?: any): AxiosPromise<UnitAuthorizationRequestsResponse> {
+        getAuthorizationRequest(authorizationId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAuthorizationRequestsResponse> {
             return localVarFp.getAuthorizationRequest(authorizationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30856,7 +34009,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationRequestsList(page?: ListPageParameters, filter?: GetAuthorizationRequestsListFilterParameter, options?: any): AxiosPromise<UnitListAuthorizationRequestsResponse> {
+        getAuthorizationRequestsList(page?: ListPageParameters, filter?: GetAuthorizationRequestsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitListAuthorizationRequestsResponse> {
             return localVarFp.getAuthorizationRequestsList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30868,7 +34021,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAuthorizationsList(page?: ListPageParameters, filter?: GetAuthorizationsListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitListAuthorizationsResponse> {
+        getAuthorizationsList(page?: ListPageParameters, filter?: GetAuthorizationsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitListAuthorizationsResponse> {
             return localVarFp.getAuthorizationsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30878,8 +34031,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBackCheckDeposit(checkDepositId: string, options?: any): AxiosPromise<UnitBackCheckDepositResponse> {
+        getBackCheckDeposit(checkDepositId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitBackCheckDepositResponse> {
             return localVarFp.getBackCheckDeposit(checkDepositId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get Barcode Image By Barcode Number from API 
+         * @summary Get Barcode Image By Barcode Number
+         * @param {string} barcodeNumber 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBarcodeImage(barcodeNumber: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.getBarcodeImage(barcodeNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Card from API 
@@ -30889,7 +34052,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCard(cardId: string, included?: string, options?: any): AxiosPromise<UnitCardResponse> {
+        getCard(cardId: string, included?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponseWithIncluded> {
             return localVarFp.getCard(cardId, included, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30899,7 +34062,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCardLimits(cardId: string, options?: any): AxiosPromise<UnitCardLimitsResponse> {
+        getCardLimits(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardLimitsResponse> {
             return localVarFp.getCardLimits(cardId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30909,7 +34072,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCardPinStatus(cardId: string, options?: any): AxiosPromise<UnitPinStatusResponse> {
+        getCardPinStatus(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitPinStatusResponse> {
             return localVarFp.getCardPinStatus(cardId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30922,8 +34085,19 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCardsList(page?: ListPageParameters, filter?: GetCardsListFilterParameter, include?: string, sort?: string, options?: any): AxiosPromise<UnitCardResponseCardsList> {
+        getCardsList(page?: ListPageParameters, filter?: GetCardsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardsListReponse> {
             return localVarFp.getCardsList(page, filter, include, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get Cash Deposit Store Locations List By Coordinates from API 
+         * @summary Get Cash Deposit Store Locations List By Coordinates
+         * @param {ListPageParameters} [page] 
+         * @param {GetCashDepositStoreLocationsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCashDepositStoreLocationsList(page?: ListPageParameters, filter?: GetCashDepositStoreLocationsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitStoreLocationsListResponse> {
+            return localVarFp.getCashDepositStoreLocationsList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Check Deposit from API 
@@ -30932,7 +34106,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckDeposit(checkDepositId: string, options?: any): AxiosPromise<UnitCheckDepositResponse> {
+        getCheckDeposit(checkDepositId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckDepositResponse> {
             return localVarFp.getCheckDeposit(checkDepositId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30945,7 +34119,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckDepositsList(page?: ListPageParameters, filter?: GetCheckDepositsListFilterParameter, sort?: string, include?: string, options?: any): AxiosPromise<UnitListCheckDepositsResponse> {
+        getCheckDepositsList(page?: ListPageParameters, filter?: GetCheckDepositsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitListCheckDepositResponse> {
             return localVarFp.getCheckDepositsList(page, filter, sort, include, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30955,7 +34129,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckPayment(checkPaymentId: string, options?: any): AxiosPromise<UnitCheckPaymentResponse> {
+        getCheckPayment(checkPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckPaymentResponse> {
             return localVarFp.getCheckPayment(checkPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30965,7 +34139,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckPaymentBack(checkPaymentId: string, options?: any): AxiosPromise<File> {
+        getCheckPaymentBack(checkPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.getCheckPaymentBack(checkPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30975,7 +34149,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckPaymentFront(checkPaymentId: string, options?: any): AxiosPromise<File> {
+        getCheckPaymentFront(checkPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.getCheckPaymentFront(checkPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -30988,7 +34162,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCheckPaymentsList(page?: ListPageParameters, filter?: GetCheckPaymentsListFilterParameter, sort?: string, include?: string, options?: any): AxiosPromise<UnitListCheckPaymentsResponse> {
+        getCheckPaymentsList(page?: ListPageParameters, filter?: GetCheckPaymentsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitListCheckPaymentsResponse> {
             return localVarFp.getCheckPaymentsList(page, filter, sort, include, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31000,19 +34174,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCounterpartiesList(page?: ListPageParameters, filter?: GetCounterpartiesListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitCounterpartiesListResponse> {
+        getCounterpartiesList(page?: ListPageParameters, filter?: GetCounterpartiesListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCounterpartiesListResponse> {
             return localVarFp.getCounterpartiesList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Counterparty from API 
          * @summary Get Counterparty by Id
          * @param {string} counterpartyId ID of the counterparty to get
-         * @param {string} [included] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCounterparty(counterpartyId: string, included?: string, options?: any): AxiosPromise<UnitCounterpartyResponse> {
-            return localVarFp.getCounterparty(counterpartyId, included, options).then((request) => request(axios, basePath));
+        getCounterparty(counterpartyId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCounterpartyResponse> {
+            return localVarFp.getCounterparty(counterpartyId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get Recurring Payment from API 
@@ -31021,7 +34194,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCounterpartyBalance(counterpartyId: string, options?: any): AxiosPromise<UnitCounterpartyResponse1> {
+        getCounterpartyBalance(counterpartyId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCounterpartyBalanceResponse> {
             return localVarFp.getCounterpartyBalance(counterpartyId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31031,7 +34204,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCustomer(customerId: string, options?: any): AxiosPromise<UnitCustomerResponse> {
+        getCustomer(customerId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerResponse> {
             return localVarFp.getCustomer(customerId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31043,8 +34216,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCustomersList(page?: ListPageParameters, filter?: GetCustomersListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitCustomersListResponse> {
+        getCustomersList(page?: ListPageParameters, filter?: GetCustomersListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomersListResponse> {
             return localVarFp.getCustomersList(page, filter, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve the list of available deposit products compatible to the account.
+         * @summary Get Deposit Products
+         * @param {string} accountId ID of the account to get deposit products for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDepositProductsList(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitDepositProductsResponse> {
+            return localVarFp.getDepositProductsList(accountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Dispute from API 
@@ -31053,7 +34236,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDispute(disputeId: string, options?: any): AxiosPromise<UnitDisputeResponse> {
+        getDispute(disputeId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitDisputeResponse> {
             return localVarFp.getDispute(disputeId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31064,7 +34247,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDisputesList(page?: ListPageParameters, filter?: GetDisputesListFilterParameter, options?: any): AxiosPromise<Array<Dispute>> {
+        getDisputesList(page?: ListPageParameters, filter?: GetDisputesListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<Array<Dispute>> {
             return localVarFp.getDisputesList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31074,7 +34257,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEvent(eventId: string, options?: any): AxiosPromise<UnitEventResponse> {
+        getEvent(eventId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitEventResponse> {
             return localVarFp.getEvent(eventId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31085,7 +34268,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventsList(page?: ListPageParameters, filter?: GetEventsListFilterParameter, options?: any): AxiosPromise<UnitEventListResponse> {
+        getEventsList(page?: ListPageParameters, filter?: GetEventsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitEventListResponse> {
             return localVarFp.getEventsList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31095,7 +34278,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFrontCheckDeposit(checkDepositId: string, options?: any): AxiosPromise<UnitFrontCheckDepositResponse> {
+        getFrontCheckDeposit(checkDepositId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitFrontCheckDepositResponse> {
             return localVarFp.getFrontCheckDeposit(checkDepositId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31105,21 +34288,8 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInstitution(routingNumber: string, options?: any): AxiosPromise<UnitInstitutionResponse> {
+        getInstitution(routingNumber: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitInstitutionResponse> {
             return localVarFp.getInstitution(routingNumber, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get Rewards List from API 
-         * @summary Get Rewards List
-         * @param {ListPageParameters} [page] 
-         * @param {GetListRewardsFilterParameter} [filter] 
-         * @param {string} [sort] 
-         * @param {string} [include] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getListRewards(page?: ListPageParameters, filter?: GetListRewardsFilterParameter, sort?: string, include?: string, options?: any): AxiosPromise<UnitRewardsListResponse> {
-            return localVarFp.getListRewards(page, filter, sort, include, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Payment from API 
@@ -31129,7 +34299,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPayment(paymentId: string, included?: string, options?: any): AxiosPromise<UnitPaymentResponseWithIncluded> {
+        getPayment(paymentId: string, included?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitPaymentResponseWithIncluded> {
             return localVarFp.getPayment(paymentId, included, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31142,7 +34312,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPaymentsList(page?: ListPageParameters, filter?: GetPaymentsListFilterParameter, include?: string, sort?: string, options?: any): AxiosPromise<UnitPaymentsListResponse> {
+        getPaymentsList(page?: ListPageParameters, filter?: GetPaymentsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitPaymentsListResponse> {
             return localVarFp.getPaymentsList(page, filter, include, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31153,18 +34323,21 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReceivedPayment(paymentId: string, included?: string, options?: any): AxiosPromise<UnitReceivedPaymentResponseWithIncluded> {
+        getReceivedPayment(paymentId: string, included?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponseWithIncluded> {
             return localVarFp.getReceivedPayment(paymentId, included, options).then((request) => request(axios, basePath));
         },
         /**
          * Get Received Payments from API 
          * @summary Get Received Payments List
-         * @param {string} [included] 
+         * @param {ListPageParameters} [page] 
+         * @param {GetReceivedPaymentsListFilterParameter} [filter] 
+         * @param {string} [include] 
+         * @param {string} [sort] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReceivedPaymentsList(included?: string, options?: any): AxiosPromise<UnitReceivedPaymentListResponse> {
-            return localVarFp.getReceivedPaymentsList(included, options).then((request) => request(axios, basePath));
+        getReceivedPaymentsList(page?: ListPageParameters, filter?: GetReceivedPaymentsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentListResponse> {
+            return localVarFp.getReceivedPaymentsList(page, filter, include, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * Get Recurring Payment from API 
@@ -31173,7 +34346,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecurringPayment(paymentId: string, options?: any): AxiosPromise<UnitRecurringPaymentResponse> {
+        getRecurringPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringPaymentResponse> {
             return localVarFp.getRecurringPayment(paymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31185,7 +34358,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecurringPaymentsList(page?: ListPageParameters, filter?: GetRecurringPaymentsListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitRecurringPaymentListResponse> {
+        getRecurringPaymentsList(page?: ListPageParameters, filter?: GetRecurringPaymentsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringPaymentListResponse> {
             return localVarFp.getRecurringPaymentsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31196,7 +34369,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecurringRepayment(recurringRepaymentId: string, include?: string, options?: any): AxiosPromise<UnitRecurringRepaymentResponse> {
+        getRecurringRepayment(recurringRepaymentId: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringRepaymentResponse> {
             return localVarFp.getRecurringRepayment(recurringRepaymentId, include, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31208,7 +34381,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecurringRepaymentsList(page?: ListPageParameters, filter?: GetRecurringRepaymentsListFilterParameter, sort?: GetRecurringRepaymentsListSortEnum, options?: any): AxiosPromise<UnitRecurringRepaymentsListResponse> {
+        getRecurringRepaymentsList(page?: ListPageParameters, filter?: GetRecurringRepaymentsListFilterParameter, sort?: GetRecurringRepaymentsListSortEnum, options?: RawAxiosRequestConfig): AxiosPromise<UnitRecurringRepaymentsListResponse> {
             return localVarFp.getRecurringRepaymentsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31219,8 +34392,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRepayment(repaymentId: string, include?: string, options?: any): AxiosPromise<UnitRepaymentResponse> {
+        getRepayment(repaymentId: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRepaymentResponse> {
             return localVarFp.getRepayment(repaymentId, include, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve the repayment information for a specific account via API
+         * @summary Get Repayment Information
+         * @param {string} accountId ID of the account to get repayment information for
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRepaymentInformation(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRepaymentInformationResponse> {
+            return localVarFp.getRepaymentInformation(accountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get List Repayments from API 
@@ -31230,7 +34413,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRepaymentsList(page?: ListPageParameters, filter?: GetRepaymentsListFilterParameter, options?: any): AxiosPromise<UnitRepaymentsListResponse> {
+        getRepaymentsList(page?: ListPageParameters, filter?: GetRepaymentsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitRepaymentsListResponse> {
             return localVarFp.getRepaymentsList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31240,8 +34423,21 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReward(rewardId: string, options?: any): AxiosPromise<UnitRewardResponse> {
+        getReward(rewardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRewardResponse> {
             return localVarFp.getReward(rewardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get Rewards List from API 
+         * @summary Get Rewards List
+         * @param {ListPageParameters} [page] 
+         * @param {GetRewardsListFilterParameter} [filter] 
+         * @param {string} [sort] 
+         * @param {string} [include] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRewardsList(page?: ListPageParameters, filter?: GetRewardsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitRewardsListResponse> {
+            return localVarFp.getRewardsList(page, filter, sort, include, options).then((request) => request(axios, basePath));
         },
         /**
          * Get Get Bank verification PDF from API 
@@ -31250,7 +34446,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatementBankPdf(accountId: string, options?: any): AxiosPromise<File> {
+        getStatementBankPdf(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.getStatementBankPdf(accountId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31260,7 +34456,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatementHtml(statementId: string, options?: any): AxiosPromise<string> {
+        getStatementHtml(statementId: string, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.getStatementHtml(statementId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31270,7 +34466,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatementPdf(statementId: string, options?: any): AxiosPromise<File> {
+        getStatementPdf(statementId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
             return localVarFp.getStatementPdf(statementId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31282,7 +34478,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStatementsList(page?: ListPageParameters, filter?: GetStatementsListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitStatementsResponse> {
+        getStatementsList(page?: ListPageParameters, filter?: GetStatementsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitStatementsResponse> {
             return localVarFp.getStatementsList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31292,7 +34488,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStopPayment(stopPaymentId: string, options?: any): AxiosPromise<StopPaymentResponse> {
+        getStopPayment(stopPaymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<StopPaymentResponse> {
             return localVarFp.getStopPayment(stopPaymentId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31304,8 +34500,39 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStopPaymentsList(page?: ListPageParameters, filter?: GetStopPaymentsListFilterParameter, sort?: string, options?: any): AxiosPromise<StopPaymentListResponse> {
+        getStopPaymentsList(page?: ListPageParameters, filter?: GetStopPaymentsListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<StopPaymentListResponse> {
             return localVarFp.getStopPaymentsList(page, filter, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get a Tax Form from API 
+         * @summary Get Tax Form by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxForm(taxFormId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitTaxFormResponse> {
+            return localVarFp.getTaxForm(taxFormId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get a Tax Form pdf from API 
+         * @summary Get Tax Form pdf by Id
+         * @param {string} taxFormId ID of the reward to get
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxFormPdf(taxFormId: string, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.getTaxFormPdf(taxFormId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get Tax Forms List from API 
+         * @summary Get Tax Forms List 
+         * @param {ListPageParameters} [page] 
+         * @param {GetTaxFormsListFilterParameter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaxFormsList(page?: ListPageParameters, filter?: GetTaxFormsListFilterParameter, options?: RawAxiosRequestConfig): AxiosPromise<UnitTaxFormsListResponse> {
+            return localVarFp.getTaxFormsList(page, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a Transaction from API 
@@ -31315,7 +34542,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransaction(accountId: string, transactionId: string, options?: any): AxiosPromise<UnitTransactionResponseWithIncludedResource> {
+        getTransaction(accountId: string, transactionId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitTransactionResponseWithIncludedResource> {
             return localVarFp.getTransaction(accountId, transactionId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31328,7 +34555,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransactionsList(page?: ListPageParameters, filter?: GetTransactionsListFilterParameter, sort?: string, include?: string, options?: any): AxiosPromise<UnitTransactionsListResponse> {
+        getTransactionsList(page?: ListPageParameters, filter?: GetTransactionsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitTransactionsListResponse> {
             return localVarFp.getTransactionsList(page, filter, sort, include, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31338,7 +34565,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getWebhook(webhookId: string, options?: any): AxiosPromise<WebhookResponse> {
+        getWebhook(webhookId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhookResponse> {
             return localVarFp.getWebhook(webhookId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31350,7 +34577,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getWebhooksList(page?: ListPageParameters, filter?: GetWebhooksListFilterParameter, sort?: string, options?: any): AxiosPromise<UnitWebhooksListResponse> {
+        getWebhooksList(page?: ListPageParameters, filter?: GetWebhooksListFilterParameter, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhooksListResponse> {
             return localVarFp.getWebhooksList(page, filter, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31361,8 +34588,19 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        receivedPaymentsPaymentIdPatch(paymentId: string, updateReceivedPaymentRequest: UpdateReceivedPaymentRequest, options?: any): AxiosPromise<UnitReceivedPaymentResponse> {
+        receivedPaymentsPaymentIdPatch(paymentId: string, updateReceivedPaymentRequest: UpdateReceivedPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponse> {
             return localVarFp.receivedPaymentsPaymentIdPatch(paymentId, updateReceivedPaymentRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Remove Owners from Account via API 
+         * @summary Remove Owners from Account by Id
+         * @param {string} accountId ID of the account to add owners to
+         * @param {RemoveAccountOwnersRequest} removeAccountOwnersRequest Remove Account Owners Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeAccountOwners(accountId: string, removeAccountOwnersRequest: RemoveAccountOwnersRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitDepositAccountResponse> {
+            return localVarFp.removeAccountOwners(accountId, removeAccountOwnersRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Remove Authorized Users via API
@@ -31372,7 +34610,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeAuthorizedUsers(customerId: string, removeAuthorizedUsersRequest: RemoveAuthorizedUsersRequest, options?: any): AxiosPromise<UnitCustomerResponse> {
+        removeAuthorizedUsers(customerId: string, removeAuthorizedUsersRequest: RemoveAuthorizedUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerResponse> {
             return localVarFp.removeAuthorizedUsers(customerId, removeAuthorizedUsersRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31382,8 +34620,19 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reopenAccount(accountId: string, options?: any): AxiosPromise<UnitAccountResponse> {
+        reopenAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.reopenAccount(accountId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Replace a Card via API 
+         * @summary Replace a Card
+         * @param {string} cardId ID of the card to replace
+         * @param {ReplaceCardRequest} replaceCardRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        replaceCard(cardId: string, replaceCardRequest: ReplaceCardRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
+            return localVarFp.replaceCard(cardId, replaceCardRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Report lost as stolen via API 
@@ -31392,7 +34641,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reportCardAsLost(cardId: string, options?: any): AxiosPromise<UnitReportLostCardResponse> {
+        reportCardAsLost(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.reportCardAsLost(cardId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31402,8 +34651,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        reportCardAsStolen(cardId: string, options?: any): AxiosPromise<UnitReportStolenCardResponse> {
+        reportCardAsStolen(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.reportCardAsStolen(cardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Reprocess a Received Payment via API 
+         * @summary Reprocess Received Payment by Id
+         * @param {string} paymentId ID of the payment to advance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reprocessReceivedPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitReceivedPaymentResponse> {
+            return localVarFp.reprocessReceivedPayment(paymentId, options).then((request) => request(axios, basePath));
         },
         /**
          * Return a Check Payment via API 
@@ -31413,8 +34672,29 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        returnCheckPayment(checkPaymentId: string, returnCheckPaymentRequest: ReturnCheckPaymentRequest, options?: any): AxiosPromise<UnitCheckPaymentResponse> {
+        returnCheckPayment(checkPaymentId: string, returnCheckPaymentRequest: ReturnCheckPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckPaymentResponse> {
             return localVarFp.returnCheckPayment(checkPaymentId, returnCheckPaymentRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Return Received ACH Transaction via API 
+         * @summary Return Received ACH Transaction
+         * @param {string} transactionId ID of the transaction to return
+         * @param {ReturnReceivedACHTransactionRequest} returnReceivedACHTransactionRequest Pass empty object in order for content-type to be aquired correctly
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        returnReceivedACHTransaction(transactionId: string, returnReceivedACHTransactionRequest: ReturnReceivedACHTransactionRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitReturnedReceivedAchTransactionResponse> {
+            return localVarFp.returnReceivedACHTransaction(transactionId, returnReceivedACHTransactionRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Reverse a Fee via API 
+         * @summary Reverse Fee
+         * @param {ReverseFeeRequest} reverseFeeRequest Reverse Fee Request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reverseFee(reverseFeeRequest: ReverseFeeRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitFeeReversalResponse> {
+            return localVarFp.reverseFee(reverseFeeRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Unfreeze an Account via API 
@@ -31423,7 +34703,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unfreezeAccount(accountId: string, options?: any): AxiosPromise<UnitAccountResponse> {
+        unfreezeAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.unfreezeAccount(accountId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31433,7 +34713,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unfreezeCard(cardId: string, options?: any): AxiosPromise<UnitUnfreezeCardResponse> {
+        unfreezeCard(cardId: string, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.unfreezeCard(cardId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31444,7 +34724,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateAccount(accountId: string, updateAccountRequest: UpdateAccountRequest, options?: any): AxiosPromise<UnitAccountResponse> {
+        updateAccount(accountId: string, updateAccountRequest: UpdateAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitAccountResponse> {
             return localVarFp.updateAccount(accountId, updateAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31455,7 +34735,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateApplication(applicationId: string, updateApplicationRequest: UpdateApplicationRequest, options?: any): AxiosPromise<UnitApplicationResponseWithIncluded> {
+        updateApplication(applicationId: string, updateApplicationRequest: UpdateApplicationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitApplicationResponseWithIncluded> {
             return localVarFp.updateApplication(applicationId, updateApplicationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31466,7 +34746,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateBusinessBeneficialOwner(beneficialOwnerId: string, updateBusinessBeneficialOwnerRequest: UpdateBusinessBeneficialOwnerRequest, options?: any): AxiosPromise<UnitBeneficialOwnerResponse> {
+        updateBusinessBeneficialOwner(beneficialOwnerId: string, updateBusinessBeneficialOwnerRequest: UpdateBusinessBeneficialOwnerRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitBeneficialOwnerResponse> {
             return localVarFp.updateBusinessBeneficialOwner(beneficialOwnerId, updateBusinessBeneficialOwnerRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31477,7 +34757,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCard(cardId: string, updateCardRequest: UpdateCardRequest, options?: any): AxiosPromise<UnitUpdateCardResponse> {
+        updateCard(cardId: string, updateCardRequest: UpdateCardRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCardResponse> {
             return localVarFp.updateCard(cardId, updateCardRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31488,7 +34768,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCheckDeposit(checkDepositId: string, updateCheckDepositRequest: UpdateCheckDepositRequest, options?: any): AxiosPromise<UnitUpdateCheckDepositResponse> {
+        updateCheckDeposit(checkDepositId: string, updateCheckDepositRequest: UpdateCheckDepositRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCheckDepositResponse> {
             return localVarFp.updateCheckDeposit(checkDepositId, updateCheckDepositRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31499,7 +34779,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCounterparty(counterpartyId: string, updateCounterpartyRequest: UpdateCounterpartyRequest, options?: any): AxiosPromise<UnitCounterpartyResponse> {
+        updateCounterparty(counterpartyId: string, updateCounterpartyRequest: UpdateCounterpartyRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCounterpartyResponse> {
             return localVarFp.updateCounterparty(counterpartyId, updateCounterpartyRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31510,7 +34790,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCustomer(customerId: string, updateCustomerRequest: UpdateCustomerRequest, options?: any): AxiosPromise<UnitCustomerResponse> {
+        updateCustomer(customerId: string, updateCustomerRequest: UpdateCustomerRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitCustomerResponse> {
             return localVarFp.updateCustomer(customerId, updateCustomerRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31521,7 +34801,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: any): AxiosPromise<UnitPaymentResponse> {
+        updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitPaymentResponse> {
             return localVarFp.updatePayment(paymentId, updatePaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31532,7 +34812,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStopPayment(stopPaymentId: string, updateStopPaymentRequest: UpdateStopPaymentRequest, options?: any): AxiosPromise<StopPaymentResponse> {
+        updateStopPayment(stopPaymentId: string, updateStopPaymentRequest: UpdateStopPaymentRequest, options?: RawAxiosRequestConfig): AxiosPromise<StopPaymentResponse> {
             return localVarFp.updateStopPayment(stopPaymentId, updateStopPaymentRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31544,7 +34824,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTransaction(accountId: string, transactionId: string, updateTransactionRequest: UpdateTransactionRequest, options?: any): AxiosPromise<UnitTransactionResponse> {
+        updateTransaction(accountId: string, transactionId: string, updateTransactionRequest: UpdateTransactionRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitTransactionResponse> {
             return localVarFp.updateTransaction(accountId, transactionId, updateTransactionRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31555,7 +34835,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWebhook(webhookId: string, updateWebhookRequest: UpdateWebhookRequest, options?: any): AxiosPromise<WebhookResponse> {
+        updateWebhook(webhookId: string, updateWebhookRequest: UpdateWebhookRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnitWebhookResponse> {
             return localVarFp.updateWebhook(webhookId, updateWebhookRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -31563,24 +34843,26 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @summary Upload an application document file. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {File} body An application document file. SDK only temporarily supports only ... files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplicationDocumentFile(applicationId: string, documentId: string, body: File, options?: any): AxiosPromise<UnitDocumentResponse> {
-            return localVarFp.uploadApplicationDocumentFile(applicationId, documentId, body, options).then((request) => request(axios, basePath));
+        uploadApplicationDocumentFile(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig): AxiosPromise<UnitDocumentResponse> {
+            return localVarFp.uploadApplicationDocumentFile(applicationId, documentId, file, fileType, options).then((request) => request(axios, basePath));
         },
         /**
          * Upload an application file via API - Back Side. Supports PDF, PNG and JPG files
          * @summary Upload an application document file - Back Side. Supports PDF, PNG and JPG files
          * @param {string} applicationId ID of the application to upload a file to
          * @param {string} documentId ID of the document to upload a file for
-         * @param {object} body Upload an application document file - Back Side. Supports PDF, PNG and JPG files
+         * @param {File} file 
+         * @param {UploadApplicationDocumentContentType} fileType 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, body: object, options?: any): AxiosPromise<UnitDocumentResponse> {
-            return localVarFp.uploadApplicationDocumentFileBackSide(applicationId, documentId, body, options).then((request) => request(axios, basePath));
+        uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig): AxiosPromise<UnitDocumentResponse> {
+            return localVarFp.uploadApplicationDocumentFileBackSide(applicationId, documentId, file, fileType, options).then((request) => request(axios, basePath));
         },
         /**
          * Verify a document via API 
@@ -31591,7 +34873,7 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        verifyApplicationDocument(applicationId: string, documentId: string, verifyDocument: VerifyDocument, options?: any): AxiosPromise<UnitDocumentResponse> {
+        verifyApplicationDocument(applicationId: string, documentId: string, verifyDocument: VerifyDocument, options?: RawAxiosRequestConfig): AxiosPromise<UnitDocumentResponse> {
             return localVarFp.verifyApplicationDocument(applicationId, documentId, verifyDocument, options).then((request) => request(axios, basePath));
         },
     };
@@ -31605,6 +34887,18 @@ export const UnitApiFactory = function (configuration?: Configuration, basePath?
  */
 export class UnitApi extends BaseAPI {
     /**
+     * Activate Card Simulation via API
+     * @summary Create Atm Deposit Simulation
+     * @param {string} cardId ID of the card to activate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public activateCardSimulation(cardId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).activateCardSimulation(cardId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Activate Control Agreement for Account via API 
      * @summary Activate Account Control Agreement by Id
      * @param {string} accountId ID of the account
@@ -31614,6 +34908,19 @@ export class UnitApi extends BaseAPI {
      */
     public activateControlAgreementForAccount(accountId: string, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).activateControlAgreementForAccount(accountId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Add Owners to Account via API 
+     * @summary Add Owners to Account by Id
+     * @param {string} accountId ID of the account to add owners to
+     * @param {AddAccountOwnersRequest} addAccountOwnersRequest Add Account Owners Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public addAccountOwners(accountId: string, addAccountOwnersRequest: AddAccountOwnersRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).addAccountOwners(accountId, addAccountOwnersRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -31709,12 +35016,13 @@ export class UnitApi extends BaseAPI {
      * Cancel a Payment via API 
      * @summary Cancel a Payment by Id
      * @param {string} paymentId ID of the payment to cancel
+     * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public cancelPayment(paymentId: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).cancelPayment(paymentId, options).then((request) => request(this.axios, this.basePath));
+    public cancelPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).cancelPayment(paymentId, body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -31746,12 +35054,25 @@ export class UnitApi extends BaseAPI {
      * Confirm a Check Deposit from API 
      * @summary Confirm by Id
      * @param {string} checkDepositId ID of the check deposit to confirm
+     * @param {ConfirmCheckDepositRequest} confirmCheckDepositRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public confirmCheckDeposit(checkDepositId: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).confirmCheckDeposit(checkDepositId, options).then((request) => request(this.axios, this.basePath));
+    public confirmCheckDeposit(checkDepositId: string, confirmCheckDepositRequest: ConfirmCheckDepositRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).confirmCheckDeposit(checkDepositId, confirmCheckDepositRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Create ACH Received Payment Transaction Simulation via API 
+     * @summary Create ACH Received Payment Transaction Simulation
+     * @param {CreateACHReceivedPaymentTransactionRequest} createACHReceivedPaymentTransactionRequest Create ACH Received Payment Transaction Simulation Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest: CreateACHReceivedPaymentTransactionRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).createACHReceivedPaymentTransactionSimulation(createACHReceivedPaymentTransactionRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -31814,6 +35135,18 @@ export class UnitApi extends BaseAPI {
      */
     public createApplicationForm(createApplicationFormRequest: CreateApplicationFormRequest, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).createApplicationForm(createApplicationFormRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Create Atm Deposit Simulation via API 
+     * @summary Create Atm Deposit Simulation
+     * @param {CreateAtmDepositSimulationRequest} createAtmDepositSimulationRequest Create Atm Deposit Simulation Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public createAtmDepositSimulation(createAtmDepositSimulationRequest: CreateAtmDepositSimulationRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).createAtmDepositSimulation(createAtmDepositSimulationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -31903,6 +35236,18 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Create Incoming ACH Payment Simulation via API 
+     * @summary Create Incoming ACH Payment Simulation
+     * @param {CreateIncomingAchPaymentRequest} createIncomingAchPaymentRequest Create Incoming ACH Payment Simulation Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest: CreateIncomingAchPaymentRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).createIncomingAchPaymentSimulation(createIncomingAchPaymentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Create a Payment via API 
      * @summary Create a Payment
      * @param {CreatePaymentRequest} createPaymentRequest Create Payment Request
@@ -31977,13 +35322,13 @@ export class UnitApi extends BaseAPI {
     /**
      * Create a Webhook via API 
      * @summary Create Webhook
-     * @param {CreateWebhook} createWebhook Create Webhook Request
+     * @param {CreateWebhookRequest} createWebhookRequest Create Webhook Request Body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public createWebhook(createWebhook: CreateWebhook, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).createWebhook(createWebhook, options).then((request) => request(this.axios, this.basePath));
+    public createWebhook(createWebhookRequest: CreateWebhookRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).createWebhook(createWebhookRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32040,25 +35385,27 @@ export class UnitApi extends BaseAPI {
      * Disable Recurring Payment via API 
      * @summary Disable Recurring Payment
      * @param {string} paymentId ID of the payment to disable
+     * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public disableRecurringPayment(paymentId: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).disableRecurringPayment(paymentId, options).then((request) => request(this.axios, this.basePath));
+    public disableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).disableRecurringPayment(paymentId, body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Disable a Recurring Repayment
      * @summary Disable Recurring Repayment by Id
      * @param {string} recurringRepaymentId ID of the recurring repayment to disable
+     * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
      * @param {string} [include] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public disableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).disableRecurringRepayment(recurringRepaymentId, include, options).then((request) => request(this.axios, this.basePath));
+    public disableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).disableRecurringRepayment(recurringRepaymentId, body, include, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32115,25 +35462,27 @@ export class UnitApi extends BaseAPI {
      * Enable Recurring Payment via API 
      * @summary Enable Recurring Payment
      * @param {string} paymentId ID of the payment to enable
+     * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public enableRecurringPayment(paymentId: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).enableRecurringPayment(paymentId, options).then((request) => request(this.axios, this.basePath));
+    public enableRecurringPayment(paymentId: string, body: object | null, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).enableRecurringPayment(paymentId, body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Enable a Recurring Repayment
      * @summary Enable Recurring Repayment by Id
      * @param {string} recurringRepaymentId ID of the recurring repayment to enable
+     * @param {object | null} body Pass empty object in order for content-type to be aquired correctly
      * @param {string} [include] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public enableRecurringRepayment(recurringRepaymentId: string, include?: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).enableRecurringRepayment(recurringRepaymentId, include, options).then((request) => request(this.axios, this.basePath));
+    public enableRecurringRepayment(recurringRepaymentId: string, body: object | null, include?: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).enableRecurringRepayment(recurringRepaymentId, body, include, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32198,6 +35547,18 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Generate Cash Deposit Barcode via API 
+     * @summary Generate Cash Deposit Barcode
+     * @param {GenerateBarcodeRequest} generateBarcodeRequest Generate Cash Deposit Barcode Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public generateBarcode(generateBarcodeRequest: GenerateBarcodeRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).generateBarcode(generateBarcodeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get an Account from API 
      * @summary Get Account by Id
      * @param {string} accountId ID of the account to get
@@ -32211,14 +35572,16 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
-     * Get AccountEndOfDay List from API 
-     * @summary Get AccountEndOfDay List
+     * Get Account Balance History List from API 
+     * @summary Get Account Balance History
+     * @param {ListPageParameters} [page] 
+     * @param {GetAccountBalanceHistoryFilterParameter} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public getAccountEndOfDay(options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).getAccountEndOfDay(options).then((request) => request(this.axios, this.basePath));
+    public getAccountBalanceHistory(page?: ListPageParameters, filter?: GetAccountBalanceHistoryFilterParameter, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getAccountBalanceHistory(page, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32402,6 +35765,18 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Get Barcode Image By Barcode Number from API 
+     * @summary Get Barcode Image By Barcode Number
+     * @param {string} barcodeNumber 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getBarcodeImage(barcodeNumber: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getBarcodeImage(barcodeNumber, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get a Card from API 
      * @summary Get Card by Id
      * @param {string} cardId ID of the card to get
@@ -32451,6 +35826,19 @@ export class UnitApi extends BaseAPI {
      */
     public getCardsList(page?: ListPageParameters, filter?: GetCardsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).getCardsList(page, filter, include, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get Cash Deposit Store Locations List By Coordinates from API 
+     * @summary Get Cash Deposit Store Locations List By Coordinates
+     * @param {ListPageParameters} [page] 
+     * @param {GetCashDepositStoreLocationsListFilterParameter} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getCashDepositStoreLocationsList(page?: ListPageParameters, filter?: GetCashDepositStoreLocationsListFilterParameter, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getCashDepositStoreLocationsList(page, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32549,13 +35937,12 @@ export class UnitApi extends BaseAPI {
      * Get a Counterparty from API 
      * @summary Get Counterparty by Id
      * @param {string} counterpartyId ID of the counterparty to get
-     * @param {string} [included] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public getCounterparty(counterpartyId: string, included?: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).getCounterparty(counterpartyId, included, options).then((request) => request(this.axios, this.basePath));
+    public getCounterparty(counterpartyId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getCounterparty(counterpartyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32594,6 +35981,18 @@ export class UnitApi extends BaseAPI {
      */
     public getCustomersList(page?: ListPageParameters, filter?: GetCustomersListFilterParameter, sort?: string, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).getCustomersList(page, filter, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve the list of available deposit products compatible to the account.
+     * @summary Get Deposit Products
+     * @param {string} accountId ID of the account to get deposit products for
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getDepositProductsList(accountId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getDepositProductsList(accountId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32671,21 +36070,6 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
-     * Get Rewards List from API 
-     * @summary Get Rewards List
-     * @param {ListPageParameters} [page] 
-     * @param {GetListRewardsFilterParameter} [filter] 
-     * @param {string} [sort] 
-     * @param {string} [include] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UnitApi
-     */
-    public getListRewards(page?: ListPageParameters, filter?: GetListRewardsFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).getListRewards(page, filter, sort, include, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Get a Payment from API 
      * @summary Get Payment by Id
      * @param {string} paymentId ID of the payment to get
@@ -32729,13 +36113,16 @@ export class UnitApi extends BaseAPI {
     /**
      * Get Received Payments from API 
      * @summary Get Received Payments List
-     * @param {string} [included] 
+     * @param {ListPageParameters} [page] 
+     * @param {GetReceivedPaymentsListFilterParameter} [filter] 
+     * @param {string} [include] 
+     * @param {string} [sort] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public getReceivedPaymentsList(included?: string, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).getReceivedPaymentsList(included, options).then((request) => request(this.axios, this.basePath));
+    public getReceivedPaymentsList(page?: ListPageParameters, filter?: GetReceivedPaymentsListFilterParameter, include?: string, sort?: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getReceivedPaymentsList(page, filter, include, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32805,6 +36192,18 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Retrieve the repayment information for a specific account via API
+     * @summary Get Repayment Information
+     * @param {string} accountId ID of the account to get repayment information for
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getRepaymentInformation(accountId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getRepaymentInformation(accountId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get List Repayments from API 
      * @summary Get List Repayments
      * @param {ListPageParameters} [page] 
@@ -32827,6 +36226,21 @@ export class UnitApi extends BaseAPI {
      */
     public getReward(rewardId: string, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).getReward(rewardId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get Rewards List from API 
+     * @summary Get Rewards List
+     * @param {ListPageParameters} [page] 
+     * @param {GetRewardsListFilterParameter} [filter] 
+     * @param {string} [sort] 
+     * @param {string} [include] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getRewardsList(page?: ListPageParameters, filter?: GetRewardsListFilterParameter, sort?: string, include?: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getRewardsList(page, filter, sort, include, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -32906,6 +36320,43 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Get a Tax Form from API 
+     * @summary Get Tax Form by Id
+     * @param {string} taxFormId ID of the reward to get
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getTaxForm(taxFormId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getTaxForm(taxFormId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get a Tax Form pdf from API 
+     * @summary Get Tax Form pdf by Id
+     * @param {string} taxFormId ID of the reward to get
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getTaxFormPdf(taxFormId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getTaxFormPdf(taxFormId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get Tax Forms List from API 
+     * @summary Get Tax Forms List 
+     * @param {ListPageParameters} [page] 
+     * @param {GetTaxFormsListFilterParameter} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public getTaxFormsList(page?: ListPageParameters, filter?: GetTaxFormsListFilterParameter, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).getTaxFormsList(page, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get a Transaction from API 
      * @summary Get Transaction by Id
      * @param {string} accountId ID of the account to get transaction from
@@ -32973,6 +36424,19 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Remove Owners from Account via API 
+     * @summary Remove Owners from Account by Id
+     * @param {string} accountId ID of the account to add owners to
+     * @param {RemoveAccountOwnersRequest} removeAccountOwnersRequest Remove Account Owners Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public removeAccountOwners(accountId: string, removeAccountOwnersRequest: RemoveAccountOwnersRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).removeAccountOwners(accountId, removeAccountOwnersRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Remove Authorized Users via API
      * @summary Remove Authorized Users by Id
      * @param {string} customerId ID of the customer to remove authorized users from
@@ -32995,6 +36459,19 @@ export class UnitApi extends BaseAPI {
      */
     public reopenAccount(accountId: string, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).reopenAccount(accountId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Replace a Card via API 
+     * @summary Replace a Card
+     * @param {string} cardId ID of the card to replace
+     * @param {ReplaceCardRequest} replaceCardRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public replaceCard(cardId: string, replaceCardRequest: ReplaceCardRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).replaceCard(cardId, replaceCardRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -33022,6 +36499,18 @@ export class UnitApi extends BaseAPI {
     }
 
     /**
+     * Reprocess a Received Payment via API 
+     * @summary Reprocess Received Payment by Id
+     * @param {string} paymentId ID of the payment to advance
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public reprocessReceivedPayment(paymentId: string, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).reprocessReceivedPayment(paymentId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Return a Check Payment via API 
      * @summary Return Check Payment by Id
      * @param {string} checkPaymentId ID of the check payment to return
@@ -33032,6 +36521,31 @@ export class UnitApi extends BaseAPI {
      */
     public returnCheckPayment(checkPaymentId: string, returnCheckPaymentRequest: ReturnCheckPaymentRequest, options?: RawAxiosRequestConfig) {
         return UnitApiFp(this.configuration).returnCheckPayment(checkPaymentId, returnCheckPaymentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Return Received ACH Transaction via API 
+     * @summary Return Received ACH Transaction
+     * @param {string} transactionId ID of the transaction to return
+     * @param {ReturnReceivedACHTransactionRequest} returnReceivedACHTransactionRequest Pass empty object in order for content-type to be aquired correctly
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public returnReceivedACHTransaction(transactionId: string, returnReceivedACHTransactionRequest: ReturnReceivedACHTransactionRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).returnReceivedACHTransaction(transactionId, returnReceivedACHTransactionRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Reverse a Fee via API 
+     * @summary Reverse Fee
+     * @param {ReverseFeeRequest} reverseFeeRequest Reverse Fee Request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UnitApi
+     */
+    public reverseFee(reverseFeeRequest: ReverseFeeRequest, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).reverseFee(reverseFeeRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -33207,13 +36721,14 @@ export class UnitApi extends BaseAPI {
      * @summary Upload an application document file. Supports PDF, PNG and JPG files
      * @param {string} applicationId ID of the application to upload a file to
      * @param {string} documentId ID of the document to upload a file for
-     * @param {File} body An application document file. SDK only temporarily supports only ... files
+     * @param {File} file 
+     * @param {UploadApplicationDocumentContentType} fileType 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public uploadApplicationDocumentFile(applicationId: string, documentId: string, body: File, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).uploadApplicationDocumentFile(applicationId, documentId, body, options).then((request) => request(this.axios, this.basePath));
+    public uploadApplicationDocumentFile(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).uploadApplicationDocumentFile(applicationId, documentId, file, fileType, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -33221,13 +36736,14 @@ export class UnitApi extends BaseAPI {
      * @summary Upload an application document file - Back Side. Supports PDF, PNG and JPG files
      * @param {string} applicationId ID of the application to upload a file to
      * @param {string} documentId ID of the document to upload a file for
-     * @param {object} body Upload an application document file - Back Side. Supports PDF, PNG and JPG files
+     * @param {File} file 
+     * @param {UploadApplicationDocumentContentType} fileType 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UnitApi
      */
-    public uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, body: object, options?: RawAxiosRequestConfig) {
-        return UnitApiFp(this.configuration).uploadApplicationDocumentFileBackSide(applicationId, documentId, body, options).then((request) => request(this.axios, this.basePath));
+    public uploadApplicationDocumentFileBackSide(applicationId: string, documentId: string, file: File, fileType: UploadApplicationDocumentContentType, options?: RawAxiosRequestConfig) {
+        return UnitApiFp(this.configuration).uploadApplicationDocumentFileBackSide(applicationId, documentId, file, fileType, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
